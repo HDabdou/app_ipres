@@ -8,7 +8,6 @@ import { AdminService } from 'src/app/services/admin.service';
   templateUrl: "notifications.component.html"
 })
 export class NotificationsComponent implements OnInit {
-
   listHistorique:any = [];
   constructor(private _serviceAdmin: AdminService,private router:Router) {}
 
