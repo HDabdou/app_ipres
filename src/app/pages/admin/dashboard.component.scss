@@ -1,0 +1,48 @@
+.ligne {
+    color: black;
+}
+.ligne:hover{
+    background-color: white;
+    color: white !important;
+}
+tr ,td :hover{
+    color: white !important;
+}
+label{
+    font-size: 9px;
+}
+.mycard{
+    text-align: center;
+    margin-top: 5px;
+
+}
+.mycard1{
+    text-align: center;
+
+}
+.mycard2{
+    text-align: center;
+
+}
+.mycard :hover{
+    box-shadow: 1px 8px 20px grey;
+    transition:  box-shadow .6s ease-in;
+    background-image: linear-gradient(to bottom left, #fd5d93, #ec250d, #fd5d93);
+    color: white !important;
+}
+.mycard1 :hover{
+    box-shadow: 1px 8px 20px grey;
+    transition:  box-shadow .6s ease-in;
+    background-image: linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3) !important;
+    color: white !important;
+}
+
+.mycard2 :hover{
+    box-shadow: 1px 8px 20px grey;
+    transition:  box-shadow .6s ease-in;
+    background-image: linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8) !important;
+    color: white !important;
+}
+h3{
+    border-radius: 5px !important;
+}

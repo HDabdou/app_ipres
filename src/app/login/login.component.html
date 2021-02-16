@@ -1,0 +1,146 @@
+<div class="content logMobile" style="padding: 5rem;background-image: url('../../assets/img/ipres.png');">
+    <div class=" row">
+      <div class=" col-md-12 col-xs-12 " style="margin: auto;">
+        <div class=" card" style="border: 2px solid black;">
+          <div class=" card-header" style="text-align: center;"><h1 class=" title">Login</h1></div>
+          <div class=" card-body">
+            <ngb-alert *ngIf="errorMessage == 1" [type]="'success'" [dismissible]="false">
+                <span> Veuillez patienter ... </span>
+              </ngb-alert>
+              
+          <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+              <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span>
+              <b> Error - </b>Login ou password incorrect !!
+            </span>
+          </ngb-alert>
+            <form>
+
+              <div class=" row" style="margin: 2rem;">
+                <div class=" col-md-12 ">
+                  <div class=" form-group">
+                    <label> Login </label>
+                    <input
+                      class=" form-control"
+                      placeholder="Login"
+                      type="text"
+                      [(ngModel)]="this.username"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+                <div class=" col-md-12 ">
+                  <div class=" form-group">
+                    <label> Password </label>
+                    <input
+                      class=" form-control"
+                      placeholder="Mot de passe"
+                      type="password"
+                      [(ngModel)]="this.password"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class=" card-footer" style="text-align: center;">
+                <button class=" btn btn-fill btn-danger" type="submit" (click)="login()" (keyup.enter)="login()">Valider</button>
+                
+              </div>
+              
+            </form>
+          </div>
+          
+         
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class=" modal-header">
+      <h3>MOT DE PASSE OUBLIE</h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" >
+      <ngb-alert *ngIf="etapReinitialisation == 2"  [type]="'success'" [dismissible]="false">
+        <span> Veuillez patienter ... </span>
+      </ngb-alert>
+      <ngb-alert [type]="'danger'" *ngIf="etapReinitialisation == 4" [dismissible]="false">
+        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="etapReinitialisation = 1">
+          <i class="tim-icons icon-simple-remove"></i>
+        </button>
+        <span>
+          <b> Error - </b>Numéro de téléphone incorrect ou non autorisé (admin)
+        </span>
+      </ngb-alert>
+      <form>
+      <div class=" col-md-12 ">
+       
+        <div *ngIf="etapReinitialisation == 1" class=" form-group">
+          
+          <input
+            class=" form-control"
+            placeholder="Votre numéro de téléphone"
+            type="text"
+            [(ngModel)]="telephone"
+            [ngModelOptions]="{standalone: true}"
+            style="border: 2px solid #222a42;text-align: center;"
+          />
+        </div>
+        <div *ngIf="etapReinitialisation == 3" class=" form-group">
+          
+          <input
+            class=" form-control"
+            placeholder="Mot de passe reçu par sms"
+            type="text"
+            [(ngModel)]="smsPassword"
+            [ngModelOptions]="{standalone: true}"
+            style="border: 2px solid #222a42;text-align: center;"
+          />
+        </div>
+        <div *ngIf="etapReinitialisation == 3" class=" form-group">
+          
+          <input
+            class=" form-control"
+            placeholder="Nouveau mot de passe"
+            type="password"
+            [(ngModel)]="newPassword"
+            [ngModelOptions]="{standalone: true}"
+            style="border: 2px solid #222a42;text-align: center;"
+          />
+        </div>
+        <div *ngIf="etapReinitialisation == 3" class=" form-group">
+          
+          <input
+            class=" form-control"
+            placeholder="Confirmer nouveau mot de passe"
+            type="password"
+            [(ngModel)]="confirmPassword"
+            [ngModelOptions]="{standalone: true}"
+            style="border: 2px solid #222a42;text-align: center;"
+          />
+        </div>
+      </div>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button *ngIf="etapReinitialisation == 1"  type="submit" class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="motDePasseOublie();etapReinitialisation = 2" >Valider</button>
+        <button  *ngIf="etapReinitialisation == 3" type="submit" class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="changerMotDePasse();modal.dismiss('Cross click')" >Valider</button>
+      </div>
+    </form>
+    </div>
+  
+  </ng-template>

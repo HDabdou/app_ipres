@@ -1,0 +1,410 @@
+
+<div class=" content">
+  <div class=" row">
+    <div class=" col-12">
+      <div class="row">
+          <div class="col-9">
+            <div class="row">
+              
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+              <div class="card card-stats" style="margin-bottom: 0 !important;"  (click)="displayNouveau()">
+                  <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Nouveau <br>{{nbrNouveau}}</h3>                
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+                <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayAssigne()">
+                    <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Assigné <br>{{nbrAssigne}}</h3>                
+                </div>
+            </div>
+           
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+              <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayEncours()">
+                  <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" > Encours de livraison <br>{{nbrCLivraison}}</h3>                
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+                <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayLivre()">
+                    <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Livré <br>{{nbrLivre}}</h3>                
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+                <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayRetour()">
+                    <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Retour <br>{{nbrretour}}</h3>                
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+              <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayAnnuler()">
+                  <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Annulé <br>{{nbrAnnuler}}</h3>                
+              </div>
+             </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 mycard" style="text-align: center;">
+                <div class="card card-stats" style="margin-bottom: 0 !important;" (click)="displayEnlevement()">
+                    <h3 style="box-shadow: 0 !important;margin-bottom: 0 !important;font-size: 1rem;" >Encours d’enlèvement <br>{{nbrCenlevement}}</h3>                
+                </div>
+            </div>
+            </div>
+          </div>
+          <div *ngIf="etap ==1" class="col-lg-3 col-md-6 col-sm-6 mycard2">
+              <div class="card card-stats" style="margin-bottom: 0 !important;">
+                <button  class=" btn btn-fill btn-info" (click)="etap = 2; reinitialisation();this.typeUtilasateur = undefined" >Créer un Utilisateur</button>
+              </div>
+          </div>
+          <div *ngIf="etap ==2" class="col-lg-3 col-md-6 col-sm-6 mycard2">
+              <div class="card card-stats" style="margin-bottom: 0 !important;">
+                <button  class=" btn btn-fill btn-primary" (click)="etap = 1;this.typeUtilasateur = undefined" >Retour vers le tableau</button>
+              </div>
+          </div>
+        </div>
+    <div class=" row">
+
+      <div class=" col-md-12">
+
+        <div class=" card card-plain">
+          <div class=" card-header">
+            <ngb-alert [type]="'success'" *ngIf="errorMessage == 1" [dismissible]="false">
+              <span>
+                 Veuillez patientez ...
+              </span>
+            </ngb-alert> 
+            <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+              <span>
+                Création  effectueé avec succés !!!!
+              </span>
+            </ngb-alert>
+          
+          </div>
+          <div class=" card-body" style="padding: 0;">
+
+            <div class=" table-responsive" *ngIf="etap == 1">
+              <div class="col-12">
+                <div class="row">
+                  
+                  <div class="col-3" >
+                    <a  class=" btn  btn-info" (click)="displayAll()" style="background: white;" >Tous</a>
+                  </div>
+                  <div class="col-3" >
+                    <a  class=" btn  btn-danger" (click)="displayClient()" style="background: #d4edda;" >Client particulier</a>
+                  </div>
+                  <div class="col-3" >
+
+                    <a  class=" btn  btn-success" (click)="displayCorporate()"  style="background:#d1ecf1;" >Client Pro</a>
+                  </div>
+                 
+                   
+                  </div>
+                </div>
+              <table class=" table tablesorter" id="">
+                <thead class=" text-primary" style="background-color: #007bff!important;color: white !important;">
+                  <tr style="background-color: #007bff!important;color: white !important;">
+                    <th style="background-color: #007bff!important;color: white !important;">Date et heure de demande</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Prénom Nom demandeur</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Téléphone demandeur</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Adresse demandeur</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Nom entreprise </th>
+
+                    <th style="background-color: #007bff!important;color: white !important;" >Désignation</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Prénom Nom destinataire</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Téléphone destinataire</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Adresse destinataire</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Montant</th>
+                    <th style="background-color: #007bff!important;color: white !important;" >Etat/Action</th>
+                  </tr>
+                </thead>
+               
+                <tbody >
+                  <tr class="ligne" *ngFor="let p of patients" [ngStyle]="{'background-color':displayData(p.iduser,'accesslevel') == 2 ? '#d4edda' :'#d1ecf1'}" >
+                    <td *ngIf="p.Etat != 10" >{{p.datelivraison}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.prenomDemandeur}} {{p.nomDemandeur}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.telephoneDemandeur}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.pointDepart}}</td>
+                    <td  *ngIf="displayData(p.iduser,'nom_entreprise') != null && p.Etat != 10">{{displayData(p.iduser,'nom_entreprise')}}</td>
+                    <td  *ngIf="displayData(p.iduser,'nom_entreprise') == null && p.Etat != 10"></td>
+                    <td *ngIf="p.Etat != 10">{{p.designation}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.prenomDestinataire}} {{p.nomDestinatair}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.telephoneDestinataire}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.adresselivraison}}</td>
+                    <td *ngIf="p.Etat != 10">{{p.Montant}}</td>
+                    
+                    <td *ngIf="p.Etat != 10">
+                      
+                      <button *ngIf="p.Etat == 0" (click)="getLivreur();open(content1);selected=p;" class="btn btn-fill btn-danger" >Nouveau</button>
+                      <button *ngIf="p.Etat == 8" (click)="getLivreur();open(content1);selected=p;" class="btn btn-fill btn-primary" >Retour</button>
+                      <button *ngIf="p.Etat == 9" (click)="selected=p;deleteLivraison()" class="btn btn-fill btn-danger" >Annulé</button>
+                      <button *ngIf="p.Etat == 1" (click)="open(content);selected=p;" class=" btn btn-fill btn-success" >Assigné</button>
+                      <button *ngIf="p.Etat == 2" (click)="open(content);selected=p;" class=" btn btn-fill btn-info" >En cours d’enlèvement</button>
+                      <button *ngIf="p.Etat == 3" (click)="open(content);selected=p;" class=" btn btn-fill btn-info" >En cours de livraison</button>
+                      <button *ngIf="p.Etat == 4" (click)="open(content);selected=p;" class=" btn btn-fill btn-info" >Livré</button>
+                    </td>
+                  </tr>
+                 
+                 
+                </tbody>
+              </table>
+            </div>
+            <div class="row" *ngIf="etap == 2">
+              <form style="min-width: 100%;">
+
+                
+                <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Type d'utilisateur </label>
+                      <select
+                        class=" form-control"
+                        placeholder="prenom"
+                        type="text"
+                        [(ngModel)]="this.typeUtilasateur"
+                        [ngModelOptions]="{standalone: true}"
+                      >
+                      <option value="livreur">Livreur</option>
+                      <option value="corporate">Corporate</option>
+                    </select>
+                    </div>
+                  </div>
+                  <div class=" col-md-6 " *ngIf="typeUtilasateur == 'corporate'">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Nom de l'entreprise </label>
+                      <input
+                        class=" form-control"
+                        placeholder="nom_entreprise"
+                        type="text"
+                        [(ngModel)]="this.nom_entreprise"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                
+                </div>
+                <div class=" row" *ngIf="typeUtilasateur =='livreur' || typeUtilasateur == 'corporate'" style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Prénom </label>
+                      <input
+                        class=" form-control"
+                        placeholder="prenom"
+                        type="text"
+                        [(ngModel)]="this.prenom"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Nom </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Nom"
+                        type="text"
+                        [(ngModel)]="this.nom"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class=" row" *ngIf="typeUtilasateur =='livreur' || typeUtilasateur == 'corporate'" style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Adresse </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Adresse"
+                        type="text"
+                        [(ngModel)]="this.adresse"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Téléphone </label>
+                      <input
+                        class=" form-control"
+                        placeholder="telephone"
+                        type="text"
+                        [(ngModel)]="this.tel"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class=" row" *ngIf="typeUtilasateur =='livreur' || typeUtilasateur == 'corporate'" style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Login </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Login"
+                        type="text"
+                        [(ngModel)]="this.login"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Password </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Mot de passe"
+                        type="password"
+                        [(ngModel)]="this.password"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="typeUtilasateur =='livreur'" style="text-align: center;">
+                  <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel || !adresse || !login || !password" (click)="inscripton();errorMessage = 1" >Créer</button>
+                </div>
+                <div class="col-md-12" *ngIf="typeUtilasateur =='corporate'" style="text-align: center;">
+                  <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel || !adresse || !login || !password || !nom_entreprise"   (click)="inscriptonCorporate();errorMessage = 1" >Créer</button>
+                </div>
+             
+              </form>
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+<ng-template #content let-modal >
+  <div class="modal-content" style="min-width: 130% !important;margin-left: -10rem;overflow: scroll !important;margin-top:-4rem !important;" >
+    <div class=" modal-header">
+
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12" style="text-align: center;">
+          <h1 class=" card-title">INFORMATIONS DE LA LIVRAISON</h1>
+        </div>
+        
+      </div><table class=" table tablesorter" id="">
+        <thead class=" text-primary" style="background-color: #007bff!important;color: white !important;">
+          <tr style="background-color: #007bff!important;color: white !important;">
+            <th style="background-color: #007bff!important;color: white !important;"  >Date et heure changement état </th>
+            <th style="background-color: #007bff!important;color: white !important;" >Prénom Nom demandeur</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Téléphone demandeur</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Adresse demandeur</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Désignation</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Prénom Nom destinataire </th>
+            <th style="background-color: #007bff!important;color: white !important;" >Téléphone destinataire </th>
+            <th style="background-color: #007bff!important;color: white !important;" >Adresse destinataire</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Prénom Nom livreur</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Téléphone livreur</th>
+            <th style="background-color: #007bff!important;color: white !important;" >Mode paiement</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr class="ligne"  >
+            <td>{{selected.last_modifield}}</td>
+            <td>{{selected.prenomDemandeur}} {{selected.nomDemandeur}}</td>
+            <td>{{selected.telephoneDemandeur}}</td>
+            <td>{{selected.pointDepart}}</td>
+            <td>{{selected.designation}}</td>
+            <td>{{selected.prenomDestinataire}} {{selected.nomDestinatair}}</td>
+
+            <td>{{selected.telephoneDestinataire}}</td>
+            <td>{{selected.adresselivraison}}</td>
+            <td>{{displayData(selected.livrereur,'prenom')}} {{displayData(selected.livrereur,'nom')}}</td>
+            <td>{{displayData(selected.livrereur,'telephone')}}</td>
+            <td>{{selected.mode_paiement}}</td>
+
+            
+          </tr>
+         
+         
+        </tbody>
+      </table>
+      <div class="row" *ngIf="selected.Etat == 0 || selected.Etat == 8">
+        <div class="col-12" style="text-align: center;">
+          <h1 class=" card-title">Assignation de la livraison</h1>
+         
+        </div>
+        <form >
+          <div *ngIf="listLivreur.length !=0"  class="row" style="text-align: center !important;">
+            
+            <div class=" form-group">
+              <label style="margin-left: 23px;padding: 0;font-size: 1.5rem;"> Livreur </label>
+              <select class=" form-control"  [(ngModel)]="this.idLivreuer"[ngModelOptions]="{standalone: true}" type="number" style="border-radius: 5%;border: 2px solid #222a42;margin-left: 20px;" >
+                <option  value="">Choisissez un livrereur</option>
+                <option *ngFor="let l of listLivreur" value="{{l.iduser}}">{{l.prenom}} {{l.nom}}</option>
+              </select>
+
+            </div>
+            <div *ngIf="this.idLivreuer != ''" class="form-group" style="margin-left: 3rem;">
+              <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="assignation(selected.idlivraison,idLivreuer)" >Assigné</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row" *ngIf="selected.Etat == 1 ">
+        <div class="col-12" style="text-align: center;">
+          <h1 class=" card-title">Livraison encours</h1>
+
+        </div>
+        <div class="col-12" style="text-align: center;">
+          <img src="../../../assets/img/encours.jpg" alt="">
+
+        </div>
+       
+      </div>
+      <div class="row" *ngIf="selected.Etat == 2">
+        <div class="col-12" style="text-align: center;">
+          <h1 class=" card-title">Le colis est en cours d’enlèvement</h1>
+        </div>
+        <div class="col-12" style="text-align: center;">
+          <img src="../../../assets/img/done.png" alt="">
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+
+</ng-template>
+
+<ng-template #content1 let-modal>
+  <div class=" modal-header">
+    <h3> Voulez-vous accepter la course ? </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body">
+    <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+      <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="open(content);modal.dismiss('Cross click')" >OUI</button>
+      <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="retourEtAnnuler();modal.dismiss('Cross click')">NON</button>
+    </div>
+  </div>
+
+</ng-template>
+

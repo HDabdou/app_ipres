@@ -1,0 +1,56 @@
+
+<div class=" content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class="card card-stats" style="margin-bottom: 0 !important;">
+        <button  class=" btn btn-fill btn-primary" (click)="download()" >Exporation en excel</button>
+      </div>
+  </div>
+    <div class=" col-md-12">
+      <div class=" card">
+        <div class=" card-header">
+          <h4 class=" card-title">Historique des livraisons</h4>
+        </div>
+        <div class=" card-body">
+          <div class=" table-responsive">
+            <table class=" table tablesorter" id="">
+              <thead class=" text-primary">
+                <tr>
+                  <th >Date et heure de demande</th>
+                  <th  >Prénom Nom demandeur</th>
+                  <th  >Téléphone demandeur</th>
+                  <th  >Adresse demandeur</th>
+
+                  <th  >Désignation</th>
+                  <th  >Prénom Nom destinataire</th>
+                  <th  >Téléphone destinataire</th>
+                  <th  >Adresse destinataire</th>
+                  <th  >Montant</th>
+                  <th  >mode paiement</th>
+
+                </tr>
+              </thead>
+              <tbody>
+              
+                <tr *ngFor="let i of listHistorique">
+                  <td>{{i.datelivraison}}</td>
+                  <td>{{i.prenomDemandeur}} {{i.nomDemandeur}}</td>
+                  <td>{{i.telephoneDemandeur}}</td>
+                  <td>{{i.pointDepart}}</td>
+                  <td>{{i.designation}}</td>
+                  <td>{{i.prenomDestinataire}} {{i.nomDestinatair}}</td>
+                  <td>{{i.telephoneDestinataire}}</td>
+                  <td>{{i.adresselivraison}}</td>
+                  <td>{{i.Montant}}</td>
+                  <td>{{i.mode_paiement}}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</div>
