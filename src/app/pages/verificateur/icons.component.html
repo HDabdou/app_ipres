@@ -5,30 +5,40 @@
     <div class=" col-md-12">
       <div class=" card">
         <div class=" card-header">
-          <h4 class=" card-title">Liste des livreurs</h4>
+          <h2 class=" card-title">Liste des Réclamations</h2>
         </div>
         <div class=" card-body">
+          <div class=" col-md-6 ">
+            <div class=" form-group">
+              <label style="font-size: 1rem;">Rechercher :</label>
+              <input
+                class=" form-control"
+                placeholder="Mot Clé"
+                type="text"
+                [(ngModel)]="this.nom_entreprise"
+                [ngModelOptions]="{standalone: true}"
+              />
+            </div>
+          </div>
           <div class=" table-responsive">
             <table class=" table tablesorter" id="">
               <thead class=" text-primary">
                 <tr>
-                  <th>Nom</th>
-                  <th>Prenom</th>
-                  <th>Téléphone</th>
-                  <th>Adresse</th>
-                  <th>Login</th>
+                  <th>Operateur</th>
+                  <th>Operation</th>
+                  <th>Date Opération</th>
+                  <th>Etat</th>
                   <th>OPTION</th>
                 </tr>
               </thead>
               <tbody>
               
-                <tr *ngFor="let l of listLivreur" >
-                  <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.nom}}</b></td>
-                  <td>{{l.prenom}}</td>
-                  <td>{{l.telephone}}</td>
-                  <td>{{l.adresse}}</td>
-                  <td>{{l.login}}</td>
-                  <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-pencil"> </i></button> <button class="btn btn-danger" (click)="deleteUser(l.iduser)" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-simple-remove"> </i></button> </td>
+                <tr *ngFor="let l of datas" >
+                  <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.operateur}}</b></td>
+                  <td>{{l.operation}}</td>
+                  <td>{{l.etat}}</td>
+                  <td>{{l.date}}</td>
+                  <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">...</button> <button class="btn btn-default" (click)="deleteUser(l.iduser)" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2"> </i></button> </td>
                 </tr>
               </tbody>
             </table>

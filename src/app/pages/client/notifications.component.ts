@@ -93,7 +93,7 @@ errorMessage:number = 0
   }
   ngOnInit() {
     if(localStorage.getItem("currentuser") == null){
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }
     let dd = ((new Date()).toJSON()).split("T",2)[0];
     this._serviceAdmin.historique({dateDebut:dd,dateFin:dd}).then(res=>{

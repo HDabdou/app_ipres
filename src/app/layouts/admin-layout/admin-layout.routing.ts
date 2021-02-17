@@ -7,6 +7,10 @@ import { TablesComponent } from "src/app/pages/tables/tables.component";
 import { TypographyComponent } from "src/app/pages/typography/typography.component";
 import { MapComponent } from "src/app/pages/operateur/map.component";
 import { NotificationsComponent } from "src/app/pages/client/notifications.component";
+import { DashboardComponent as DashboardComponentVerif} from "../../pages/verificateur/dashboard/dashboard.component";
+import { OperationsComponent } from "../../pages/verificateur/operations/operations.component";
+
+
 // import { RtlComponent } from "src/app/pages/pages/rtl/rtl.component";
 
 export const AdminLayoutRoutes: Routes = [
@@ -19,5 +23,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "user", component: UserComponent },
   { path: "tables", component: TablesComponent },
   { path: "typography", component: TypographyComponent },
+  { path: "dashboardVerif", component: DashboardComponentVerif },
+  { path: "operations", component: OperationsComponent },
   // { path: "rtl", component: RtlComponent }
 ];

@@ -3,12 +3,41 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
+import {ReclamationItem} from './interfaces/interface.reclamation';
 
 @Component({
   selector: "app-icons",
   templateUrl: "icons.component.html"
 })
 export class IconsComponent implements OnInit {
+
+  datas : ReclamationItem[]= [
+    {
+      operateur: 'Magor Sy',
+      operation: 'Retrait',
+      date: '12-02-2020',
+      etat:'corrigé'
+    },
+    {
+      operateur: 'Adama Goudiaby',
+      operation: 'Dépot',
+      date: '13-03-2020',
+      etat:'en attente'
+    },
+    {
+      operateur: 'ABdule Hamide Dialo',
+      operation: 'Paiemetraitment Facture',
+      date: '15-04-2021',
+      etat:'corrigé'
+    },
+    {
+      operateur: 'Naby Ndiaye',
+      operation: 'Dépot',
+      date: '20-02-2020',
+      etat:'en attente'
+    },
+
+  ]
   listLivreur:any = [];
   closeResult: string;
   selected:any = null;
@@ -80,7 +109,7 @@ getLivraisonByLivreur(id){
 }
   ngOnInit() {
     if(localStorage.getItem("currentuser") == null){
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }
     this.listLivreur = [];
     this._serviceAdmin.getLivreur().then(res=>{

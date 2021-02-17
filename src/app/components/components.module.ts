@@ -6,11 +6,12 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { SidebarVerificateurComponent } from "./sidebarVerificateur/sidebarVerificateur.component";
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,FormsModule,],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent],
-  exports: [FooterComponent, NavbarComponent, SidebarComponent]
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent,SidebarVerificateurComponent],
+  exports: [FooterComponent, NavbarComponent, SidebarComponent,SidebarVerificateurComponent]
 })
 export class ComponentsModule {}

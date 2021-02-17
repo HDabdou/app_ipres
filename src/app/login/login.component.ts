@@ -104,8 +104,14 @@ open(content) {
   errorMessage:number = 0;
   login(){
     alert('clicked')
+    if(this.username=="v" && this.password=="v"){
+      sessionStorage.setItem('profile','verificateur');
+      console.log(this.password);
+      console.log(this.username);
+      
+    }
+      
     this.router.navigate(['/admin'])
-    
   }
   showNotification(from, align){
 

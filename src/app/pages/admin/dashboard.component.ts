@@ -485,7 +485,7 @@ nbrAnnuler:number = 0;
   }
   ngOnInit() {
     if(localStorage.getItem("currentuser") == null){
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }
     this.nbrNouveau = 0;
     this.nbrAssigne = 0;

@@ -73,7 +73,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
      }
    };
   ngOnInit() {
-    console.log(JSON.parse(localStorage.getItem('currentuser'))[0].iduser)
+    // console.log(JSON.parse(localStorage.getItem('currentuser'))[0].iduser)
     window.addEventListener("resize", this.updateColor);
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
