@@ -1,62 +1,85 @@
-<div class="content logMobile" style="padding: 5rem;background-image: url('../../assets/img/ipres.png');">
-    <div class=" row">
-      <div class=" col-md-12 col-xs-12 " style="margin: auto;">
-        <div class=" card" style="border: 2px solid black;">
-          <div class=" card-header" style="text-align: center;"><h1 class=" title">Login</h1></div>
-          <div class=" card-body">
-            <ngb-alert *ngIf="errorMessage == 1" [type]="'success'" [dismissible]="false">
-                <span> Veuillez patienter ... </span>
-              </ngb-alert>
+<div class="content logMobile" style="min-height: 100vh;background-image: url('../../assets/img/ipres.png');">
+    <div class=" row" >
+      <div class="col-12" style="padding: 5rem; background-color: rgba(0,0,0,0.3); width: 100vh;height: 100vh;">
+        <div class="col-lg-5 col-md-12 col-xs-12 " style="margin: auto;">
+          <div class="card fileinput-new thumbnail" style="border: 1px solid #fd5d93;">
+            <div class=" card-header" style="text-align: center;">
+              <h1 class=" title">Login</h1>
               
-          <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
-            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
-              <i class="tim-icons icon-simple-remove"></i>
-            </button>
-            <span>
-              <b> Error - </b>Login ou password incorrect !!
-            </span>
-          </ngb-alert>
-            <form>
-
-              <div class=" row" style="margin: 2rem;">
-                <div class=" col-md-12 ">
-                  <div class=" form-group">
-                    <label> Login </label>
-                    <input
-                      class=" form-control"
-                      placeholder="Login"
-                      type="text"
-                      [(ngModel)]="this.username"
-                      [ngModelOptions]="{standalone: true}"
-                    />
-                  </div>
-                </div>
-                <div class=" col-md-12 ">
-                  <div class=" form-group">
-                    <label> Password </label>
-                    <input
-                      class=" form-control"
-                      placeholder="Mot de passe"
-                      type="password"
-                      [(ngModel)]="this.password"
-                      [ngModelOptions]="{standalone: true}"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class=" card-footer" style="text-align: center;">
-                <button class=" btn btn-fill btn-danger" type="submit" (click)="login()" (keyup.enter)="login()">Valider</button>
-                
-              </div>
+                <img style="max-width: 24% !important;min-width: 25%;max-height: 10rem;" src="../../assets/img/person_login.png" rel="nofollow" alt="...">
               
-            </form>
-          </div>
+            </div>
+            <div class=" card-body">
+                <ngb-alert *ngIf="errorMessage == 1" [type]="'success'" [dismissible]="false">
+                  <span> Veuillez patienter ... </span>
+                </ngb-alert>
+                    
+                <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
+                  <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                    <i class="tim-icons icon-simple-remove"></i>
+                  </button>
+                  <span>
+                    <b> Error - </b>Login ou password incorrect !!
+                  </span>
+                </ngb-alert>
+                  <form>
+
+
+                    <div class=" row" style="margin: 2rem;">
+                      <div class=" col-md-12 ">
+                        <div class=" form-group">
+                          <label> Login </label>
+
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="tim-icons icon-single-02"></i>
+                              </span>
+                            </div>
+                            <input
+                            class=" form-control"
+                            placeholder="Login"
+                            type="text"
+                            [(ngModel)]="this.username"
+                            [ngModelOptions]="{standalone: true}"
+                          />
+                          </div>
+                        </div>
+                      </div>
+                      <div class=" col-md-12 ">
+                        <div class=" form-group">
+                          <label> Password </label>
+
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="tim-icons icon-user-run"></i>
+                              </span>
+                            </div>
+                            <input
+                            class=" form-control"
+                            placeholder="Mot de passe"
+                            type="password"
+                            [(ngModel)]="this.password"
+                            [ngModelOptions]="{standalone: true}"
+                          />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class=" card-footer" style="text-align: center;">
+                      <button class=" btn btn-fill btn-danger" type="submit" (click)="login()" (keyup.enter)="login()">Valider</button>
+                      
+                    </div>
+                    
+                  </form>
+            </div>
+            
           
-         
+          </div>
         </div>
-      </div>
-    
+    </div>
     </div>
   </div>
   <ng-template #content let-modal>

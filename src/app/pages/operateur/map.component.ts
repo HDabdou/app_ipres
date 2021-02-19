@@ -88,7 +88,7 @@ getLivraisonByLivreur(id){
 }
   ngOnInit() {
     if(localStorage.getItem("currentuser") == null){
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }
     this.listPro =[]
     this._serviceAdmin.getCorporate().then(res=>{

@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
+import { Session } from 'protractor';
 
 @Component({
   selector: "app-navbar",
@@ -73,7 +74,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
      }
    };
   ngOnInit() {
-   // console.log(JSON.parse(localStorage.getItem('currentuser'))[0].iduser)
+
     window.addEventListener("resize", this.updateColor);
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
@@ -193,6 +194,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getTitle() {
+
    /* var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === "#") {
       titlee = titlee.slice(1);
@@ -229,7 +231,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
      window.removeEventListener("resize", this.updateColor);
   }
   logout(){
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/']);
   }
 }

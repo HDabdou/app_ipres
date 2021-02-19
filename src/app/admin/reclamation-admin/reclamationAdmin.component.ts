@@ -3,13 +3,20 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-reclamation',
-  templateUrl: './reclamation.component.html',
-  styleUrls: ['./reclamation.component.scss']
+  templateUrl: './reclamationAdmin.component.html',
+  styleUrls: ['./reclamationAdmin.component.scss']
 })
-export class ReclamationComponent implements OnInit {
+export class ReclamationAdminComponent implements OnInit {
   closeResult
   selected;
   listeReclamation = [
+    {prenom:"Abdoulaye",nom:"Diouf",description:"il n'a pas reçu sa pension",etat:0},
+    {prenom:"Fatou",nom:"Diop",description:"il n'a pas reçu sa pension",etat:0},
+    {prenom:"Demba",nom:"Gueye",description:"il n'a pas reçu sa pension",etat:0},
+    {prenom:"Adama",nom:"Barry",description:"il n'a pas reçu sa pension",etat:0},
+    {prenom:"Ibrahima",nom:"Dieng",description:"il n'a pas reçu sa pension",etat:0},
+  ]
+  myListe =  [
     {prenom:"Abdoulaye",nom:"Diouf",description:"il n'a pas reçu sa pension",etat:0},
     {prenom:"Fatou",nom:"Diop",description:"il n'a pas reçu sa pension",etat:0},
     {prenom:"Demba",nom:"Gueye",description:"il n'a pas reçu sa pension",etat:0},
@@ -37,6 +44,7 @@ open(content) {
   });
 }
   ngOnInit(): void {
+    console.log(this.listeReclamation)
   }
 
 }

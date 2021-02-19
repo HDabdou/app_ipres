@@ -1,0 +1,117 @@
+
+
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            <h2 class=" card-title">Liste des Opérations</h2>
+          </div>
+          <div class=" card-body">
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;">Rechercher :</label>
+                <input
+                    class=" form-control"
+                    placeholder="Mot Clé"
+                    type="text"
+                    [(ngModel)]="this.motcle"
+                    [ngModelOptions]="{standalone: true}"
+                  (keyup) = "searchAll()"
+                />
+              </div>
+            </div>
+            <div class=" table-responsive">
+              <table class=" table tablesorter" id="">
+                <thead class=" text-primary">
+                  <tr>
+                    <th><input class="form-check-input" type="checkbox" ></th>
+                    <th>Pensionnaire</th>
+                    <th>Montant</th>
+                    <th>Téléphone</th>
+                    <th>Date Opération</th>
+                    <th>OPTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                  <tr *ngFor="let l of datas" >
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
+                    <td>{{l.montant}}</td>
+                    <td>{{l.tel}}</td>
+                    <td>{{l.date}}</td>
+                    <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">...</button> <button class="btn btn-default" (click)="deleteUser(l.iduser)" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2"> </i></button> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+  
+  <ng-template #content let-modal >
+    <div class="modal-content" style="min-width: 130% !important;margin-left: -10rem;overflow: scroll !important;margin-top:-4rem !important;" >
+      <div class=" modal-header">
+  
+        <button
+          aria-label="Close"
+          class=" close"
+          data-dismiss="modal"
+          type="button"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <i class=" tim-icons icon-simple-remove"> </i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h1 class=" card-title">Détails De L'Operation </h1>
+          </div>
+          
+        </div>
+*
+        
+  
+  
+      </div>
+      
+    </div>
+    
+  
+  </ng-template>
+  
+  <ng-template #content1 let-modal >
+    <div class="modal-content" style="min-width: 130% !important;margin-left: -10rem;overflow: scroll !important;margin-top:-4rem !important;" >
+      <div class=" modal-header">
+  
+        <button
+          aria-label="Close"
+          class=" close"
+          data-dismiss="modal"
+          type="button"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <i class=" tim-icons icon-simple-remove"> </i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h1 class=" card-title">Détails De L'Operation </h1>
+          </div>
+          
+        </div>
+        
+  
+  
+      </div>
+      
+    </div>
+    
+  
+  </ng-template>

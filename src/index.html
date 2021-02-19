@@ -43,8 +43,24 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
-  </head>
-  <body>
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+  <body class="mat-typography">
     <app-root></app-root>
   </body>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCOoo8lKSN0J7gRnj8a8aQlSqthI3z_6Mg",
+      authDomain: "comsbb.firebaseapp.com",
+      databaseURL: "https://comsbb.firebaseio.com",
+      projectId: "comsbb",
+      storageBucket: "comsbb.appspot.com",
+      messagingSenderId: "891627831149",
+      appId: "1:891627831149:web:b2c9c64d47656ca1c26464"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </html>

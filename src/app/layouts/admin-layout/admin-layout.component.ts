@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-admin-layout",
@@ -7,11 +8,14 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AdminLayoutComponent implements OnInit {
   public sidebarColor: string = "primary";
+  public profile = "";
   side = 'blue';
-  constructor() {}
+  constructor(private router:Router) {}
   changeSidebarColor(color){
     var sidebar = document.getElementsByClassName('sidebar')[0];
     var mainPanel = document.getElementsByClassName('main-panel')[0];
+    
+
 
     this.sidebarColor = color;
 
@@ -35,5 +39,18 @@ export class AdminLayoutComponent implements OnInit {
   ngOnInit() {
     this.changeDashboardColor(this.content);
     this.changeSidebarColor(this.side);
+    /*this.profile = sessionStorage.getItem('profile');
+    if(this.profile=='verificateur'){
+      this.router.navigate(['/verificateur'])
+    }
+   if(this.profile=='client'){
+      this.router.navigate(['/client'])
+    }
+    if(this.profile=='admin'){
+      this.router.navigate(['/admin'])
+    }
+   if(this.profile=='operateur'){
+      this.router.navigate(['/ClientOperateurComponent'])
+    }*/
   }
 }

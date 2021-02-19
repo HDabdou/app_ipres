@@ -1,0 +1,127 @@
+
+
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            <h2 class=" card-title">Liste des Réclamations</h2>
+          </div>
+          <div class=" card-body">
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;">Rechercher :</label>
+                <input
+                  class=" form-control"
+                  placeholder="Mot Clé"
+                  type="text"
+                  [(ngModel)]="this.motcle"
+                  [ngModelOptions]="{standalone: true}"
+                  (keyup) = "searchAll()"
+                />
+                
+              </div>
+            </div>
+            <div class=" table-responsive">
+              <table class=" table tablesorter" id="">
+                <thead class=" text-primary">
+                  <tr>
+                    <th><input class="form-check-input" type="checkbox" (change)="cheickedAllItem($event)"></th>
+                    <th>Client</th>
+                    <th>Réclamation</th>
+                    <th>date</th>
+                    <th>Etat</th>
+                    <th>OPTION</th>
+                  </tr>
+                </thead>
+                <tbody >
+                
+                  <tr *ngFor="let l of datas" >
+                    <td><span class='unchecked' (click)="cheickedItem($event,l)" id="itemRowCheckboxReclamation">o</span></td>
+                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
+                    <td>{{l.descrition}}</td>
+                    <td>{{l.etat}}</td>
+                    <td>{{l.date}}</td>
+                    <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">...</button> <button class="btn btn-default" (click)="deleteUser(l.iduser)" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2"> </i></button> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <nav aria-label="...">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <span class="page-link">Previous</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:;">1</a></li>
+                <li class="page-item active">
+                  <span class="page-link">
+                    2
+                    <span class="sr-only">(current)</span>
+                  </span>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:;">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:;">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+  
+  <ng-template #content let-modal >
+    <div class="modal-content" style="min-width: 130% !important;margin-left: -10rem;overflow: scroll !important;margin-top:-4rem !important;" >
+      <div class=" modal-header">
+  
+        <button
+          aria-label="Close"
+          class=" close"
+          data-dismiss="modal"
+          type="button"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <i class=" tim-icons icon-simple-remove"> </i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h1 class=" card-title">Les détails de la Réclamation</h1>
+          </div>
+          
+        </div>
+      
+      </div>
+      
+    </div>
+    
+  
+  </ng-template>
+  
+  <ng-template #content1 let-modal >
+    <div class="modal-content" style="min-width: 130% !important;margin-left: -10rem;overflow: scroll !important;margin-top:-4rem !important;" >
+      <div class=" modal-header">
+  
+        <button
+          aria-label="Close"
+          class=" close"
+          data-dismiss="modal"
+          type="button"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <i class=" tim-icons icon-simple-remove"> </i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h1 class=" card-title">Les Details de la Réclamation </h1>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </ng-template>

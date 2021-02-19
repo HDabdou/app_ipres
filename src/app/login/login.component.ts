@@ -100,20 +100,32 @@ open(content) {
   ngOnInit() {
     this.changeDashboardColor(this.content);
     this.changeSidebarColor(this.side);
+    sessionStorage.clear()
   }
   errorMessage:number = 0;
   login(){
     if(this.username == "a" && this.password == "1"){
-      localStorage.setItem('profile','admin');
+      sessionStorage.setItem('profile','admin');
       this.router.navigate(['/admin'])
     }
     if(this.username == "o" && this.password == "1"){
-      localStorage.setItem('profile','operateur');
+      sessionStorage.setItem('profile','operateur');
       this.router.navigate(['/clientOperateur'])
     }
     
     
-  }
+    if(this.username=="v" && this.password=="v"){
+      sessionStorage.setItem('profile','verificateur');
+      this.router.navigate(['/reclamation'])
+      
+    }else if(this.username=="c" && this.password=="c"){
+      sessionStorage.setItem('profile','client');
+       this.router.navigate(['/operationsSentool']) 
+  
+    }
+      
+   // this.router.navigate(['/admin'])
+}
   showNotification(from, align){
 
     const color = Math.floor((Math.random() * 5) + 1);

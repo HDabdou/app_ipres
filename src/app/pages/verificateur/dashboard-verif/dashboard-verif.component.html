@@ -1,0 +1,115 @@
+<div class=" content">
+    <div class=" row">
+      <div class="col-md-12">
+        <div class="row">
+          
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                      <h1>Nombre de Validations</h1>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title">{{currencyFormat(solde)}}
+                        <small>Fcfa</small>
+                    </h3>
+                </div>
+               <!-- <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-danger">warning</i>
+                        <a href="javascript:void(0)">Get More Space...</a>
+                    </div>
+                </div>-->
+            </div>
+          </div>
+  
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                     <h1>Nombre de réclamations</h1>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title">{{currencyFormat(solde)}}
+                        <small>Fcfa</small>
+                    </h3>
+                </div>
+               <!-- <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-danger">warning</i>
+                        <a href="javascript:void(0)">Get More Space...</a>
+                    </div>
+                </div>-->
+            </div>
+          </div>
+  
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <h1>Nombre d'operations</h1>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title">{{currencyFormat(solde)}}
+                        <small>Fcfa</small>
+                    </h3>
+                </div>
+               <!-- <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-danger">warning</i>
+                        <a href="javascript:void(0)">Get More Space...</a>
+                    </div>
+                </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-md-12">
+        <div class=" card">
+          <div class=" card-header">
+            
+          </div>
+          <div class=" card-body">
+            <div class="form-group row">
+              <label for="example-date-input" class="col-1 col-form-label">De :</label>
+              <div class="col-4">
+                <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+              </div>
+              <label for="example-date-input" class="col-1 col-form-label">A :</label>
+              <div class="col-4">
+                <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+              </div>
+  
+              <button class="btn btn-success"  style="margin-left:5px;margin-bottom: 4px;padding: 9px;margin-top: 0px !important;">Valider</button>
+            </div>
+  
+            <div class=" table-responsive">
+              <table class=" table tablesorter" id="">
+                <thead class=" text-primary">
+                  <tr>
+                    <th><input class="form-check-input" type="checkbox" (change)="cheickedAllItem($event)"></th>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>montant</th>
+                    <th>Date Opération</th>
+                    <th>OPTION</th>
+                  </tr>
+                </thead>
+                <tbody >
+                
+                  <tr *ngFor="let l of datas" >
+                    <td><span class='unchecked' (click)="cheickedItem($event,l)" id="itemRowCheckboxReclamation">o</span></td>
+                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
+                    <td>{{l.tel}}</td>
+                    <td>{{l.montant}}</td>
+                    <td>{{l.date}}</td>
+                    <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">...</button> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

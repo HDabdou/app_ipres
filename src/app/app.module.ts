@@ -14,11 +14,21 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 import { LoginComponent } from './login/login.component';
+
 import { CreateUserComponent } from "./admin/create-user/create-user.component";
 import { UploadFileComponent } from "./admin/upload-file/upload-file.component";
-import { ReclamationComponent } from './admin/reclamation/reclamation.component';
 import { ReclamationOperateurComponent } from './operateur/reclamation-operateur/reclamation-operateur.component';
 import { ClientOperateurComponent } from './operateur/client-operateur/client-operateur.component';
+
+import { ReclamationComponent } from './pages/verificateur/reclamation/reclamation.component';
+import { OperationsComponent } from './pages/verificateur/operations/operations.component';
+import { DashboardComponentVerif } from './pages/verificateur/dashboard/dashboard.component';
+import { ValidationOpsComponent } from './pages/verificateur/validation-ops/validation-ops.component';
+import {ReclamationService} from './services/verificateur/reclamation.service';
+import { OperationService } from './services/verificateur/operation.service';
+import { ValidationService } from './services/verificateur/validation.service';
+import { DashboardService } from './services/verificateur/dashboard.service';
+
 
 @NgModule({
   imports: [
@@ -29,10 +39,12 @@ import { ClientOperateurComponent } from './operateur/client-operateur/client-op
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, CreateUserComponent, UploadFileComponent, ReclamationComponent,  ReclamationOperateurComponent, ClientOperateurComponent,],
-  providers: [],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent,],
+  providers: [ReclamationService,OperationService,ValidationService,DashboardService],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {}
