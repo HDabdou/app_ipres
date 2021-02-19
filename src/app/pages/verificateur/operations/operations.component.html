@@ -15,8 +15,9 @@
                   class=" form-control"
                   placeholder="Mot Clé"
                   type="text"
-                  [(ngModel)]="this.nom_entreprise"
+                  [(ngModel)]="this.motcle"
                   [ngModelOptions]="{standalone: true}"
+                  (keyup) = "searchAll()"
                 />
               </div>
             </div>
@@ -24,8 +25,8 @@
               <table class=" table tablesorter" id="">
                 <thead class=" text-primary">
                   <tr>
+                    <th><input class="form-check-input" type="checkbox"></th>
                     <th>Pensionnaire</th>
-                    <th>Operation</th>
                     <th>Montant</th>
                     <th>Téléphone</th>
                     <th>Date Opération</th>
@@ -35,8 +36,8 @@
                 <tbody>
                 
                   <tr *ngFor="let l of datas" >
-                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.operateur}}</b></td>
-                    <td>{{l.operation}}</td>
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
                     <td>{{l.montant}}</td>
                     <td>{{l.tel}}</td>
                     <td>{{l.date}}</td>

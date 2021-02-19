@@ -4,6 +4,9 @@ import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.reclamation';
+import {ReclamationService} from '../../../services/verificateur/reclamation.service';
+
+
 
 @Component({
   selector: 'app-reclamation',
@@ -12,38 +15,108 @@ import {ReclamationItem} from '../interfaces/interface.reclamation';
 })
 export class ReclamationComponent implements OnInit {
 
+
   datas : ReclamationItem[]= [
     {
-      operateur: 'Magor Sy',
-      operation: 'Retrait',
+      nom: 'Magor Sy',
+      prenom: 'Sy',
+      descrition:'description de la reclamation',
       date: '12-02-2020',
       etat:'corrigé'
     },
     {
-      operateur: 'Adama Goudiaby',
-      operation: 'Dépot',
+      nom: 'Adama Goudiaby',
+      prenom: 'Goudiaby',
+      descrition:'description de la reclamation',
       date: '13-03-2020',
       etat:'en attente'
     },
     {
-      operateur: 'ABdule Hamide Dialo',
-      operation: 'Paiemetraitment Facture',
+      nom: 'ABdule Hamide Dialo',
+      prenom: 'Paiemetraitment Facture',
+      descrition:'description de la reclamation',
       date: '15-04-2021',
       etat:'corrigé'
     },
     {
-      operateur: 'Naby Ndiaye',
-      operation: 'Dépot',
+      nom: 'Naby Ndiaye',
+      prenom: 'Dépot',
+      descrition:'description de la reclamation',
       date: '20-02-2020',
       etat:'en attente'
     },
 
   ]
+
+  chechedsItems = [];
+
+  motcle = null;
+  dataBase:ReclamationItem[] = this.datas;
+
+  searchAll = () => {
+    let value = this.motcle;
+    console.log("PASS", { value });
+  
+    const filterTable = this.dataBase.filter(o =>
+      Object.keys(o).some(k =>
+        String(o[k])
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      )
+    );
+  
+    this.datas = filterTable;
+    console.log('salut boy na  whhd')
+  }
+
+
   listLivreur:any = [];
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router) {}
+
+  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {}
+
+  
+  indexObj(tab,obj,key){
+    for (let index = 0; index < tab.length; index++) {
+      if(tab[index][key]==obj[key]){
+        return index
+      }
+    }
+  }
+
+
+  cheickedItem(event,l){
+    let  index = null;
+    console.log(l,event.target.className);
+    if(event.target.className=='unchecked'){
+      event.target.className='checked';
+      this.chechedsItems.push(l);
+    }else{
+      event.target.className='unchecked';
+      index =  this.indexObj(this.chechedsItems,l,'id');
+      (this.chechedsItems).splice(index,1);
+    }
+  }
+
+  cheickedAllItem(event){
+    let itemRowCheckboxReclamation = document.querySelectorAll("#itemRowCheckboxReclamation");
+    if(event.target.checked== true){
+      itemRowCheckboxReclamation.forEach((element)=> {
+        console.log(element);
+        element.className='checked';
+        this.chechedsItems = this.datas;
+      });
+        
+    }else if (event.target.checked== false){
+      itemRowCheckboxReclamation.forEach((element)=> {
+        console.log(element);
+        element.className='unchecked';
+        this.chechedsItems = [];
+      })
+    }
+  }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -61,6 +134,8 @@ open(content) {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
   });
 }
+
+
 updateUser(selected){
   this._serviceAdmin.updateUser({nom:selected.nom,prenom:selected.prenom,telephone:selected.telephone,adresse:selected.adresse,login:selected.login,password:sha1("1234"),nom_entreprise:"null",iduser:selected.iduser}).then(res=>{
     console.log(res);
@@ -108,17 +183,11 @@ getLivraisonByLivreur(id){
     }
   })
 }
-  ngOnInit() {
-    if(localStorage.getItem("currentuser") == null){
-      //this.router.navigate(['/']);
-    }
-    this.listLivreur = [];
-    this._serviceAdmin.getLivreur().then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        this.listLivreur = res['message']
-      }
-    })
-  }
 
+
+  ngOnInit() {
+    this._rclService.getAllReclamations().subscribe((data: any) => {
+      console.log(data)
+    });
+  }
 }

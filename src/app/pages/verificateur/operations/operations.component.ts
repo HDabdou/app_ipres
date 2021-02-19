@@ -12,31 +12,31 @@ import {ReclamationItem} from '../interfaces/interface.operationItem';
 export class OperationsComponent implements OnInit {
   datas : ReclamationItem[]= [
     {
-      operateur: 'Magor Sy',
-      operation: 'Retrait',
+      prenom: 'Magor ',
+      nom: 'Sy',
       date: '12-02-2020',
       montant:530,
       tel: 775562310
     },
     {
-      operateur: 'Adama Goudiaby',
-      operation: 'Dépot',
+      prenom: 'Adama ',
+      nom: 'Goudiaby',
       date: '13-03-2020',
       montant:530,
       tel: 774562310
 
     },
     {
-      operateur: 'ABdule Hamide Dialo',
-      operation: 'Paiemetraitment Facture',
+      prenom: 'ABdule Hamide ',
+      nom: 'Dialo',
       date: '15-04-2021',
       montant:530,
       tel: 776362310
 
     },
     {
-      operateur: 'Naby Ndiaye',
-      operation: 'Dépot',
+      prenom: 'Naby',
+      nom: 'Ndiaye',
       date: '20-02-2020',
       montant:530,
       tel: 779462310
@@ -44,6 +44,25 @@ export class OperationsComponent implements OnInit {
     },
 
   ]
+
+  motcle = null;
+  dataBase:ReclamationItem[] = this.datas;
+
+  searchAll = () => {
+    let value = this.motcle;
+    console.log("PASS", { value });
+  
+    const filterTable = this.dataBase.filter(o =>
+      Object.keys(o).some(k =>
+        String(o[k])
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      )
+    );
+  
+    this.datas = filterTable;
+  }
+  
   listLivreur:any = [];
   closeResult: string;
   selected:any = null;

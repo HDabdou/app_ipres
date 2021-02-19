@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
+import { Session } from 'protractor';
 
 @Component({
   selector: "app-navbar",
@@ -193,17 +194,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === "#") {
-      titlee = titlee.slice(1);
-    }
+    let profile = sessionStorage.getItem('profile');
+    // var titlee = this.location.prepareExternalUrl(this.location.path());
+    // if (titlee.charAt(0) === "#") {
+    //   titlee = titlee.slice(1);
+    // }
 
-    for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return "Dashboard";
+    // for (var item = 0; item < this.listTitles.length; item++) {
+    //   if (this.listTitles[item].path === titlee) {
+    //     return this.listTitles[item].title;
+    //   }
+    // }
+    return profile;
   }
 
   open(content) {

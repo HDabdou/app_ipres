@@ -7,11 +7,13 @@ import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { SidebarVerificateurComponent } from "./sidebarVerificateur/sidebarVerificateur.component";
+
 import { FormsModule } from '@angular/forms';
+import { SidebarClientsComponent } from './sidebarClients/sidebarClients.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,FormsModule,],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent,SidebarVerificateurComponent],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent,SidebarVerificateurComponent,SidebarClientsComponent],
   exports: [FooterComponent, NavbarComponent, SidebarComponent,SidebarVerificateurComponent]
 })
 export class ComponentsModule {}

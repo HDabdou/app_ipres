@@ -14,8 +14,13 @@ import { TablesComponent } from "../../pages/tables/tables.component";
 import { TypographyComponent } from "../../pages/typography/typography.component";
 import { ReclamationComponent } from "../../pages/verificateur/reclamation/reclamation.component";
 import { OperationsComponent } from "../../pages/verificateur/operations/operations.component";
-import { DashboardComponent as DashboardComponentVerif} from "../../pages/verificateur/dashboard/dashboard.component";
+import { DashboardComponentVerif} from "../../pages/verificateur/dashboard/dashboard.component";
+import { ValidationOpsComponent  } from "../../pages/verificateur/validation-ops/validation-ops.component";
+import { ServicesSentollComponent } from 'src/app/pages/client/services-sentoll/services-sentoll.component';
+import { ServicesMakePlaceComponent } from 'src/app/pages/client/services-make-place/services-make-place.component';
+import { OperationsSentollComponent } from 'src/app/pages/client/operations-sentoll/operations-sentoll.component';
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
+
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -37,7 +42,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     MapComponent,
     ReclamationComponent,
     OperationsComponent,
-    DashboardComponentVerif
+    DashboardComponentVerif,
+    ValidationOpsComponent,
+    ServicesSentollComponent,
+    ServicesMakePlaceComponent,
+    OperationsSentollComponent
     // RtlComponent
   ]
 })

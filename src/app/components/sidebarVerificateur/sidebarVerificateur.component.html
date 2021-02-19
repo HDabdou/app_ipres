@@ -16,9 +16,9 @@ border-top-right-radius: 5px;
       *ngFor="let menuItem of menuItems"
       class="{{ menuItem.class }} nav-item"
     >
-      <a [routerLink]="[menuItem.path]">
+      <a [routerLink]="[menuItem.path]" style="font-weight: bold !important;">
         <i class="tim-icons  {{ menuItem.icon }}"></i>
-        <p>{{ menuItem.title }}</p>
+        <p style="font-weight: bold !important;font-size: 0.8rem;">{{ menuItem.title }}</p>
       </a>
     </li>
   </ul>

@@ -16,8 +16,18 @@ import { ComponentsModule } from "./components/components.module";
 import { LoginComponent } from './login/login.component';
 import { ReclamationComponent } from './pages/verificateur/reclamation/reclamation.component';
 import { OperationsComponent } from './pages/verificateur/operations/operations.component';
-import { DashboardComponent } from './pages/verificateur/dashboard/dashboard.component';
+import { DashboardComponentVerif } from './pages/verificateur/dashboard/dashboard.component';
 import { ValidationOpsComponent } from './pages/verificateur/validation-ops/validation-ops.component';
+import {ReclamationService} from './services/verificateur/reclamation.service';
+import { OperationService } from './services/verificateur/operation.service';
+import { ValidationService } from './services/verificateur/validation.service';
+import { DashboardService } from './services/verificateur/dashboard.service';
+import { DashboardVerifComponent } from './pages/verificateur/dashboard-verif/dashboard-verif.component';
+import { ServicesSentollComponent } from './pages/client/services-sentoll/services-sentoll.component';
+import { ServicesMakePlaceComponent } from './pages/client/services-make-place/services-make-place.component';
+import { OperationsSentollComponent } from './pages/client/operations-sentoll/operations-sentoll.component';
+
+
 
 @NgModule({
   imports: [
@@ -28,10 +38,11 @@ import { ValidationOpsComponent } from './pages/verificateur/validation-ops/vali
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, ReclamationComponent, OperationsComponent, DashboardComponent, ValidationOpsComponent,],
-  providers: [],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, DashboardVerifComponent, ServicesSentollComponent, ServicesMakePlaceComponent, OperationsSentollComponent],
+  providers: [ReclamationService,OperationService,ValidationService,DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -109,6 +109,11 @@ open(content) {
       console.log(this.password);
       console.log(this.username);
       
+    }else if(this.username=="c" && this.password=="c"){
+      sessionStorage.setItem('profile','client');
+      console.log(this.password);
+      console.log(this.username);
+      
     }
       
     this.router.navigate(['/admin'])

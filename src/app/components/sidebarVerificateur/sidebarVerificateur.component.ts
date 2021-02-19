@@ -15,15 +15,15 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-chart-pie-36",
     class: ""
   },
-  { 
-    path: "/operations",
-    title: "Opérations",
-    rtlTitle: "الرموز",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
+  // { 
+  //   path: "/operations",
+  //   title: "Opérations",
+  //   rtlTitle: "الرموز",
+  //   icon: "icon-chart-pie-36",
+  //   class: ""
+  // },
   {
-    path: "/validation",
+    path: "/validationsOps",
     title: "Validations",
     rtlTitle: "إخطارات",
     icon: "icon-align-left-2",

@@ -41,8 +41,10 @@ export class AdminLayoutComponent implements OnInit {
     this.changeSidebarColor(this.side);
     this.profile = sessionStorage.getItem('profile');
     if(this.profile=='verificateur'){
-      sessionStorage.removeItem('profile');
       this.router.navigate(['/verificateur'])
+    }
+    else if(this.profile=='client'){
+      this.router.navigate(['/client'])
     }
   }
 }
