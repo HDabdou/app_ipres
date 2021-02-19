@@ -4,6 +4,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
+import { AdminMakerService } from "src/app/services/admin-maker.service";
 
 @Component({
   selector: "app-dashboard",
@@ -38,213 +39,55 @@ export class DashboardComponent implements OnInit {
   typeUtilasateur
   nom_entreprise
   listeLivraison:any =[]
-  listUser:any = []
-  constructor(private _adminService:AdminService,private modalService: NgbModal,private router:Router) {}
-  retourEtAnnuler(){
-    let dd = ((new Date()).toJSON()).split("T",2)[0];
 
-    console.log(this.selected)
-    this.nbrNouveau = 0;
-    this.nbrAssigne = 0;
-    this.nbrLivre = 0;
-    this.nbrCLivraison = 0;
-    this.nbrCenlevement = 0;
-    this.nbrretour = 0;
-    this.nbrAnnuler = 0;
-    if(confirm("Voulez vous annulé cette demande")){
-      this._adminService.retourEtAnnuler({idLivraison:this.selected.idlivraison}).then(res =>{
-        console.log(res);
-        if(res['status'] == true){
-          alert("livaison annulé")
-          this._adminService.getLivraisonAdmin({dateDebut:dd,dateFin:dd}).then(res=>{
-            this.patients = [];
-            this.listLivreur = [];
-            console.log(res);
-            if(res["status"] == true){
-              this.patients = res['message'];
-              this.listeLivraison =  res['message'];
-              //this.nbrUsers = this.patients.length
-              for(let i of this.patients){
-                if(i.Etat == 0){
-                  this.nbrNouveau = this.nbrNouveau + 1;
-                }
-                 if(i.Etat == 1){
-                  this.nbrAssigne = this.nbrAssigne + 1;
-                }
-                 if(i.Etat == 2){
-                  this.nbrCenlevement = this.nbrCenlevement + 1;
-                }
-                if(i.Etat == 3){
-                  this.nbrCLivraison = this.nbrCLivraison + 1;
-                }
-                 if(i.Etat == 4){
-                   if(i.last_modifield.includes(dd)){
-                    this.nbrLivre = this.nbrAssigne + 1;
-                   }
-                  
-                }
-                if(i.Etat == 8){
-                 this.nbrretour = this.nbrretour + 1;
-               }
-               if(i.Etat == 9){
-                this.nbrAnnuler = this.nbrAnnuler + 1;
-              }
-              }
-             
-            }
-           
-          })
-        }else{
-          alert("annulation echoués")
-        }
-      })
-    }
-  }
-  deleteLivraison(){
-    let dd = ((new Date()).toJSON()).split("T",2)[0];
+  etapCreation = 1;
 
-    console.log(this.selected)
-    this.nbrNouveau = 0;
-    this.nbrAssigne = 0;
-    this.nbrLivre = 0;
-    this.nbrCLivraison = 0;
-    this.nbrCenlevement = 0;
-    this.nbrAnnuler = 0;
-    this.nbrAnnuler = 0;
-    if(confirm("Voulez vous supprimé cette demande")){
-      this._adminService.deleteLivraisonByAdmin({idLivraison:this.selected.idlivraison}).then(res =>{
-        console.log(res);
-        if(res['status'] == true){
-          alert("livaison supprimé")
-          this._adminService.getLivraisonAdmin({dateDebut:dd,dateFin:dd}).then(res=>{
-            this.patients = [];
-            this.listLivreur = [];
-            console.log(res);
-            if(res["status"] == true){
-              this.patients = res['message'];
-              this.listeLivraison =  res['message'];
-              //this.nbrUsers = this.patients.length
-              for(let i of this.patients){
-                if(i.Etat == 0){
-                  this.nbrNouveau = this.nbrNouveau + 1;
-                }
-                 if(i.Etat == 1){
-                  this.nbrAssigne = this.nbrAssigne + 1;
-                }
-                 if(i.Etat == 2){
-                  this.nbrCenlevement = this.nbrCenlevement + 1;
-                }
-                if(i.Etat == 3){
-                  this.nbrCLivraison = this.nbrCLivraison + 1;
-                }
-                 if(i.Etat == 4){
-                   if(i.last_modifield.includes(dd)){
-                    this.nbrLivre = this.nbrAssigne + 1;
-                   }
-                  
-                }
-                if(i.Etat == 8){
-                  this.nbrretour = this.nbrretour + 1;
-                }
-                if(i.Etat == 9){
-                  this.nbrAnnuler = this.nbrAnnuler + 1;
-                }
-              }
-             
-            }
-           
-          })
-        }else{
-          alert("suppression echoués")
-        }
-      })
-    }
+  paiements = [
+    {date:'2021-01-05 10:30:31',prenom:"Fallou",nom:"Fall",adresse:'Pikine',telephone:"771154030",montant:"150000",annee:"2021",mois:"Janvier",etat:1},
+    {date:'2021-01-06 11:30:31',prenom:"Fatou",nom:"Dieng",adresse:'Parcelle',telephone:"762214030",montant:"100000",annee:"2021",mois:"Janvier",etat:1},
+    {date:'2021-01-07 12:30:31',prenom:"Abdou",nom:"Diouf",adresse:'Yoff',telephone:"771154030",montant:"90000",annee:"2021",mois:"Janvier",etat:0},
+    {date:'2021-01-11 13:30:31',prenom:"Ibrahima",nom:"Dieye",adresse:'Thies',telephone:"773474030",montant:"130000",annee:"2021",mois:"Janvier",etat:1},
+  ]
+  listUser = [];
+  listeTodisplay = []
+  constructor(private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
+  motcle
+  searchAll = () => {
+    let value = this.motcle;
+    console.log("PASS", { value });
+  let temp = this.paiements
+    const filterTable = this.paiements.filter(o =>
+      Object.keys(o).some(k =>
+        String(o[k])
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      )
+    );
+    this.listeTodisplay = filterTable;
   }
-  assignation(livraison,livrereur){
-    console.log(livraison+"  "+livrereur);
-    let dd = ((new Date()).toJSON()).split("T",2)[0];
-    this._adminService.assignation({idLivrereur:livrereur,idLivraison:livraison}).then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        this.selected.Etat = 1;
-        this.idLivreuer = ""
-        this.modalService.dismissAll()
-        alert("Assignation effectué avec succés")
-        this.nbrNouveau = 0;
-        this.nbrAssigne = 0;
-        this.nbrLivre = 0;
-        this.nbrCLivraison = 0;
-        this.nbrCenlevement = 0;
-        this.nbrretour = 0;
 
-        this.nbrAnnuler = 0
-        this._adminService.getLivraisonAdmin({dateDebut:dd,dateFin:dd}).then(res=>{
-          this.patients = [];
-          this.listLivreur = [];
-          console.log(res);
-          if(res["status"] == true){
-            this.patients = res['message'];
-            //this.nbrUsers = this.patients.length
-            for(let i of this.patients){
-              if(i.Etat == 0){
-                this.nbrNouveau = this.nbrNouveau + 1;
-              }
-               if(i.Etat == 1){
-                this.nbrAssigne = this.nbrAssigne + 1;
-              }
-               if(i.Etat == 2){
-                this.nbrCenlevement = this.nbrCenlevement + 1;
-              }
-              if(i.Etat == 3){
-                this.nbrCLivraison = this.nbrCLivraison + 1;
-              }
-               if(i.Etat == 4){
-                 if(i.last_modifield.includes(dd)){
-                  this.nbrLivre = this.nbrAssigne + 1;
-                 }
-                
-              }
-              if(i.Etat == 8){
-                this.nbrretour = this.nbrretour + 1;
-              }
-              if(i.Etat == 9){
-                this.nbrAnnuler = this.nbrAnnuler + 1;
-              }
-            }
-          
-          }
-        
-        })
-      }else{
-        this.idLivreuer = ""
-        alert("Assignation non effectué !!!")
-      }
-       
-    })
+  inscriptonVerificateur(){
+    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2})
+    this.errorMessage = 2;
+    /*this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2}).then(res =>{
+      console.log(res)
+    })*/
+  }
+  inscriptonOperateur(){
+    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
+    this.errorMessage = 2;
+   /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
+      console.log(res)
+    })*/
+  }
+  inscriptonClient(){
+    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
+    this.errorMessage = 2;
+   /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
+      console.log(res)
+    })*/
+  }
 
-  }
-  inscripton(){
-    this._adminService.checkLogin({login:this.login}).then(re=>{
-      if(re['status'] == true){
-        this._adminService.inscription({nom:this.nom,prenom:this.prenom,telephone:this.tel,adresse:this.adresse,accesslevel:2,login:this.login,password:sha1(this.password)}).then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.errorMessage = 2;
-            this.prenom = undefined;
-            this.nom = undefined;
-            this.tel = undefined;
-            this.adresse = undefined;
-            this.login = undefined;
-            this.password = undefined;
-            this.typeUtilasateur = undefined
-          }
-        })
-      }else{
-        alert('login déjà utilsé');
-      }
-    })
-    
-  }
   reinitialisation(){
     this.prenom = undefined;
     this.nom = undefined;
@@ -254,29 +97,7 @@ export class DashboardComponent implements OnInit {
     this.password = undefined;
     this.nom_entreprise = undefined;
   }
-  inscriptonCorporate(){
-    this._adminService.checkLogin({login:this.login}).then(re=>{
-      if(re['status'] == true){
-        this._adminService.inscriptionCorporate({nom:this.nom,prenom:this.prenom,telephone:this.tel,adresse:this.adresse,accesslevel:4,login:this.login,password:sha1(this.password),nom_entreprise:this.nom_entreprise}).then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.errorMessage = 2;
-            this.prenom = undefined;
-            this.nom = undefined;
-            this.tel = undefined;
-            this.adresse = undefined;
-            this.login = undefined;
-            this.password = undefined;
-            this.nom_entreprise = undefined;
-            this.typeUtilasateur = undefined
-          }
-        })
-      }else{
-        alert('login déjà utilsé');
-      }
-    })
-    
-  }
+
     private getDismissReason(reason: any): string {
       if (reason === ModalDismissReasons.ESC) {
         return 'by pressing ESC';
@@ -293,32 +114,8 @@ export class DashboardComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  open1(content1) {
-    this.modalService.open(content1, {windowClass: 'modal-search'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-  symptomeByUser = [];
-  quatorzaine = [
-    {"jj":"J1","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J2","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J3","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J4","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J5","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J6","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J7","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J8","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J9","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J10","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J11","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J12","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J13","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"","nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"","vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-    {"jj":"J14","date":"","temperature":"","toux":"","difficulteRespirer":"","malGorge":"",
-    "nezBouche":"","conjonctivite":"","mauxtete":"","douleurMusculaire":"","fatigueintense":"",
-    "vomissement":"","diarrhee":"","perteOdorat":"","perteGout":"","autreSigne":"",},
-  ]
+ 
+ 
   
  
   displayDate(date){ 
@@ -362,232 +159,14 @@ nbrCenlevement:number = 0;
 nbrCLivraison:number = 0;
 nbrretour:number = 0;
 nbrAnnuler:number = 0;
-  getLivreur(){
-     this._adminService.getLivreur().then(res=>{
-          if(res['status'] == true){
-            this.listLivreur= res['message'];
-            console.log(this.listLivreur)
-          }
-        })
-  }
-  displayAll(){
-    this.patients = this.listeLivraison;
-  }
-  displayClient(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(this.displayData(i.iduser,"accesslevel") == 3){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayEnlevement(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 2){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayAnnuler(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 9){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayRetour(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 8){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayLivre(){
-    this.patients = [];
-    let dd = ((new Date()).toJSON()).split("T",2)[0];
 
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 4){
-        if(i.last_modifield.includes(dd)){
-        console.log(i)
-          this.patients.push(i)
-        }
-        
-      }
-     
-    }
-  }
-  displayEncours(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 3){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayAssigne(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 1){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  displayNouveau(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      //console.log(this.displayData(i.iduser,"accesslevel"))
-      if(i.Etat == 0){
-        console.log(i)
-          this.patients.push(i)
-        
-      }
-     
-    }
-  }
-  
-  displayCorporate(){
-    this.patients = [];
-    for(let i of this.listeLivraison){
-      console.log(this.displayData(i.iduser,"accesslevel"))
-      if(this.displayData(i.iduser,"accesslevel") == 4){
-        this.patients.push(i)
-      }
-    }
-  }
+
   ngOnInit() {
     if(localStorage.getItem("currentuser") == null){
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }
-    this.nbrNouveau = 0;
-    this.nbrAssigne = 0;
-    this.nbrLivre = 0;
-    this.nbrCLivraison = 0;
-    this.nbrCenlevement = 0;
-    this.nbrretour = 0;
-    this.nbrAnnuler = 0;
-    let dd = ((new Date()).toJSON()).split("T",2)[0];
-    //this._serviceAdmin.historique({dateDebut:dd,dateFin:dd})
-    this._adminService.getLivraisonAdmin({dateDebut:dd,dateFin:dd}).then(res=>{
-      this.patients = [];
-      this.listLivreur = [];
-      console.log(res['message']);
-      if(res["status"] == true){
-        this.patients = res['message'];
-        this.listeLivraison =  res['message'];
-        //this.nbrUsers = this.patients.length
-        for(let i of this.patients){
-          if(i.Etat == 0){
-            this.nbrNouveau = this.nbrNouveau + 1;
-          }
-           if(i.Etat == 1){
-            this.nbrAssigne = this.nbrAssigne + 1;
-          }
-           if(i.Etat == 2){
-            this.nbrCenlevement = this.nbrCenlevement + 1;
-          }
-          if(i.Etat == 3){
-            this.nbrCLivraison = this.nbrCLivraison + 1;
-          }
-           if(i.Etat == 4){
-             if(i.last_modifield.includes(dd)){
-              this.nbrLivre = this.nbrAssigne + 1;
-             }
-            
-          }
-          if(i.Etat == 8){
-            this.nbrretour = this.nbrretour + 1;
-          } 
-          if(i.Etat == 9){
-            this.nbrAnnuler = this.nbrAnnuler + 1;
-          }
-        }
-       
-      }
-     
-    })
-    this._adminService.getUser().then(res=>{
-      if(res['status'] == true){
-        this.listUser= res['message'];
-        console.log(this.listUser)
-        console.log(this.displayData(14,"prenom"))
-      }
-    })
-    setInterval(()=>{
-      console.log("here we go")
-      this.nbrNouveau = 0;
-      this.nbrAssigne = 0;
-      this.nbrLivre = 0;
-      this.nbrCLivraison = 0;
-      this.nbrCenlevement = 0;
-      this.nbrretour = 0;
-      this.nbrAnnuler = 0;
-      this._adminService.getLivraisonAdmin({dateDebut:dd,dateFin:dd}).then(res=>{
-        this.patients = [];
-        this.listLivreur = [];
-        console.log(res);
-        if(res["status"] == true){
-          this.patients = res['message'];
-          //this.nbrUsers = this.patients.length
-          for(let i of this.patients){
-            if(i.Etat == 0){
-              this.nbrNouveau = this.nbrNouveau + 1;
-            }
-             if(i.Etat == 1){
-              this.nbrAssigne = this.nbrAssigne + 1;
-            }
-             if(i.Etat == 2){
-              this.nbrCenlevement = this.nbrCenlevement + 1;
-            }
-            if(i.Etat == 3){
-              this.nbrCLivraison = this.nbrCLivraison + 1;
-            }
-             if(i.Etat == 4){
-               if(i.last_modifield.includes(dd)){
-                this.nbrLivre = this.nbrAssigne + 1;
-               }
-              
-            }
-            if(i.Etat == 8){
-             this.nbrretour = this.nbrretour + 1;
-           }
-           if(i.Etat == 9){
-            this.nbrAnnuler = this.nbrAnnuler + 1;
-          }
-          }
-         
-        }
-       
-      })
-    },180000)
+    this.listeTodisplay = this.paiements
+
 
   }
   public updateOptions() {
@@ -596,59 +175,7 @@ nbrAnnuler:number = 0;
   }
   ids = [];
   datasSaves
-  isInserted(a){
-    for(let i of this.ids){
-      if(i == a){
-        return true;
-      }
-    }
-    return false;
-  }
-  getIds(symptome,value){
-    if(value == "non"){
-      for(let i of this.symptomes){
-        if(this.isInserted(i.id_patient)){
-          this.ids.push(i.id_patient)
-        }
-      }
-    }else{
-      //for(for)
-      if(symptome == 'mg'){
 
-      }
-    }
-  }
-  onKeyFiltreMG(event: any) { // without type info*
-    this.datasSaves = this.patients;
-    /*this.motif = event.target.value;
-    let tabe = [];
-    this.datass = [];
-
-    if(this.motif.trim()=='')
-      this.datass = this.datasSaves;
-    else{
-      this.datasSaves.forEach((ob)=>{
-        if( ((ob.Malgorge).toLowerCase().search(this.motif.toLowerCase()) == 0)  ){
-            tabe.push(ob);
-        }
-      })
-      this.datass = tabe;
-    }*/
-    let tabe =[]
-  if(this.ids.length == 0)
-    this.patients = this.datasSaves;
-  else{
-    for(let i of this.datasSaves){
-      for(let j of this.ids){
-        if(i.id == j){
-          tabe.push(i)
-        }
-      }
-    }
-    this.patients = tabe;
-  }
-    
-}
 displayData(idLivreur,nom){
   for(let i of this.listUser){
     if(i.iduser == idLivreur){

@@ -1,0 +1,156 @@
+<div class=" content">
+    <div class="row" >
+       
+        <div class=" card" >
+            <div class=" card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class=" card-title">Liste des réclamations </h4>
+                    </div>
+                    <div class="col-6">
+                        <button (click)="open(addNewReclamation);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une réclamation</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class=" card-body">
+              <div class=" table-responsive" style="overflow: auto;">
+                <table class=" table tablesorter"  id="" >
+                    <thead class=" text-primary" >
+                      <tr >
+                          <th  >Prénom</th>
+                          <th  >Nom</th>
+                          <th  >Telephone</th>
+                          <th  >Description</th>
+                          <th  >Action</th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody >
+                      <tr class="ligne" *ngFor="let p of listeReclamation" >
+                          <td >{{p.prenom}} </td>
+                          <td >{{p.nom}}</td>
+                          <td >{{p.telephone}}</td>
+                          <td >{{p.description}}</td>
+                          <td >
+                            <b *ngIf="p.etat == 0" style="color: red;">non valider</b>
+                            <b *ngIf="p.etat == 1" style="color: darkgreen;">valider</b>
+                        </td>
+                          <td> <button (click)="open(updateReclamation);this.description= p.description;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+       
+      </div>
+</div>
+
+ 
+ 
+  <ng-template #addNewReclamation let-modal>
+    <div class=" modal-header">
+      <h3> Ajout Réclamation </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;"> Client </label>
+                <select
+                    style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="prenom"
+                    type="text"
+                    [(ngModel)]="this.idclient"
+                    [ngModelOptions]="{standalone: true}"
+                >
+                <option *ngFor="let i of listeClient" value="{{i.id}}">{{i.prenom}} {{i.nom}} {{i.telephone}}</option>
+                </select>
+              </div>
+            </div>
+            <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Réclamation </label>
+                  <textarea class="form-control"
+                  style="border: 2px solid black;"
+                   id="exampleFormControlTextarea1"
+                   placeholder="Description de la réclamation"
+
+                   [(ngModel)]="this.description"
+                   [ngModelOptions]="{standalone: true}"
+                    ></textarea>
+                 
+                </div>
+              </div>
+            <div class=" col-md-12 ">
+              <div class=" form-group" style="text-align: center;">
+                <label style="font-size: 1rem;">  </label>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerAddReclamation();modal.dismiss('Cross click')" >Valider</button>
+
+              </div>
+            </div>
+          </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #updateReclamation let-modal>
+    <div class=" modal-header">
+      <h3> Modifier Réclamation </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+          
+            <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Réclamation </label>
+                  <textarea class="form-control"
+                  style="border: 2px solid black;"
+                   id="exampleFormControlTextarea1"
+                   placeholder="Description de la réclamation"
+
+                   [(ngModel)]="this.description"
+                   [ngModelOptions]="{standalone: true}"
+                    ></textarea>
+                 
+                </div>
+              </div>
+            <div class=" col-md-12 ">
+              <div class=" form-group" style="text-align: center;">
+                <label style="font-size: 1rem;">  </label>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="modal.dismiss('Cross click')" >Valider</button>
+
+              </div>
+            </div>
+          </div>
+    </div>
+  
+  </ng-template>

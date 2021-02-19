@@ -14,6 +14,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 import { LoginComponent } from './login/login.component';
+import { CreateUserComponent } from "./admin/create-user/create-user.component";
+import { UploadFileComponent } from "./admin/upload-file/upload-file.component";
+import { ReclamationComponent } from './admin/reclamation/reclamation.component';
+import { ReclamationOperateurComponent } from './operateur/reclamation-operateur/reclamation-operateur.component';
+import { ClientOperateurComponent } from './operateur/client-operateur/client-operateur.component';
 
 @NgModule({
   imports: [
@@ -26,7 +31,7 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent,],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, CreateUserComponent, UploadFileComponent, ReclamationComponent,  ReclamationOperateurComponent, ClientOperateurComponent,],
   providers: [],
   bootstrap: [AppComponent]
 })

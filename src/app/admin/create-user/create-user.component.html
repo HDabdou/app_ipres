@@ -1,0 +1,304 @@
+<div class=" content">
+    <div class="row" >
+        <div style="text-align: center;width: 100%;">
+          <button (click)="etapCreation = 1"  class="btn btn-fill btn-primary" >Liste Utilisateur</button>
+          <button (click)="etapCreation = 2"  class="btn btn-fill btn-info" >Création Utilisateur</button>
+        </div>
+        <div class=" card" >
+          <div class=" card-header">
+              <div class="row">
+                <div class="col-6" *ngIf="etapCreation == 1">
+                    <h4 class=" card-title">Liste des utilisateur </h4>
+                </div>
+                <div class="col-6" *ngIf="etapCreation == 2">
+                    <h4 class=" card-title">Création d'utilisateur </h4>
+                </div>
+                 
+              </div>
+
+          </div>
+          <div class=" card-body">
+            <div class=" table-responsive" style="overflow: auto;">
+              <table class=" table tablesorter" *ngIf="etapCreation == 1" id="">
+                <thead class=" text-primary" >
+                  <tr >
+                    <th  >Type</th>
+                    <th  >Prénom</th>
+                    <th  >Nom</th>
+                    <th  >Téléphone</th>
+                    <th  >Identifiant</th>
+                    <th  >Action</th>
+                    <th  >Action</th>
+                    <th  >Action</th>
+                  </tr>
+                </thead>
+               
+                <tbody *ngIf="this.listUser.length != 0">
+                  <tr class="ligne" *ngFor="let p of listUser" >
+                    <td >
+                      <p *ngIf="p.access_level == 2">Vérificateur</p> 
+                      <p *ngIf="p.access_level == 3">Opérateur</p> 
+                      <p *ngIf="p.access_level == 4">Client</p> 
+                    </td>
+                    <td >{{p.prenom}} </td>
+                    <td >{{p.nom}}</td>
+                    <td >{{p.telephone}}</td>
+                    <td >{{p.identifiant}}</td>
+                    <td >
+                      <button  (click)="open(updateUser);selected = p"  class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i> modifier</button>
+                    </td>
+                    <td >
+                      <button (click)="open(confirmerDelete);selected = p"  class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i> Supprimer</button>
+                    </td>
+                    <td >
+                      <button *ngIf="p.access_level == 4 && p.etat == 0" (click)="open(confirmerValidate);selected = p"  class="btn btn-fill btn-success" > <i class=" tim-icons icon-check-2"> </i> Valider</button>
+                      <b *ngIf="p.access_level == 4 && p.etat == 1"   style="color: darkgreen;" > <i class=" tim-icons icon-check-2"> </i> Valider</b>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <form  style="min-width: 100%;" *ngIf="etapCreation == 2">
+
+          
+                <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Type d'utilisateur </label>
+                      <select
+                        class=" form-control"
+                        placeholder="prenom"
+                        type="text"
+                        [(ngModel)]="this.typeUtilasateur"
+                        [ngModelOptions]="{standalone: true}"
+                      >
+                      <option value="verificateur">Vérificateur</option>
+                      <option value="operateur">Opérateur</option>
+                    </select>
+                    </div>
+                  </div>
+                  <div class=" col-md-6 " >
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Téléphone </label>
+                      <input
+                        class=" form-control"
+                        placeholder="telephone"
+                        type="text"
+                        [(ngModel)]="this.tel"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                 
+                </div>
+                <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Prénom </label>
+                      <input
+                        class=" form-control"
+                        placeholder="prenom"
+                        type="text"
+                        [(ngModel)]="this.prenom"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Nom </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Nom"
+                        type="text"
+                        [(ngModel)]="this.nom"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Identifiant </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Login"
+                        type="text"
+                        [(ngModel)]="this.login"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-6 ">
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Password </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Mot de passe"
+                        type="password"
+                        [(ngModel)]="this.password"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="typeUtilasateur =='verificateur'" style="text-align: center;">
+                  <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !login || !password" (click)="inscriptonVerificateur();errorMessage = 1" >Créer</button>
+                </div>
+                <div class="col-md-12" *ngIf="typeUtilasateur =='operateur'" style="text-align: center;">
+                  <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !login || !password "   (click)="inscriptonOperateur();errorMessage = 1" >Créer</button>
+                </div>
+             
+              </form>
+            </div>
+          </div>
+        </div>
+
+      
+      </div>
+</div>
+<ng-template #confirmerValidate let-modal>
+  <div class=" modal-header">
+    <h3> confirmer la validation </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body">
+      <h1> Voulez-vous valider le client ? </h1>
+    <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+      <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validete();modal.dismiss('Cross click')" >OUI</button>
+      <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #confirmerDelete let-modal>
+  <div class=" modal-header">
+    <h3> confirmer la suppression </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body">
+      <h1> Voulez-vous supprimer l'utilisateur ? </h1>
+    <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+      <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="delete();modal.dismiss('Cross click')" >OUI</button>
+      <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #updateUser let-modal>
+  <div class=" modal-header">
+    <h3> MODIFICATION  </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body">
+    <form  style="min-width: 100%;" >
+
+          
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+        <div class=" col-md-6 " >
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Téléphone </label>
+            <input
+              style="border:2px solid black;"
+              class=" form-control"
+              placeholder="telephone"
+              type="text"
+              [(ngModel)]="this.selected.telephone"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Identifiant </label>
+            <input
+            style="border:2px solid black;"
+              class=" form-control"
+              placeholder="Login"
+              type="text"
+              [(ngModel)]="this.selected.identifiant"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+      </div>
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+      
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Prénom </label>
+            <input
+            style="border:2px solid black;"
+              class=" form-control"
+              placeholder="prenom"
+              type="text"
+              [(ngModel)]="this.selected.prenom"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Nom </label>
+            <input
+               style="border:2px solid black;"
+              class=" form-control"
+              placeholder="Nom"
+              type="text"
+              [(ngModel)]="this.selected.nom"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      <div class="col-md-12"  style="text-align: center;">
+        <button type="submit" class=" btn btn-fill btn-success" (click)="update();modal.dismiss('Cross click')" >Valider</button>
+      </div>
+     
+   
+    </form>
+  </div>
+
+</ng-template>

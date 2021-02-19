@@ -73,7 +73,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
      }
    };
   ngOnInit() {
-    console.log(JSON.parse(localStorage.getItem('currentuser'))[0].iduser)
+   // console.log(JSON.parse(localStorage.getItem('currentuser'))[0].iduser)
     window.addEventListener("resize", this.updateColor);
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
@@ -193,7 +193,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
+   /* var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === "#") {
       titlee = titlee.slice(1);
     }
@@ -203,7 +203,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return this.listTitles[item].title;
       }
     }
-    return "Dashboard";
+    return "Dashboard";*/
+    return localStorage.getItem('profile');
   }
 
   open(content) {

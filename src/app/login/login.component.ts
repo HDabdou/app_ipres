@@ -103,8 +103,15 @@ open(content) {
   }
   errorMessage:number = 0;
   login(){
-    alert('clicked')
-    this.router.navigate(['/admin'])
+    if(this.username == "a" && this.password == "1"){
+      localStorage.setItem('profile','admin');
+      this.router.navigate(['/admin'])
+    }
+    if(this.username == "o" && this.password == "1"){
+      localStorage.setItem('profile','operateur');
+      this.router.navigate(['/clientOperateur'])
+    }
+    
     
   }
   showNotification(from, align){
