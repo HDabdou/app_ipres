@@ -67,7 +67,6 @@ export const ROUTES: RouteInfo[] = [
 ];
 
 export const ROUTES_VERIFICATEUR: RouteInfo[] = [
-
   {
     path: "/reclamation",
     title: "Réclamation",

@@ -83,7 +83,7 @@
               <button class="btn btn-success"  style="margin-left:5px;margin-bottom: 4px;padding: 9px;margin-top: 0px !important;">Valider</button>
             </div>
   
-            <div class=" table-responsive">
+            <div class=" table-responsive" style="overflow: auto !important;">
               <table class=" table tablesorter" id="">
                 <thead class=" text-primary">
                   <tr>
@@ -97,7 +97,7 @@
                 </thead>
                 <tbody >
                 
-                  <tr *ngFor="let l of datas" >
+                  <tr *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }">
                     <td><span class='unchecked' (click)="cheickedItem($event,l)" id="itemRowCheckboxReclamation">o</span></td>
                     <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
                     <td>{{l.tel}}</td>
@@ -107,6 +107,9 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="list">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+              </div>
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ import {ReclamationService} from '../../../services/verificateur/reclamation.ser
 })
 export class ReclamationComponent implements OnInit {
 
+  loader = false;
 
   datas : ReclamationItem[]= [
     {
@@ -74,10 +75,15 @@ export class ReclamationComponent implements OnInit {
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {}
+  collection = []
+  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {
+    for (let i = 1; i <= 100; i++) {
+      this.collection.push(`item ${i}`);
+    }
+  }
 
   
+
   indexObj(tab,obj,key){
     for (let index = 0; index < tab.length; index++) {
       if(tab[index][key]==obj[key]){
@@ -86,7 +92,7 @@ export class ReclamationComponent implements OnInit {
     }
   }
 
-
+  
   cheickedItem(event,l){
     let  index = null;
     console.log(l,event.target.className);
@@ -183,6 +189,17 @@ getLivraisonByLivreur(id){
     }
   })
 }
+
+validerLaReclammation (obj:ReclamationItem){
+  console.log(obj);
+  this.loader = true;
+}
+
+validerLesReclamationSelectionnes (){
+  console.log(this.chechedsItems);
+  this.loader = true;
+} 
+
 
 
   ngOnInit() {
