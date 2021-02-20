@@ -22,7 +22,7 @@
                     </thead>
                    
                     <tbody >
-                      <tr class="ligne" *ngFor="let p of this.listeReclamation" >
+                      <tr class="ligne" *ngFor="let p of this.listeReclamation | paginate: { itemsPerPage: 10, currentPage: p}" >
                           <td >{{p.operation.prenom}}</td>
                           <td >{{p.operation.nom}}</td>
                           <td >{{p.operation.montant}}</td>
@@ -35,6 +35,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
               </div>
             </div>
           </div>

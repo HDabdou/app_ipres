@@ -34,7 +34,7 @@
                 </thead>
                
                 <tbody >
-                  <tr class="ligne" *ngFor="let p of listUser" >
+                  <tr class="ligne" *ngFor="let p of listUser | paginate: { itemsPerPage: 10, currentPage: p }" >
                     <td >
                       <p *ngIf="p.accessLevel == 2">Vérificateur</p> 
                       <p *ngIf="p.accessLevel == 3">Opérateur</p> 
@@ -57,6 +57,8 @@
                   </tr>
                 </tbody>
               </table>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
               <form  style="min-width: 100%;" *ngIf="etapCreation == 2">
 
           

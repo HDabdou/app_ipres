@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   listeLivraison:any =[]
 
   etapCreation = 1;
-
+  itemsPerPage
   paiements = [
     {date:'2021-01-05 10:30:31',prenom:"Fallou",nom:"Fall",adresse:'Pikine',telephone:"771154030",montant:"150000",annee:"2021",mois:"Janvier",etat:1},
     {date:'2021-01-06 11:30:31',prenom:"Fatou",nom:"Dieng",adresse:'Parcelle',telephone:"762214030",montant:"100000",annee:"2021",mois:"Janvier",etat:1},

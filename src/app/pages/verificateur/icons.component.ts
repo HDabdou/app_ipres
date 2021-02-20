@@ -10,6 +10,6 @@ import { Router } from '@angular/router';
 export class IconsComponent implements OnInit {
   router:Router;
   ngOnInit() {
-    this.router.navigate(['/dashboardVerif'])
+    //this.router.navigate(['/dashboardVerif'])
   }
 }

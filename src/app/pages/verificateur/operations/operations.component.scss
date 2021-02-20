@@ -24,3 +24,12 @@ table input[type=checkbox] {
     margin-left: 0.2rem;
     margin-top: -0.5rem !important;
 }
+
+.table-responsive {
+    overflow: auto !important;
+    padding-bottom: 10px;
+}
+
+.modal-content{
+    overflow: auto !important;
+}

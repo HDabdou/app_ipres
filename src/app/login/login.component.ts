@@ -22,7 +22,10 @@ export class LoginComponent implements OnInit {
   newPassword;
   confirmPassword;
   idUserForChange:any;
-  constructor(private modalService: NgbModal,private router:Router,private _adminService:AdminService,private toastr: ToastrService) {}
+  collection = [];
+  constructor(private modalService: NgbModal,private router:Router,private _adminService:AdminService,private toastr: ToastrService) {
+
+  }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -116,7 +119,7 @@ open(content) {
     
     if(this.username=="v" && this.password=="v"){
       sessionStorage.setItem('profile','verificateur');
-      this.router.navigate(['/reclamation'])
+      this.router.navigate(['/verificateur'])
       
     }else if(this.username=="c" && this.password=="c"){
       sessionStorage.setItem('profile','client');

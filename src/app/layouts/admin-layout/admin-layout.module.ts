@@ -29,6 +29,9 @@ import { UploadFileComponent } from "src/app/admin/upload-file/upload-file.compo
 import { ReclamationOperateurComponent } from "src/app/operateur/reclamation-operateur/reclamation-operateur.component";
 import { ClientOperateurComponent } from "src/app/operateur/client-operateur/client-operateur.component";
 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -36,6 +39,8 @@ import { ClientOperateurComponent } from "src/app/operateur/client-operateur/cli
     FormsModule,
     HttpClientModule,
     NgbModule,
+    NgxPaginationModule
+
   ],
   declarations: [
     DashboardComponent,
@@ -57,6 +62,8 @@ import { ClientOperateurComponent } from "src/app/operateur/client-operateur/cli
      UploadFileComponent,
     ReclamationOperateurComponent,
       ClientOperateurComponent,
+      AdminReclamationComponent
+      
     // RtlComponent
   ]
 })

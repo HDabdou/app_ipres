@@ -37,7 +37,7 @@
                     </thead>
                    
                     <tbody >
-                      <tr class="ligne" *ngFor="let p of listeExcel" >
+                      <tr class="ligne" *ngFor="let p of listeExcel | paginate: { itemsPerPage: 20, currentPage: p}" >
                         <td >{{p.code}} </td>
                         <td >{{p.prenom}} </td>
                         <td >{{p.nom}}</td>
@@ -50,6 +50,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
               </div>
             </div>
           </div>
