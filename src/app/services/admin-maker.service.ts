@@ -5,8 +5,14 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdminMakerService {
+/*************************************************** */
+// *****************Service admin général maker**************
+/*************************************************** */
 
+
+  //l'url de base
   private url = "http://localhost:8088/midleware_ipres/index.php";
+  //Headers
   private header :HttpHeaders;
 
   constructor(private http: HttpClient) {
@@ -14,12 +20,62 @@ export class AdminMakerService {
 
    }
    
+   // CreateUser est une fonction de création des utilisateurs : Vérificatteur, Opérateur et client
    public createUser(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    
+    let link=this.url+"/ipres/admin/createuser";
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+  }
+  // deleteUser supprimé un utilisateur
+  public deleteUser(param): Promise<any>{
      let params="param="+JSON.stringify(param);
      console.log(params);
      
-     let link=this.url+"/ipres/createuser";
-     return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+     let link=this.url+"/ipres/admin/deleteUser";
+     return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
    } 
-   
+   //Traiter Réclamation
+   public traiterReclamation(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    
+    let link=this.url+"/ipres/admin/traiterReclamation";
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+   //updateUser permet de modifier un user
+  public updateUser(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    
+    let link=this.url+"/ipres/admin/updateUser";
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+  //saveUpload permet d'enregistrer sur la base le fichier upload
+  public saveUpload(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    
+    let link=this.url+"/ipres/admin/saveUpload";
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+    // getAllUsers est une fonction qui permet de récuperer tous les utilisateurs sauf admin général
+    public getAllUsers(): Promise<any>{
+      let params //="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/admin/getAllUsers";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    // getReclamation pour obtenir la liste des réclamation 
+    public getReclamation(): Promise<any>{
+      let params //="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/admin/getReclamation";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    
+       
 }

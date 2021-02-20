@@ -21,6 +21,7 @@ export class UploadFileComponent implements OnInit {
   errorMessage = 0;
   closeResult: string;
   paramMontant
+  code
   constructor(private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
 
   selected
@@ -31,7 +32,7 @@ export class UploadFileComponent implements OnInit {
     this.paramMontant = undefined;
   }
   fileName:any;
-  listeExcel
+  listeExcel = []
   file
   data
   listeRecrutement
@@ -95,11 +96,19 @@ export class UploadFileComponent implements OnInit {
   addLigne(){
     this.annee = new Date(this.date).toJSON().split('T')[0][0];
     this.mois = new Date(this.date).toJSON().split('T')[0][1];
-    console.log({prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois})
-    this.listeExcel.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois});
+    console.log({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois})
+    this.listeExcel.push({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:parseInt(this.mois)+1});
 
   }
-
+  saveUpload(){
+    this._adminService.saveUpload({ops:this.listeExcel}).then(res=>{
+      console.log(res.status)
+      if(res.status == 1){
+       
+      }
+    })
+    this.listeExcel = []
+  }
   ngOnInit(): void {
   }
 

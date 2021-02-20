@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdminMakerService } from 'src/app/services/admin-maker.service';
 
 @Component({
-  selector: 'app-reclamation',
-  templateUrl: './reclamationAdmin.component.html',
-  styleUrls: ['./reclamationAdmin.component.scss']
+  selector: 'app-admin-reclamation',
+  templateUrl: './admin-reclamation.component.html',
+  styleUrls: ['./admin-reclamation.component.scss']
 })
-export class ReclamationAdminComponent implements OnInit {
+export class AdminReclamationComponent implements OnInit {
+
   closeResult
   selected;
-  listeReclamation = [
-    {prenom:"Abdoulaye",nom:"Diouf",description:"il n'a pas reçu sa pension",etat:0},
-    {prenom:"Fatou",nom:"Diop",description:"il n'a pas reçu sa pension",etat:0},
-    {prenom:"Demba",nom:"Gueye",description:"il n'a pas reçu sa pension",etat:0},
-    {prenom:"Adama",nom:"Barry",description:"il n'a pas reçu sa pension",etat:0},
-    {prenom:"Ibrahima",nom:"Dieng",description:"il n'a pas reçu sa pension",etat:0},
-  ]
+  listeReclamation = []
  
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal,private _adminService:AdminMakerService) { }
   validerTraitement(){
-    this.selected.etat = 1
+    
+    this._adminService.traiterReclamation({idReclamation:this.selected.reclamation.id,etat:1,idAdmin:2}).then(res=>{
+      console.log(res)
+      this.selected.reclamation.etat = 1
+    })
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -38,8 +38,10 @@ open(content) {
   });
 }
   ngOnInit(): void {
-    console.log(this.listeReclamation)
-   
+    this._adminService.getReclamation().then(res=>{
+      console.log(res)
+      this.listeReclamation = res['data']
+    })
   }
 
 }

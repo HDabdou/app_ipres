@@ -28,6 +28,7 @@ import {ReclamationService} from './services/verificateur/reclamation.service';
 import { OperationService } from './services/verificateur/operation.service';
 import { ValidationService } from './services/verificateur/validation.service';
 import { DashboardService } from './services/verificateur/dashboard.service';
+import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { DashboardService } from './services/verificateur/dashboard.service';
     
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent,],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, AdminReclamationComponent,],
   providers: [ReclamationService,OperationService,ValidationService,DashboardService],
 
   bootstrap: [AppComponent]

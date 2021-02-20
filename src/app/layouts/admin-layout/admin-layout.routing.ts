@@ -17,8 +17,8 @@ import { ValidationOpsComponent  } from "../../pages/verificateur/validation-ops
 import { ServicesSentollComponent } from 'src/app/pages/client/services-sentoll/services-sentoll.component';
 import { ServicesMakePlaceComponent } from 'src/app/pages/client/services-make-place/services-make-place.component';
 import { OperationsSentollComponent } from 'src/app/pages/client/operations-sentoll/operations-sentoll.component';
-import { ReclamationAdminComponent } from "src/app/admin/reclamation-admin/reclamationAdmin.component";
 import { ReclamationComponent } from "src/app/pages/verificateur/reclamation/reclamation.component";
+import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
 
 
 // import { RtlComponent } from "src/app/pages/pages/rtl/rtl.component";
@@ -29,7 +29,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "admin", component: DashboardComponent },
   { path: "createUse", component: CreateUserComponent },
   { path: "uploadFile", component: UploadFileComponent },
-  { path: "reclamationAdmin", component: ReclamationAdminComponent },
+  { path: "reclamationAdmin", component: AdminReclamationComponent },
   { path: "clientOperateur", component: ClientOperateurComponent },
   { path: "reclamationOperateur", component: ReclamationOperateurComponent },
 

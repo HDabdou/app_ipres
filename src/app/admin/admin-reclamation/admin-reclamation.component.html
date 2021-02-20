@@ -13,8 +13,9 @@
                 <table class=" table tablesorter"  id="" >
                     <thead class=" text-primary" >
                       <tr >
-                          <th  >Prénom initiateur</th>
-                          <th  >Nom initiateur</th>
+                          <th  >Prénom Client</th>
+                          <th  >Nom Client</th>
+                          <th  >Montant</th>
                           <th  >Description</th>
                           <th  >Action</th>
                       </tr>
@@ -22,13 +23,14 @@
                    
                     <tbody >
                       <tr class="ligne" *ngFor="let p of this.listeReclamation" >
-                          <td >{{p.prenom}}</td>
-                          <td >{{p.nom}}</td>
-                          <td >{{p.description}}</td>
+                          <td >{{p.operation.prenom}}</td>
+                          <td >{{p.operation.nom}}</td>
+                          <td >{{p.operation.montant}}</td>
+                          <td >{{p.reclamation.description}}</td>
                          
                           <td> 
-                            <button *ngIf="p.etat == 0" (click)="open(confirmerTraitement);selected = p;"   class="btn btn-fill btn-success" > Traiter</button>
-                            <b *ngIf="p.etat == 1" style="color: darkgreen;"  > réclamation traitée</b>
+                            <button *ngIf="p.reclamation.etat == 0" (click)="open(confirmerTraitement);selected = p;"   class="btn btn-fill btn-success" > Traiter</button>
+                            <b *ngIf="p.reclamation.etat == 1" style="color: darkgreen;"  > réclamation traitée</b>
                         </td>
                       </tr>
                     </tbody>
@@ -60,7 +62,7 @@
       </div>
     </div>
     <div class="modal-body">
-        <h1> Voulez-vous confirmer la réclamation ? </h1>
+        <h1> Voulez-vous Traiter la réclamation ? </h1>
       <div  class="form-group" style="margin-left: 3rem; text-align: center;">
         <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerTraitement();modal.dismiss('Cross click')" >OUI</button>
         <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
