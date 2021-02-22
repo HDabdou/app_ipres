@@ -1,17 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperationService {
 
-  configUrl = 'http://www.cloudpharma.org/backendpharma/public/index.php/api/produit/getBuyedProducts';
+  private url = "https://3e5f2e217a0a.ngrok.io/midleware_ipres/index.php";
+  private header :HttpHeaders;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
-  getAllReclamations (){
-    console.log('service reclamation');
-    return this._http.post(this.configUrl,{});
-  }
+   }
+
+
+  public getOperations(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    let link=this.url+ '/ipres/verificateur/getOperations';
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+
+  public validerOperations(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    let link=this.url+ '/ipres/verificateur/validerOperations';
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
 }

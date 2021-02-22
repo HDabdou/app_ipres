@@ -41,7 +41,7 @@
                     <td>{{l.montant}}</td>
                     <td>{{l.tel}}</td>
                     <td>{{l.date}}</td>
-                    <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">...</button> <button class="btn btn-danger" (click)="selected = l;open(contentValiderItem);" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2"> </i></button> </td>
+                    <td> <button class="btn btn-danger" (click)="selected = l;this.loader=false;open(contentValiderItem);" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2">Valider </i></button> </td>
                   </tr>
                 </tbody>
               </table>
@@ -75,12 +75,27 @@
         <div class="row">
           <div class="col-12" style="text-align: center;" *ngIf="this.loader==false">
             <h1 class=" card-title">Voulez-vous vraiment valider cette opération ?</h1>
-            <button class=" btn btn-fill btn-danger" type="submit" (click)="validerLaDemande(this.selected)" (keyup.enter)="login()">Valider</button>
+            <button class=" btn btn-fill btn-danger" type="submit" (click)="this.loader=true;validerLaDemande(this.selected)" (keyup.enter)="login()">Valider</button>
           </div>
 
-          <div class="col-12 loader" *ngIf="this.loader==true" style="text-align: center;">
-            <p>loading .... </p> 
-            <button  class=" btn btn-fill btn-default" (click)="this.loader=false; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+            <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+          </div>
+
+          <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+            <div class="dummy-positioning d-flex">
+  
+              <div class="success-icon">
+                <div class="success-icon__tip"></div>
+                <div class="success-icon__long"></div>
+              </div>
+              
+            </div>    
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          </div>
+          <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+          
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
           </div>
         </div>
       </div>
@@ -106,10 +121,10 @@
         <div class="row">
           <div class="col-12" style="text-align: center;" *ngIf="this.loader==false">
             <h1 class=" card-title">Voulez-vous vraiment valider cette liste d'opération ?</h1>
-            <button  class=" btn btn-fill btn-danger" type="submit" (click)="validerLaDemandeSelectionnes()" (keyup.enter)="login()">Valider</button>
+            <button  class=" btn btn-fill btn-danger" type="submit" (click)="validerLesReclamationSelectionnes()" (keyup.enter)="login()">Valider</button>
           </div>
           <div class="col-12 loader" *ngIf="this.loader==true" style="text-align: center;">
-            <p>loading .... </p> 
+            <div class="loader" style="text-align: center;margin-left: 45%;"></div>
             <button  class=" btn btn-fill btn-default" (click)="this.loader=false; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
           </div>
         </div>

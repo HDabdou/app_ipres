@@ -5,4 +5,5 @@ export interface ReclamationItem {
      descrition:string;
      date:string
      etat:string;
+     idReclamation:number;
 }

@@ -8,11 +8,328 @@
               <div class="card-body">
                 <h2 class="card-title">{{l.nom}}</h2>
                 <p class="card-text">{{ l.description }}</p>
-                <a href="#0" class="btn btn-primary">{{l.text}}</a>
+                <a href="#0"  (click)="open(content,l.nom);"class="btn btn-primary">{{l.text}}</a>
               </div>
             </div>
           </div>
         </div>
+
+          
+        <ng-template #content let-modal>
+          <div class="modal-content" style="overflow: auto !important;min-width: 130% !important;margin-left: -10rem;overflow: auto !important;margin-top:-4rem !important;" >
+            <div class=" modal-header">
+        
+              <button
+                aria-label="Close"
+                class=" close"
+                data-dismiss="modal"
+                type="button"
+                (click)="modal.dismiss('Cross click')"
+              >
+                <i class=" tim-icons icon-simple-remove"> </i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <h1 class=" card-title"  style="text-align: center;">{{this.serviceTitre}}</h1>
+                </div>
+                <div *ngIf="this.serveForm=='Retrait'" class="col-12" style="text-align: center;">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.service"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Orange Money</option>
+                      <option value="2">Tigo Cash</option>
+                      <option value="3">autre</option>
+                  </select>
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Telephone :</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Téléphone"
+                      type="text"
+                      [(ngModel)]="this.telephone"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Montant :</label>
+                    <input
+                      class="form-control"
+                      placeholder="Montant"
+                      type="text"
+                      [(ngModel)]="this.montant"
+                      [ngModelOptions]="{standalone: true}"
+                      
+                    />
+                  </div>
+
+                  <button
+                  class="btn btn-default"
+                  type="button"
+                  (click)="modal.dismiss('Cross click')"
+                  style="margin: 2rem;"
+                >
+                  Annuler
+                </button>
+
+                <button
+                class="btn btn-danger"
+                type="button"
+                style="margin: 2rem;"
+              >
+                Valider
+              </button>
+
+                </div>
+                <div *ngIf="this.serveForm=='Transfert'" class="col-12" style="text-align: center;">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.service"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Orange Money</option>
+                      <option value="2">Tigo Cash</option>
+                      <option value="3">autre</option>
+                  </select>
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Mon Telephone :</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Téléphone"
+                      type="text"
+                      [(ngModel)]="this.montelephone"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Son Telephone :</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Téléphone"
+                      type="text"
+                      [(ngModel)]="this.sontelephone"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Montant :</label>
+                    <input
+                      class="form-control"
+                      placeholder="Montant"
+                      type="text"
+                      [(ngModel)]="this.montant"
+                      [ngModelOptions]="{standalone: true}"
+                      
+                    />
+                  </div>
+                  <button
+                      class="btn btn-default"
+                      type="button"
+                      (click)="modal.dismiss('Cross click')"
+                      style="margin: 2rem;"
+                    >
+                      Annuler
+                  </button>
+
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    style="margin: 2rem;"
+                  >
+                    Valider
+                  </button>
+                </div>
+
+                <div *ngIf="this.serveForm=='Paiement Facture'" class="col-12" style="text-align: center;">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.service"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Orange Money</option>
+                      <option value="2">Tigo Cash</option>
+                      <option value="3">autre</option>
+                  </select>
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Référence:</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Référence"
+                      type="text"
+                      [(ngModel)]="this.referenceFacture"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Montant :</label>
+                    <input
+                      class="form-control"
+                      placeholder="Montant"
+                      type="text"
+                      [(ngModel)]="this.montant"
+                      [ngModelOptions]="{standalone: true}"
+                      
+                    />
+                  </div>
+                  <button
+                      class="btn btn-default"
+                      type="button"
+                      (click)="modal.dismiss('Cross click')"
+                      style="margin: 2rem;"
+                    >
+                      Annuler
+                  </button>
+
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    style="margin: 2rem;"
+                  >
+                    Valider
+                  </button>
+                </div>
+
+                <div *ngIf="this.serveForm=='Recharge Bancaire'" class="col-12" style="text-align: center;">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.service"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Orange Money</option>
+                      <option value="2">Tigo Cash</option>
+                      <option value="3">autre</option>
+                  </select>
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Compte:</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Numéro du compte"
+                      type="text"
+                      [(ngModel)]="this.numCompte"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Montant :</label>
+                    <input
+                      class="form-control"
+                      placeholder="Montant"
+                      type="text"
+                      [(ngModel)]="this.montant"
+                      [ngModelOptions]="{standalone: true}"
+                      
+                    />
+                  </div>
+                  <button
+                      class="btn btn-default"
+                      type="button"
+                      (click)="modal.dismiss('Cross click')"
+                      style="margin: 2rem;"
+                    >
+                      Annuler
+                  </button>
+
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    style="margin: 2rem;"
+                  >
+                    Valider
+                  </button>
+                </div>
+
+
+                <div *ngIf="this.serveForm=='Abonement Tv'" class="col-12" style="text-align: center;">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.service"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Orange Money</option>
+                      <option value="2">Tigo Cash</option>
+                      <option value="3">autre</option>
+                  </select>
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Numéro:</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Numéro"
+                      type="text"
+                      [(ngModel)]="this.numCompte"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Type :</label>
+                    <select
+                          class=" form-control"
+                          [(ngModel)]="this.service"
+                          [ngModelOptions]="{standalone: true}">
+                          <option value="1">Maana</option>
+                          <option value="2">Bul Xol </option>
+                    </select>
+                 </div>
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;">Montant :</label>
+                    <input
+                      class="form-control"
+                      placeholder="Montant"
+                      type="text"
+                      [(ngModel)]="this.montant"
+                      [ngModelOptions]="{standalone: true}"
+                      
+                    />
+                  </div>
+                  <button
+                      class="btn btn-default"
+                      type="button"
+                      (click)="modal.dismiss('Cross click')"
+                      style="margin: 2rem;"
+                    >
+                      Annuler
+                  </button>
+
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    style="margin: 2rem;"
+                  >
+                    Valider
+                  </button>
+                </div>
+                
+                <div *ngIf="this.serveForm=='Assurance'" class="col-12" style="text-align: center;">
+
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+          
+        
+        </ng-template>
+  
       </div>
     </div>
+
   </div>

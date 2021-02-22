@@ -96,7 +96,7 @@ export const ROUTES_CLIENT: RouteInfo[] = [
 
   { 
     path: "/operationsSentool",
-    title: "Opérations Sentool",
+    title: "Historique",
     rtlTitle: "الرموز",
     icon: "icon-chart-pie-36",
     class: ""
@@ -111,7 +111,7 @@ export const ROUTES_CLIENT: RouteInfo[] = [
   },
   {
     path: "/servicesMakePlace",
-    title: "Services Make Place",
+    title: "Market Place",
     rtlTitle: "خرائط",
     icon: "icon-bank",
     class: "" 

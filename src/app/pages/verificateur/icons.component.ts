@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
   templateUrl: "icons.component.html"
 })
 export class IconsComponent implements OnInit {
-  router:Router;
+
+  constructor (private router:Router){
+
+  }
   ngOnInit() {
     this.router.navigate(['/dashboardVerif'])
   }

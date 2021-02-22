@@ -4,6 +4,9 @@ import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.operationItem';
+import { OperationService } from 'src/app/services/verificateur/operation.service';
+import { OperationsClientItem } from '../../client/interfaces/interface.OperationsClientItem';
+import { abort } from 'process';
 
 @Component({
   selector: 'app-validation-ops',
@@ -12,39 +15,12 @@ import {ReclamationItem} from '../interfaces/interface.operationItem';
 })
 export class ValidationOpsComponent implements OnInit {
   datas : ReclamationItem[]= [
-    {
-      prenom: 'Magor ',
-      nom: 'Sy',
-      date: '12-02-2020',
-      montant:530,
-      tel: 775562310
-    },
-    {
-      prenom: 'Adama Goudiaby',
-      nom: 'Dépot',
-      date: '13-03-2020',
-      montant:530,
-      tel: 774562310
-
-    },
-    {
-      prenom: 'ABdule Hamide Dialo',
-      nom: 'Paiemetraitment Facture',
-      date: '15-04-2021',
-      montant:530,
-      tel: 776362310
-    },
-    {
-      prenom: 'Naby',
-      nom: 'Ndiaye',
-      date: '20-02-2020',
-      montant:530,
-      tel: 779462310
-    },
+    
 
   ]
 
-  loader=false;
+  loader=null;
+  success = null;
 
   chechedsItems = [];
 
@@ -70,7 +46,7 @@ export class ValidationOpsComponent implements OnInit {
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router) {}
+  constructor(private modalService: NgbModal,private router:Router,private _oprService:OperationService) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -88,68 +64,48 @@ export class ValidationOpsComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
     }
-    updateUser(selected){
-      this._serviceAdmin.updateUser({nom:selected.nom,prenom:selected.prenom,telephone:selected.telephone,adresse:selected.adresse,login:selected.login,password:sha1("1234"),nom_entreprise:"null",iduser:selected.iduser}).then(res=>{
-        console.log(res);
-        if(res['status'] == true){
-          this.modalService.dismissAll()
-          alert("Utilisateur mise à jour");
-          this.selected = null;
 
-        }else{
-          this.modalService.dismissAll()
-          alert("Erreur mise à jour");
-        }
-      })
-    }
-    deleteUser(id){
-      console.log(id)
-      if(confirm("Voulez vous supprimé ce Livreur ?")){
-        this._serviceAdmin.deleteUser({iduser:id}).then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            alert('Livreur supprimé')
-            this.listLivreur = [];
-            this._serviceAdmin.getLivreur().then(res=>{
-              console.log(res);
-              if(res['status'] == true){
-                this.listLivreur = res['message']
-                this.open('content')
-              }
-            })
-          }else{
-            alert("Suppression erreur");
-          }
-        })
-      }
     
+    
+    
+    
+    parseDatas (dataRest):any{
+      let arr:any=[];
+      dataRest.forEach(element => {
+        arr.push({
+          prenom:element.prenom,
+          nom:element.nom,
+          date:element.updated_at,
+          montant:element.montant,
+          tel:element.telephone,
+          obj:element
+        });
+      });
+      return arr;
     }
 
-    getLivraisonByLivreur(id){
-      this.listLivraisonByLivreur= [];
-      this._serviceAdmin.getLivraisonLivreur({iduser:id}).then(res=>{
-        console.log(res);
-        if(res['status'] = true){
-          this.listLivraisonByLivreur = res['message'];
-        
-        }
-      })
-    }
+    
       ngOnInit() {
-        if(localStorage.getItem("currentuser") == null){
-          //this.router.navigate(['/']);
-        }
-        this.listLivreur = [];
-        this._serviceAdmin.getLivreur().then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.listLivreur = res['message']
-          }
-        })
+        this._oprService.getOperations({}).then((data: any) => {
+          console.log(data)
+          this.datas = this.dataBase = this.parseDatas(data.op);
+        });
       }
 
-    validerLaDemande (obj:ReclamationItem){
+    validerLaDemande (obj){
+      let listeOPerations = [];
+      listeOPerations.push(obj.obj);
       console.log(obj);
+      this.loader = true;
+
+      console.log(listeOPerations);
+      this._oprService.validerOperations({op:listeOPerations}).then(rep => {
+        console.log(rep);       
+        if(rep.status==1){
+          this.loader = null;
+          this.success = true;
+        }
+      });
       this.loader = true;
     }
 

@@ -134,15 +134,6 @@ getLivraisonByLivreur(id){
   })
 }
   ngOnInit() {
-    if(localStorage.getItem("currentuser") == null){
-      //this.router.navigate(['/']);
-    }
-    this.listLivreur = [];
-    this._serviceAdmin.getLivreur().then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        this.listLivreur = res['message']
-      }
-    })
+
   }
 }

@@ -15,39 +15,11 @@ import {ReclamationService} from '../../../services/verificateur/reclamation.ser
 })
 export class ReclamationComponent implements OnInit {
 
-  loader = false;
+  success = null;
 
-  datas : ReclamationItem[]= [
-    {
-      nom: 'Magor Sy',
-      prenom: 'Sy',
-      descrition:'description de la reclamation',
-      date: '12-02-2020',
-      etat:'corrigé'
-    },
-    {
-      nom: 'Adama Goudiaby',
-      prenom: 'Goudiaby',
-      descrition:'description de la reclamation',
-      date: '13-03-2020',
-      etat:'en attente'
-    },
-    {
-      nom: 'ABdule Hamide Dialo',
-      prenom: 'Paiemetraitment Facture',
-      descrition:'description de la reclamation',
-      date: '15-04-2021',
-      etat:'corrigé'
-    },
-    {
-      nom: 'Naby Ndiaye',
-      prenom: 'Dépot',
-      descrition:'description de la reclamation',
-      date: '20-02-2020',
-      etat:'en attente'
-    },
+  loader = null;
 
-  ]
+  datas : ReclamationItem[]= [ ]
 
   chechedsItems = [];
 
@@ -142,56 +114,44 @@ open(content) {
 }
 
 
-updateUser(selected){
-  this._serviceAdmin.updateUser({nom:selected.nom,prenom:selected.prenom,telephone:selected.telephone,adresse:selected.adresse,login:selected.login,password:sha1("1234"),nom_entreprise:"null",iduser:selected.iduser}).then(res=>{
-    console.log(res);
-    if(res['status'] == true){
-      this.modalService.dismissAll()
-      alert("Utilisateur mise à jour");
-      this.selected = null;
 
-    }else{
-      this.modalService.dismissAll()
-      alert("Erreur mise à jour");
-    }
-  })
-}
-deleteUser(id){
-  console.log(id)
-  if(confirm("Voulez vous supprimé ce Livreur ?")){
-    this._serviceAdmin.deleteUser({iduser:id}).then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        alert('Livreur supprimé')
-        this.listLivreur = [];
-        this._serviceAdmin.getLivreur().then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.listLivreur = res['message']
-            this.open('content')
-          }
-        })
-      }else{
-        alert("Suppression erreur");
-      }
-    })
-  }
- 
+
+parseDatas (dataRest):ReclamationItem[]{
+  let arr:ReclamationItem[]=[];
+  dataRest.forEach(element => {
+    arr.push({
+      nom:element.operation.nom,
+      prenom:element.operation.prenom,
+      descrition:element.reclamation.description,
+      date:element.reclamation.updated_at,
+      etat:element.reclamation.etat,
+      idReclamation: element.reclamation.id,
+    });
+  });
+  return arr;
 }
 
-getLivraisonByLivreur(id){
-  this.listLivraisonByLivreur= [];
-  this._serviceAdmin.getLivraisonLivreur({iduser:id}).then(res=>{
-    console.log(res);
-    if(res['status'] = true){
-      this.listLivraisonByLivreur = res['message'];
-     
-    }
-  })
-}
+
 
 validerLaReclammation (obj:ReclamationItem){
-  console.log(obj);
+  console.log({idAdmin:6,idReclamation:obj.idReclamation,etat:1});
+  this._rclService.setTraiterReclamation({idAdmin:6,idReclamation:obj.idReclamation,etat:1}).then(rep => {
+    if(rep.statut==1){
+      this.loader = null;
+      this.success = true;
+    }
+  });
+  this.loader = true;
+}
+
+modifierLaReclammation (obj:ReclamationItem){
+  console.log({idReclamation:obj.idReclamation,description:obj.descrition});
+  this._rclService.setTraiterReclamation({idReclamation:obj.idReclamation,description:obj.descrition}).then(rep => {
+    if(rep.statut==1){
+      this.loader = null;
+      this.success = true;
+    }
+  });
   this.loader = true;
 }
 
@@ -202,9 +162,10 @@ validerLesReclamationSelectionnes (){
 
 
 
-  ngOnInit() {
-    this._rclService.getAllReclamations().subscribe((data: any) => {
-      console.log(data)
-    });
-  }
+ngOnInit() {
+  this._rclService.getAllReclamations({}).then((data: any) => {
+    console.log(data.data)
+    this.datas = this.dataBase = this.parseDatas(data.data);
+  });
+}
 }
