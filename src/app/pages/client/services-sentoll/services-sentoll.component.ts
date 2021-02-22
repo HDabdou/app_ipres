@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ServiceItem } from '../interfaces/interface.service';
 
@@ -8,9 +9,12 @@ import { ServiceItem } from '../interfaces/interface.service';
   styleUrls: ['./services-sentoll.component.scss']
 })
 export class ServicesSentollComponent implements OnInit {
+  serviceTitre='Rerait';
+  serveForm='transfert';
 
-  constructor() { }
 
+  constructor(private modalService: NgbModal) { }
+  closeResult: string;
   datas : ServiceItem[]= [
     {
       nom: 'Retrait',
@@ -18,8 +22,8 @@ export class ServicesSentollComponent implements OnInit {
       text:"Faire l'Opération"
     },
     {
-      nom: 'Envoi',
-      description:'Envoyez votre argents en toute sécurité',
+      nom: 'Transfert',
+      description:'Faite vos paiement sans vous déplacez',
       text:"Faire l'Opération"
 
     },
@@ -30,13 +34,47 @@ export class ServicesSentollComponent implements OnInit {
 
     },
     {
-      nom: 'Paiement',
+      nom: 'Recharge Bancaire',
+      description:'Faite vos paiement sans vous déplacez',
+      text:"Faire l'Opération"
+
+    },
+    {
+      nom: 'Abonement Tv',
+      description:'Faite vos paiement sans vous déplacez',
+      text:"Faire l'Opération"
+
+    },
+    {
+      nom: 'Assurance',
       description:'Faite vos paiement sans vous déplacez',
       text:"Faire l'Opération"
 
     },
 
+    
   ]
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  open(content,nom) {
+    this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+      this.serviceTitre = nom;
+      this.serveForm = nom;
+    return false;
+  }
   ngOnInit() {
 
   }

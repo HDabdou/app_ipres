@@ -11,37 +11,7 @@ import {ReclamationItem} from '../interfaces/interface.operationItem';
 })
 export class OperationsComponent implements OnInit {
   datas : ReclamationItem[]= [
-    {
-      prenom: 'Magor ',
-      nom: 'Sy',
-      date: '12-02-2020',
-      montant:530,
-      tel: 775562310
-    },
-    {
-      prenom: 'Adama ',
-      nom: 'Goudiaby',
-      date: '13-03-2020',
-      montant:530,
-      tel: 774562310
 
-    },
-    {
-      prenom: 'ABdule Hamide ',
-      nom: 'Dialo',
-      date: '15-04-2021',
-      montant:530,
-      tel: 776362310
-
-    },
-    {
-      prenom: 'Naby',
-      nom: 'Ndiaye',
-      date: '20-02-2020',
-      montant:530,
-      tel: 779462310
-
-    },
 
   ]
 
@@ -133,15 +103,6 @@ getLivraisonByLivreur(id){
   })
 }
   ngOnInit() {
-    if(localStorage.getItem("currentuser") == null){
-      //this.router.navigate(['/']);
-    }
-    this.listLivreur = [];
-    this._serviceAdmin.getLivreur().then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        this.listLivreur = res['message']
-      }
-    })
+
   }
 }

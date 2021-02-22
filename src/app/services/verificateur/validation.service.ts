@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ValidationService {
 
-  configUrl = 'http://www.cloudpharma.org/backendpharma/public/index.php/api/produit/getBuyedProducts';
+  configUrl = 'https://bae423df4c3f.ngrok.io/midleware_ipres/index.php';
 
   constructor(private _http: HttpClient) { }
 
   getAllReclamations (){
     console.log('service reclamation');
-    return this._http.post(this.configUrl,{});
+    return this._http.post(this.configUrl+'/ipres/verificateur/getReclamation',{});
   }
 }
