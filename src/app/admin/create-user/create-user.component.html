@@ -1,7 +1,7 @@
 <div class=" content">
     <div class="row" >
         <div style="text-align: center;width: 100%;">
-          <button (click)="etapCreation = 1"  class="btn btn-fill btn-primary" >Liste Utilisateur</button>
+          <button (click)="etapCreation = 1;getAllUser();"  class="btn btn-fill btn-primary" >Liste Utilisateur</button>
           <button (click)="etapCreation = 2"  class="btn btn-fill btn-info" >Création Utilisateur</button>
         </div>
         <div class=" card" >
@@ -27,9 +27,9 @@
                     <th  >Nom</th>
                     <th  >Téléphone</th>
                     <th  >Identifiant</th>
-                    <th  >Action</th>
-                    <th  >Action</th>
-                    <th  >Action</th>
+                    <th  >Modifier</th>
+                    <th  >Supprimer</th>
+                    <th  >Etat</th>
                   </tr>
                 </thead>
                
@@ -45,10 +45,10 @@
                     <td >{{p.telephone}}</td>
                     <td >{{p.identifiant}}</td>
                     <td >
-                      <button  (click)="open(updateUser);selected = p"  class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i> modifier</button>
+                      <button  (click)="open(updateUser);selected = p"  class="btn btn-fill btn-info" > <i class=" tim-icons icon-pencil"> </i> </button>
                     </td>
                     <td >
-                      <button (click)="open(confirmerDelete);selected = p"  class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i> Supprimer</button>
+                      <button (click)="open(confirmerDelete);selected = p"  class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i> </button>
                     </td>
                     <td >
                       <button *ngIf="p.accessLevel == 4 && p.etat == 0" (click)="open(confirmerValidate);selected = p"  class="btn btn-fill btn-success" > <i class=" tim-icons icon-check-2"> </i> Valider</button>
@@ -179,7 +179,7 @@
       
     </div>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="text-align: center;">
       <h1> Voulez-vous valider le client ? </h1>
     <div  class="form-group" style="margin-left: 3rem; text-align: center;">
       <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validete();modal.dismiss('Cross click')" >OUI</button>
@@ -343,6 +343,35 @@
      
    
     </form>
+  </div>
+
+</ng-template>
+<ng-template #loader let-modal>
+  <div class=" modal-header">
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body" style="text-align: center;">
+    <div class="dummy-positioning d-flex">
+  
+      <div class="success-icon">
+        <div class="success-icon__tip"></div>
+        <div class="success-icon__long"></div>
+      </div>
+      
+    </div>
+    
   </div>
 
 </ng-template>

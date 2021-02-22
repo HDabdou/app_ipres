@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as sha1 from 'js-sha1';
+import { AdminMakerService } from 'src/app/services/admin-maker.service';
 
 @Component({
   selector: 'app-client-operateur',
@@ -12,10 +13,7 @@ export class ClientOperateurComponent implements OnInit {
 
   
   etapCreation = 1;
-  listUser = [
-    {prenom:"Ibrahima",nom:"DIAW",telephone:"779854631",identifiant:"1685466564",password:sha1("13425"),access_level:4,etat:1 },
-    {prenom:"Coumba",nom:"NDIAYE",telephone:"779811131",identifiant:"1689966564",password:sha1("13425"),access_level:4,etat:0 },
-  ];
+  listUser = [];
   prenom
   nom
   tel;
@@ -25,15 +23,20 @@ export class ClientOperateurComponent implements OnInit {
   errorMessage = 0;
   closeResult: string;
   selected
-  constructor(private modalService: NgbModal,private router:Router) {}
+  updatePassword
+  constructor(private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
  
   update(){
     this.selected.etat = 0;
   }
  
   inscriptonClient(){
-    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:4,etat:0 })
-    alert("Client créer")
+   let  requet = {prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),infoSup:"",accessLevel:4,etat:0,idCreateur:4 }
+    //this.listUser.push()
+    this._serviceOperateur.createUser(requet).then(res =>{
+      console.log(res)
+    })
+    //alert("Client créer")
     this.etapCreation = 1;
     //this.errorMessage = 2;
    /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
@@ -68,6 +71,10 @@ export class ClientOperateurComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
+      console.log(res)
+      this.listUser = res['data'];
+    })
   }
 
 

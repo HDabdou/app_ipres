@@ -76,6 +76,64 @@ export class AdminMakerService {
       let link=this.url+"/ipres/admin/getReclamation";
       return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
     } 
+
+
+    //getUserByOperateur permet de recupérer le utilisateur créer par l'opérateur
+    public getUserByOperateur(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/operateur/getUserByOperateur";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+     //getUserByOperateur permet de recupérer les opération d'un  utilisateur 
+     public getOperationByClient(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/operateur/getOperationByClient";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
     
-       
+    
+    public initReclamation(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/operateur/initReclamation";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    public getReclamationByOperateur(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/operateur/getReclamationByOperateur";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    // updateReclamationOp permet demodifier les opération
+    public updateReclamationOp(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/operateur/updateReclamationOp";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    public activerClient(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/admin/activerClient";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    // getPaymentByInterval permet de recuperer les paiements par intervalle
+    public getPaymentByInterval(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link=this.url+"/ipres/admin/getPaymentByInterval";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+    
+    
+      
 }

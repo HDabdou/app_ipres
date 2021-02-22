@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdminMakerService } from 'src/app/services/admin-maker.service';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-reclamation-operateur',
@@ -21,10 +22,9 @@ export class ReclamationOperateurComponent implements OnInit {
   paramMontant
   description
   idclient
-  listeReclamation = [
-    {prenom:"Abdou",nom:"Diouf",telephone:"779632541",description:"sa réclamation",etat:1}
-  ];
-  constructor(private modalService: NgbModal,private router:Router) {}
+  listeReclamation = [];
+  listeOperation = []
+  constructor(private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
 
   selected
   validerParamMontant(){
@@ -34,19 +34,13 @@ export class ReclamationOperateurComponent implements OnInit {
     this.paramMontant = undefined;
   }
   listeClient = [
-    {id:1,prenom:"Abdou",nom:"Fall",telephone:"779863241"},
-    {id:2,prenom:"Fatou",nom:"Diaw",telephone:"779811241"},
-    {id:3,prenom:"Modou",nom:"Ndiaye",telephone:"773363241"},
-    {id:4,prenom:"Abdou",nom:"Lo",telephone:"777863241"},
+   
   ]
   validerAddReclamation(){
-    for(let i of this.listeClient){
-      if(i.id == this.idclient){
-        this.selected = i;
-      }
-    }
-    this.listeReclamation.push({prenom:this.selected.prenom,nom:this.selected.nom,telephone:this.selected.telephone,description:this.description,etat:0})
-  }
+    this._serviceOperateur.initReclamation({idInitiateur:4,code:this.idclient,description:this.description,idOperation:this.idoperation }).then(res=>{
+      console.log(res)
+    })
+ }
 
   reinitialisation(){
     this.prenom = undefined;
@@ -73,6 +67,7 @@ export class ReclamationOperateurComponent implements OnInit {
     }
   annee
   mois:any;
+  idoperation;
   addLigne(){
     this.annee = new Date(this.date).toJSON().split('T')[0][0];
     this.mois = new Date(this.date).toJSON().split('T')[0][1];
@@ -80,9 +75,33 @@ export class ReclamationOperateurComponent implements OnInit {
     //this.listeExcel.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois});
 
   }
-
-
+  getCLientByOperateur(){
+    this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
+      console.log(res)
+      this.listeClient = res['data'];
+    })
+  }
+  getOperationByClient(){
+    console.log(this.idclient)
+    this._serviceOperateur.getOperationByClient({code:this.idclient}).then(res =>{
+      console.log(res)
+      this.listeOperation = res['data'];
+    })
+  }
+  moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  displayMonth(arg){
+    let i = parseInt(arg) -1
+    return this.moisEnLettre[0]
+  }
+  updateReclamation1(){
+    this._serviceOperateur.updateReclamationOp({id:4,description:this.description}).then(res=>{
+      console.log(res)
+    })
+  }
   ngOnInit(): void {
+    this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+      this.listeReclamation= res['data'];
+    })
   }
 
 }

@@ -10,7 +10,7 @@
                       <i >Nombre paiements</i>
                   </div>
                   <p class="card-category"></p>
-                  <h3 class="card-title">100
+                  <h3 class="card-title">{{nombrePaiements}}
                       <small>personnes</small>
                   </h3>
               </div>
@@ -24,7 +24,7 @@
                     <i >Solde des paiements</i>
                 </div>
                 <p class="card-category"></p>
-                <h3 class="card-title">100000
+                <h3 class="card-title">{{montantPaiement}}
                     <small>Fcfa</small>
                 </h3>
             </div>
@@ -89,7 +89,7 @@
                                           class=" form-control"
                                           placeholder="prenom"
                                           type="date"
-                                          [(ngModel)]="this.prenom"
+                                          [(ngModel)]="this.dateDebut"
                                           [ngModelOptions]="{standalone: true}"
                                         />
                                     </div>
@@ -106,7 +106,7 @@
                                           class=" form-control"
                                           placeholder="prenom"
                                           type="date"
-                                          [(ngModel)]="this.prenom"
+                                          [(ngModel)]="this.dateFin"
                                           [ngModelOptions]="{standalone: true}"
                                         />
                                     </div>
@@ -142,14 +142,13 @@
                        
                         <tbody >
                           <tr class="ligne" *ngFor="let p of listeTodisplay | paginate: { itemsPerPage: 10, currentPage: p }" >
-                            <td  >{{p.date}}</td>
-                            <td >{{p.prenom}} </td>
-                            <td >{{p.nom}}</td>
-                            <td >{{p.adresse}}</td>
-                            <td >{{p.telephone}}</td>
-                            <td >{{p.montant}}</td>
+                            <td  >{{displayDate(p.paiement.created_at)}}</td>
+                            <td >{{p.pensionnaire.prenom}} </td>
+                            <td >{{p.pensionnaire.nom}}</td>
+                            <td >{{p.pensionnaire.telephone}}</td>
+                            <td >{{p.pensionnaire.montantPercu}}</td>
                             <td >{{p.annee}}</td>
-                            <td >{{p.mois}}</td>
+                            <td >{{displayMonth(p.mois)}}</td>
                             <td >
                               <button *ngIf="p.etat == 0"  class="btn btn-fill btn-danger" >non payer</button>
                               <button *ngIf="p.etat == 1"  class="btn btn-fill btn-success" >payer</button>

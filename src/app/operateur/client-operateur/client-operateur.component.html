@@ -36,9 +36,9 @@
                 <tbody *ngIf="this.listUser.length != 0">
                   <tr class="ligne" *ngFor="let p of listUser" >
                     <td >
-                      <p *ngIf="p.access_level == 2">Vérificateur</p> 
-                      <p *ngIf="p.access_level == 3">Opérateur</p> 
-                      <p *ngIf="p.access_level == 4">Client</p> 
+                      <p *ngIf="p.accessLevel == 2">Vérificateur</p> 
+                      <p *ngIf="p.accessLevel == 3">Opérateur</p> 
+                      <p *ngIf="p.accessLevel == 4">Client</p> 
                     </td>
                     <td >{{p.prenom}} </td>
                     <td >{{p.nom}}</td>
@@ -143,7 +143,32 @@
       </div>
 </div>
 
+<ng-template #confirmerUpdate let-modal>
+  <div class=" modal-header">
+    <h3> confirmer la modification </h3>
 
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body" style="text-align: center;">
+      <h1> Voulez-vous modifier l'utilisateur ? </h1>
+    <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+      <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="update();modal.dismiss('Cross click')" >OUI</button>
+      <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click');open(updateUser)">NON</button>
+    </div>
+  </div>
+
+</ng-template>
 <ng-template #updateUser let-modal>
   <div class=" modal-header">
     <h3> MODIFICATION  </h3>
@@ -163,8 +188,6 @@
   </div>
   <div class="modal-body">
     <form  style="min-width: 100%;" >
-
-          
       <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
         <div class=" col-md-6 " >
           <div class=" form-group">
@@ -222,11 +245,27 @@
           </div>
         </div>
       </div>
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+
+      <div class=" col-md-6 ">
+        <div class=" form-group">
+          <label style="font-size: 1rem;"> Password </label>
+          <input
+             style="border:2px solid black;"
+            class=" form-control"
+            placeholder="Mot de passe"
+            type="password"
+            [(ngModel)]="this.updatePassword"
+            [ngModelOptions]="{standalone: true}"
+          />
+        </div>
+      </div>
+      </div>
       
       
       
       <div class="col-md-12"  style="text-align: center;">
-        <button type="submit" class=" btn btn-fill btn-success" (click)="update();modal.dismiss('Cross click')" >Valider</button>
+        <button type="submit" class=" btn btn-fill btn-success" (click)="open(confirmerUpdate);modal.dismiss('Cross click')" >Valider</button>
       </div>
      
    

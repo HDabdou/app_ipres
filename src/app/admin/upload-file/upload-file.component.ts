@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { AdminMakerService } from 'src/app/services/admin-maker.service';
 import * as XLSX from 'xlsx';
 
@@ -22,15 +23,20 @@ export class UploadFileComponent implements OnInit {
   closeResult: string;
   paramMontant
   code
-  constructor(private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
+  constructor(private toastr: ToastrService,private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
 
   selected
+  //Paramètrage des montant pour changé le montant 
   validerParamMontant(){
     if(this.selected != undefined){
       this.selected.montant = this.paramMontant;
+      this.startloader("Montant paramètrer avec succés")
+
     }
     this.paramMontant = undefined;
   }
+
+  //importaion (upload ) du ficher de paiement excel
   fileName:any;
   listeExcel = []
   file
@@ -57,14 +63,13 @@ export class UploadFileComponent implements OnInit {
      // for(let i = 0; i < this.listeExcel.length ;++i){
        // this.listeRecrutement.push(this.listeExcel[i])
       //}
-     console.log(this.listeExcel)
+      this.startloader("Tableau importer avec succés");
+
     } 
     fileReader.readAsArrayBuffer(this.file);
-    for(let i of this.listeExcel){
-      console.log(i.nom);
-    }
+   
   }
-
+//reinitialisation
   reinitialisation(){
     this.prenom = undefined;
     this.nom = undefined;
@@ -72,8 +77,11 @@ export class UploadFileComponent implements OnInit {
     this.montant = undefined;
     this.date = undefined;
   }
+  //Pour supprimer un ligne
   removeLine(){
     this.listeExcel.splice(this.selected,1)
+    this.startloader("ligne supprimer avec succées")
+
   }
       private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
@@ -93,22 +101,43 @@ export class UploadFileComponent implements OnInit {
     }
   annee
   mois:any;
+  //Ajout d'un nouvelle ligne 
   addLigne(){
     this.annee = new Date(this.date).toJSON().split('T')[0][0];
     this.mois = new Date(this.date).toJSON().split('T')[0][1];
     console.log({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois})
     this.listeExcel.push({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:parseInt(this.mois)+1});
+    this.startloader("ligne ajouter avec succés")
 
   }
+  //Enregistrement du tableau importé via Excel dans la base
   saveUpload(){
     this._adminService.saveUpload({ops:this.listeExcel}).then(res=>{
       console.log(res.status)
       if(res.status == 1){
        
       }
+      this.startloader("liste enregistrer avec succées")
     })
     this.listeExcel = []
   }
+
+  moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  //Pour l'affichage des mois en lettre
+  displayMonth(arg){
+    let i = parseInt(arg) -1
+    return this.moisEnLettre[0]
+  }
+  
+  startloader(message){   
+    this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+       disableTimeOut: true,
+       closeButton: true,
+       enableHtml: true,
+       toastClass: "alert alert-success alert-with-icon",
+       positionClass: 'toast-top-center'
+     });    
+}
   ngOnInit(): void {
   }
 
