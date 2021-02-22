@@ -12,10 +12,7 @@ import { AdminMakerService } from 'src/app/services/admin-maker.service';
 export class CreateUserComponent implements OnInit {
 
   etapCreation = 1;
-  listUser = [
-    {prenom:"Ibrahima",nom:"DIAW",telephone:"779854631",identifiant:"1685466564",password:sha1("13425"),access_level:4,etat:0 },
-    {prenom:"Coumba",nom:"NDIAYE",telephone:"779811131",identifiant:"1689966564",password:sha1("13425"),access_level:4,etat:0 },
-  ];
+  listUser = [];
   prenom
   nom
   tel;
@@ -24,11 +21,15 @@ export class CreateUserComponent implements OnInit {
   typeUtilasateur
   errorMessage = 0;
   closeResult: string;
+  updatePassword = ""
   selected
   constructor(private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
   delete(){
     if(this.selected != undefined){
       this.listUser.splice(this.selected,1)
+      this._adminService.deleteUser({identifiant:this.selected.identifiant,idDeleter:2}).then(res=>{
+        console.log(res)
+      })
     }
   }
   validete(){
@@ -37,23 +38,34 @@ export class CreateUserComponent implements OnInit {
     }
   }
   update(){
-    
+    if(this.updatePassword == ""){
+      this._adminService.updateUser({prenom:this.selected.prenom,nom:this.selected.nom,telephone:this.selected.telephone,identifiant:this.selected.identifiant,password:""}).then(res=>{
+        console.log(res)
+      })
+    }else{
+      if(confirm("Voullez aller modifier le mot de passe de l'utilisateur")){
+        this._adminService.updateUser({prenom:this.selected.prenom,nom:this.selected.nom,telephone:this.selected.telephone,identifiant:this.selected.identifiant,password:sha1(this.updatePassword)}).then(res=>{
+          console.log(res)
+        })
+      }
+    }
   }
   inscriptonVerificateur(){
     this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2,etat:1})
     this.errorMessage = 2;
-    /*this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2}).then(res =>{
+    this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),accessLevel:2,infoSup:"",etat:1,idCreateur:2}).then(res =>{
       console.log(res)
-    })*/
+    })
   }
   inscriptonOperateur(){
     this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3,etat:1})
     this.errorMessage = 2;
-   /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
+    this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),accessLevel:3,infoSup:"",etat:1,idCreateur:2}).then(res =>{
       console.log(res)
-    })*/
+    })
   }
  
+  
   reinitialisation(){
     this.prenom = undefined;
     this.nom = undefined;
@@ -81,6 +93,10 @@ export class CreateUserComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this._adminService.getAllUsers().then(res=>{
+      console.log(res)
+      this.listUser = res['data']
+    })
   }
 
 }

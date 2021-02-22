@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   listeLivraison:any =[]
 
   etapCreation = 1;
-
+  itemsPerPage
   paiements = [
     {date:'2021-01-05 10:30:31',prenom:"Fallou",nom:"Fall",adresse:'Pikine',telephone:"771154030",montant:"150000",annee:"2021",mois:"Janvier",etat:1},
     {date:'2021-01-06 11:30:31',prenom:"Fatou",nom:"Dieng",adresse:'Parcelle',telephone:"762214030",montant:"100000",annee:"2021",mois:"Janvier",etat:1},
@@ -76,16 +76,16 @@ export class DashboardComponent implements OnInit {
   inscriptonOperateur(){
     this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
     this.errorMessage = 2;
-   /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
+   this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),accessLevel:3,infoSup:"",etat:1,idCreateur:2}).then(res =>{
       console.log(res)
-    })*/
+    })
   }
   inscriptonClient(){
     this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
     this.errorMessage = 2;
-   /* this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
+    this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
       console.log(res)
-    })*/
+    })
   }
 
   reinitialisation(){

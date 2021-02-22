@@ -24,30 +24,34 @@
                 <table class=" table tablesorter"  id="" >
                     <thead class=" text-primary" >
                       <tr >
-                          <th  >Prénom</th>
-                          <th  >Nom</th>
-                          <th  >Téléphone</th>
-          
-                          <th  >Montant</th>
-                          <th  >Année</th>
-                          <th  >Mois</th>
-                          <th  >Action</th>
+                        <th  >Code</th>
+                        <th  >Prénom</th>
+                        <th  >Nom</th>
+                        <th  >Téléphone</th>
+        
+                        <th  >Montant</th>
+                        <th  >Année</th>
+                        <th  >Mois</th>
+                        <th  >Action</th>
                       </tr>
                     </thead>
                    
                     <tbody >
-                      <tr class="ligne" *ngFor="let p of listeExcel" >
-                          <td >{{p.prenom}} </td>
-                          <td >{{p.nom}}</td>
-                          <td >{{p.telephone}}</td>
-                          <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
-                          <td >{{p.annee}}</td>
-                          <td >{{p.mois}}</td>
-                          <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
-                          </td>
+                      <tr class="ligne" *ngFor="let p of listeExcel | paginate: { itemsPerPage: 20, currentPage: p}" >
+                        <td >{{p.code}} </td>
+                        <td >{{p.prenom}} </td>
+                        <td >{{p.nom}}</td>
+                        <td >{{p.telephone}}</td>
+                        <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
+                        <td >{{p.annee}}</td>
+                        <td >{{p.mois}}</td>
+                        <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
               </div>
             </div>
           </div>
@@ -142,6 +146,20 @@
             <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
                 <div class=" col-md-6 ">
                   <div class=" form-group">
+                    <label style="font-size: 1rem;"> Code </label>
+                    <input
+                    style="border: 2px solid black;"
+
+                      class=" form-control"
+                      placeholder="Code "
+                      type="text"
+                      [(ngModel)]="this.code"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+                <div class=" col-md-6 ">
+                  <div class=" form-group">
                     <label style="font-size: 1rem;"> Date </label>
                     <input
                     style="border: 2px solid black;"
@@ -157,7 +175,7 @@
                
               </div>
             <div class="col-md-12"  style="text-align: center;">
-              <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !montant || !date" (click)="addLigne();modal.dismiss('Cross click')" >Créer</button>
+              <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !montant || !date || !code" (click)="open(confirmerAdd);modal.dismiss('Cross click')" >Créer</button>
             </div>
            
          
@@ -183,10 +201,10 @@
         
       </div>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="text-align: center;">
         <h1> Voulez-vous confirmer la liste ? </h1>
       <div  class="form-group" style="margin-left: 3rem; text-align: center;">
-        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="saveUpload();modal.dismiss('Cross click')" >OUI</button>
         <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
       </div>
     </div>
@@ -209,10 +227,62 @@
         
       </div>
     </div>
-    <div class="modal-body">
-        <h1> Voulez-vous confirmer la ligne de la liste ? </h1>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous supprimer la ligne de la liste ? </h1>
       <div  class="form-group" style="margin-left: 3rem; text-align: center;">
         <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="removeLine();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #parametrage let-modal>
+    <div class=" modal-header">
+      <h3> confirmer le paramétrage </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous valider le paramétrage de la montant ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerParamMontant();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #confirmerAdd let-modal>
+    <div class=" modal-header">
+      <h3> confirmer l'ajout </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous l'ajout de la ligne sur la liste ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="addLigne();modal.dismiss('Cross click')" >OUI</button>
         <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
       </div>
     </div>
@@ -254,7 +324,7 @@
             <div class=" col-md-6 ">
               <div class=" form-group">
                 <label style="font-size: 1rem;">  </label>
-                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerParamMontant();modal.dismiss('Cross click')" >Valider</button>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="open(parametrage);modal.dismiss('Cross click')" >Valider</button>
 
               </div>
             </div>

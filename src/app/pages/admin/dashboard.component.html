@@ -141,7 +141,7 @@
                         </thead>
                        
                         <tbody >
-                          <tr class="ligne" *ngFor="let p of listeTodisplay" >
+                          <tr class="ligne" *ngFor="let p of listeTodisplay | paginate: { itemsPerPage: 10, currentPage: p }" >
                             <td  >{{p.date}}</td>
                             <td >{{p.prenom}} </td>
                             <td >{{p.nom}}</td>
@@ -157,6 +157,7 @@
                           </tr>
                         </tbody>
                       </table>
+                      <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </div>
                   </div>
                 </div>

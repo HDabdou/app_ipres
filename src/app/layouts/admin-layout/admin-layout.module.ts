@@ -30,6 +30,7 @@ import { ReclamationOperateurComponent } from "src/app/operateur/reclamation-ope
 import { ClientOperateurComponent } from "src/app/operateur/client-operateur/client-operateur.component";
 
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
      UploadFileComponent,
     ReclamationOperateurComponent,
       ClientOperateurComponent,
+      AdminReclamationComponent
       
     // RtlComponent
   ]

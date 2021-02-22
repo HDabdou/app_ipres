@@ -28,6 +28,7 @@ import {ReclamationService} from './services/verificateur/reclamation.service';
 import { OperationService } from './services/verificateur/operation.service';
 import { ValidationService } from './services/verificateur/validation.service';
 import { DashboardService } from './services/verificateur/dashboard.service';
+import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 import { LoaderComponent } from './layouts/loader/loader.component';
 
 
@@ -42,7 +43,8 @@ import { LoaderComponent } from './layouts/loader/loader.component';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, LoaderComponent,LoaderComponent],
+
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, LoaderComponent],
   providers: [ReclamationService,OperationService,ValidationService,DashboardService],
 
   bootstrap: [AppComponent]

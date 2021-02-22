@@ -13,6 +13,6 @@ export class IconsComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.router.navigate(['/dashboardVerif'])
+    //this.router.navigate(['/dashboardVerif'])
   }
 }
