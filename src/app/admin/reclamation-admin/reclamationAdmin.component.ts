@@ -20,6 +20,7 @@ export class ReclamationAdminComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
   validerTraitement(){
     this.selected.etat = 1
+    
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

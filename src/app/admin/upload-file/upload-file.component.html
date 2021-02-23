@@ -44,7 +44,7 @@
                         <td >{{p.telephone}}</td>
                         <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
                         <td >{{p.annee}}</td>
-                        <td >{{p.mois}}</td>
+                        <td >{{displayMonth(p.mois)}}</td>
                         <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
                         </td>
                       </tr>
@@ -62,7 +62,7 @@
 
 <ng-template #addLine let-modal>
     <div class=" modal-header">
-      <h3> Voulez-vous accepter la course ? </h3>
+      <h3> Ajout  </h3>
   
       <button
         aria-label="Close"

@@ -8,7 +8,7 @@
                         <h4 class=" card-title">Liste des réclamations </h4>
                     </div>
                     <div class="col-6">
-                        <button (click)="open(addNewReclamation);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une réclamation</button>
+                        <button (click)="getCLientByOperateur();open(addNewReclamation);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une réclamation</button>
                     </div>
                 </div>
 
@@ -22,21 +22,22 @@
                           <th  >Nom</th>
                           <th  >Telephone</th>
                           <th  >Description</th>
+                          <th  >Etat</th>
                           <th  >Action</th>
                       </tr>
                     </thead>
                    
                     <tbody >
                       <tr class="ligne" *ngFor="let p of listeReclamation" >
-                          <td >{{p.prenom}} </td>
-                          <td >{{p.nom}}</td>
-                          <td >{{p.telephone}}</td>
-                          <td >{{p.description}}</td>
+                          <td >{{p.operation.prenom}} </td>
+                          <td >{{p.operation.nom}}</td>
+                          <td >{{p.operation.telephone}}</td>
+                          <td >{{p.reclamation.description}}</td>
                           <td >
-                            <b *ngIf="p.etat == 0" style="color: red;">non valider</b>
-                            <b *ngIf="p.etat == 1" style="color: darkgreen;">valider</b>
+                            <b *ngIf="p.reclamation.etat == 0" style="color: red;">non valider</b>
+                            <b *ngIf="p.reclamation.etat == 1" style="color: darkgreen;">valider</b>
                         </td>
-                          <td> <button (click)="open(updateReclamation);this.description= p.description;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
+                          <td> <button (click)="open(updateReclamation);this.description= p.reclamation.description;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
                           </td>
                       </tr>
                     </tbody>
@@ -78,13 +79,32 @@
                     placeholder="prenom"
                     type="text"
                     [(ngModel)]="this.idclient"
+                    (change)="getOperationByClient()"
                     [ngModelOptions]="{standalone: true}"
                 >
-                <option *ngFor="let i of listeClient" value="{{i.id}}">{{i.prenom}} {{i.nom}} {{i.telephone}}</option>
+                <option  value="">Choisissez un client</option>
+
+                <option *ngFor="let i of listeClient" value="{{i.identifiant}}">{{i.prenom}} {{i.nom}} {{i.telephone}}</option>
                 </select>
               </div>
             </div>
-            <div class=" col-md-6 ">
+            <div class=" col-md-6 " >
+              <div class=" form-group">
+                <label style="font-size: 1rem;"> Operation </label>
+                <select
+                    style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="prenom"
+                    type="text"
+                    [(ngModel)]="this.idoperation"
+                    [ngModelOptions]="{standalone: true}"
+                >
+                <option  value="">Choisissez un client</option>
+                <option *ngFor="let i of listeOperation" value="{{i.id}}">{{displayMonth(i.mois)}} {{i.annee}} {{i.montant}} Fcfa</option>
+                </select>
+              </div>
+            </div>
+            <div class=" col-md-8 ">
                 <div class=" form-group">
                   <label style="font-size: 1rem;"> Réclamation </label>
                   <textarea class="form-control"
@@ -129,8 +149,8 @@
     <div class="modal-body">
         <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
           
-            <div class=" col-md-6 ">
-                <div class=" form-group">
+            <div class=" col-md-10 ">
+                <div class=" form-group" >
                   <label style="font-size: 1rem;"> Réclamation </label>
                   <textarea class="form-control"
                   style="border: 2px solid black;"
@@ -146,7 +166,7 @@
             <div class=" col-md-12 ">
               <div class=" form-group" style="text-align: center;">
                 <label style="font-size: 1rem;">  </label>
-                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="modal.dismiss('Cross click')" >Valider</button>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="updateReclamation1();modal.dismiss('Cross click')" >Valider</button>
 
               </div>
             </div>

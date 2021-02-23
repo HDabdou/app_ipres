@@ -5,6 +5,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import { AdminMakerService } from "src/app/services/admin-maker.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-dashboard",
@@ -42,15 +43,11 @@ export class DashboardComponent implements OnInit {
 
   etapCreation = 1;
   itemsPerPage
-  paiements = [
-    {date:'2021-01-05 10:30:31',prenom:"Fallou",nom:"Fall",adresse:'Pikine',telephone:"771154030",montant:"150000",annee:"2021",mois:"Janvier",etat:1},
-    {date:'2021-01-06 11:30:31',prenom:"Fatou",nom:"Dieng",adresse:'Parcelle',telephone:"762214030",montant:"100000",annee:"2021",mois:"Janvier",etat:1},
-    {date:'2021-01-07 12:30:31',prenom:"Abdou",nom:"Diouf",adresse:'Yoff',telephone:"771154030",montant:"90000",annee:"2021",mois:"Janvier",etat:0},
-    {date:'2021-01-11 13:30:31',prenom:"Ibrahima",nom:"Dieye",adresse:'Thies',telephone:"773474030",montant:"130000",annee:"2021",mois:"Janvier",etat:1},
-  ]
+  paiements = []
   listUser = [];
   listeTodisplay = []
-  constructor(private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
+  constructor(private toastr: ToastrService,private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
+  //Pour Fitrer sur toutes le clonne 
   motcle
   searchAll = () => {
     let value = this.motcle;
@@ -66,27 +63,7 @@ export class DashboardComponent implements OnInit {
     this.listeTodisplay = filterTable;
   }
 
-  inscriptonVerificateur(){
-    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2})
-    this.errorMessage = 2;
-    /*this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:2}).then(res =>{
-      console.log(res)
-    })*/
-  }
-  inscriptonOperateur(){
-    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
-    this.errorMessage = 2;
-   this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),accessLevel:3,infoSup:"",etat:1,idCreateur:2}).then(res =>{
-      console.log(res)
-    })
-  }
-  inscriptonClient(){
-    this.listUser.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3})
-    this.errorMessage = 2;
-    this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),access_level:3}).then(res =>{
-      console.log(res)
-    })
-  }
+
 
   reinitialisation(){
     this.prenom = undefined;
@@ -97,7 +74,7 @@ export class DashboardComponent implements OnInit {
     this.password = undefined;
     this.nom_entreprise = undefined;
   }
-
+//Pour modal
     private getDismissReason(reason: any): string {
       if (reason === ModalDismissReasons.ESC) {
         return 'by pressing ESC';
@@ -117,40 +94,14 @@ export class DashboardComponent implements OnInit {
  
  
   
- 
+ //Pour l'affichage des dates
   displayDate(date){ 
     if(date != ""){
       return new Date(date).toLocaleString();
     }
     
   }
-  ConvertToCSV(objArray) {
-    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-      var str = '';
-    var row = "";
-
-    for (var index in objArray[0]) {
-      //console.log(index.toLowerCase);
-
-        //Now convert each value to string and comma-separated
-        row += index.toUpperCase() + ',';
-    }
-    row = row.slice(0, -1);
-    //append Label row with line break
-    str += row + '\r\n';
-
-    for (var i = 0; i < array.length; i++) {
-        var line = '';
-        for (var index in array[i]) {
-            if (line != '') line += ','
-
-            line += array[i][index];
-        }
-        str += line + '\r\n';
-        
-    }
-    return str;
-}
+ 
 errorMessage:number = 0
 nbrNouveau:number = 0;
 nbrAssigne:number = 0;
@@ -159,45 +110,64 @@ nbrCenlevement:number = 0;
 nbrCLivraison:number = 0;
 nbrretour:number = 0;
 nbrAnnuler:number = 0;
+dateDebut;
+dateFin;
+nombrePaiements = 0;
+montantPaiement = 0;
+moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+//Pour l'affichage des moi en lettre
+displayMonth(arg){
+  let i = parseInt(arg) -1
+  return this.moisEnLettre[0]
+}
+//recherche pour le dashboed des paiements par intervalle de date
+recherche(){
+  this.nombrePaiements = 0;
+    this.montantPaiement = 0;
+  //inversion ou pour formatage pour le besoins du backend
+  let dd = this.dateDebut.split('-')[2]+"/"+this.dateDebut.split('-')[1]+"/"+this.dateDebut.split('-')[0]
+  let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
 
-
-  ngOnInit() {
-    if(localStorage.getItem("currentuser") == null){
-      //this.router.navigate(['/']);
-    }
+  this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
+    this.nombrePaiements = this.paiements = res['data'];
+    this.patients.length;
+    
     this.listeTodisplay = this.paiements
-
-
-  }
-  public updateOptions() {
-    this.myChartData.data.datasets[0].data = this.data;
-    this.myChartData.update();
-  }
-  ids = [];
-  datasSaves
-
-displayData(idLivreur,nom){
-  for(let i of this.listUser){
-    if(i.iduser == idLivreur){
-
-      if(nom == "prenom"){
-        return i.prenom;
-      }
-      if(nom == "nom"){
-        return i.nom
-      }
-      if(nom == "telephone"){
-        return i.telephone;
-      }
-      if(nom == "accesslevel"){
-        return i.accesslevel;
-      }
-      if(nom == "nom_entreprise"){
-        return i.nom_entreprise;
-      }
+    
+    for(let i of this.paiements){
+      this.montantPaiement = this.montantPaiement + parseInt(i.montant)
     }
+    this.startloader("Recherche terminé")
+  })
+}
+  ngOnInit() {
+    this.dateDebut = new Date().toJSON().split("T")[0]
+    this.dateFin = new Date().toJSON().split("T")[0]
+    let dd = this.dateDebut.split('-')[2]+"/"+this.dateDebut.split('-')[1]+"/"+this.dateDebut.split('-')[0]
+    let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
+
+    this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
+      this.nombrePaiements = this.paiements = res['data'];
+      this.patients.length;
+      
+      this.listeTodisplay = this.paiements
+      
+      for(let i of this.paiements){
+        this.montantPaiement = this.montantPaiement + parseInt(i.montant)
+      }
+    })
+
+
   }
-  return "";
+ 
+  startloader(message){   
+    this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+       disableTimeOut: true,
+       closeButton: true,
+       enableHtml: true,
+       toastClass: "alert alert-success alert-with-icon",
+       positionClass: 'toast-top-center'
+     });    
 }
 
 
