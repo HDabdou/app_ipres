@@ -129,37 +129,52 @@ recherche(){
   let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
 
   this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
-    this.nombrePaiements = this.paiements = res['data'];
-    this.patients.length;
+     this.paiements = res['data'];
+     this.nombrePaiements = res['data'].length;
     
     this.listeTodisplay = this.paiements
     
     for(let i of this.paiements){
-      this.montantPaiement = this.montantPaiement + parseInt(i.montant)
+      this.montantPaiement = this.montantPaiement + parseInt(i.pensionnaire.montantPercu)
     }
     this.startloader("Recherche terminé")
   })
 }
+currencyFormat(somme) : String{
+  return Number(somme).toLocaleString() ;
+}
   ngOnInit() {
-    this.dateDebut = new Date().toJSON().split("T")[0]
+    let dd1 = new Date();
+    let d = dd1.setDate(-30);
+    this.dateDebut = new Date(dd1).toJSON().split("T")[0]
     this.dateFin = new Date().toJSON().split("T")[0]
+    
+    console.log(dd1.toJSON().split("T")[0])
     let dd = this.dateDebut.split('-')[2]+"/"+this.dateDebut.split('-')[1]+"/"+this.dateDebut.split('-')[0]
     let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
 
     this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
-      this.nombrePaiements = this.paiements = res['data'];
-      this.patients.length;
+      this.paiements = res['data'];
+      this.nombrePaiements = res['data'].length;
       
       this.listeTodisplay = this.paiements
       
       for(let i of this.paiements){
-        this.montantPaiement = this.montantPaiement + parseInt(i.montant)
+        this.montantPaiement = this.montantPaiement + parseInt(i.pensionnaire.montantPercu)
       }
     })
 
 
   }
- 
+  displayAnneeMois(arg,nom){
+    if(nom == "annee"){
+      return arg.split("-")[0];
+    }
+    if(nom == "mois"){
+      return arg.split("-")[1];
+    }
+    return "";
+  }
   startloader(message){   
     this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
        disableTimeOut: true,

@@ -114,10 +114,10 @@ export class UploadFileComponent implements OnInit {
   saveUpload(){
     this._adminService.saveUpload({ops:this.listeExcel}).then(res=>{
       console.log(res.status)
-      if(res.status == 1){
-       
+      if(res.statut == 1){
+        this.startloader("liste enregistrer avec succées")
       }
-      this.startloader("liste enregistrer avec succées")
+      
     })
     this.listeExcel = []
   }
@@ -128,7 +128,7 @@ export class UploadFileComponent implements OnInit {
     let i = parseInt(arg) -1
     return this.moisEnLettre[0]
   }
-  
+
   startloader(message){   
     this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
        disableTimeOut: true,

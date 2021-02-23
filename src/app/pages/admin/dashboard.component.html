@@ -24,7 +24,7 @@
                     <i >Solde des paiements</i>
                 </div>
                 <p class="card-category"></p>
-                <h3 class="card-title">{{montantPaiement}}
+                <h3 class="card-title">{{currencyFormat(montantPaiement)}}
                     <small>Fcfa</small>
                 </h3>
             </div>
@@ -114,7 +114,7 @@
                                   </div>
                                 </div>
                                 <div class="form-group col-md-2">
-                                  <button (click)="open(addLine);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-zoom-split"> </i> Recherche</button>
+                                  <button (click)="recherche();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-zoom-split"> </i> Recherche</button>
                                 </div>
                               </div>
                             </div>
@@ -130,13 +130,11 @@
                             <th >Date d'ajout</th>
                             <th  >Prénom</th>
                             <th  >Nom</th>
-                            <th  >Adresse </th>
                             <th  >Téléphone</th>
         
-                            <th  >Montant</th>
+                            <th  >Montant (FCFA)</th>
                             <th  >Année</th>
                             <th  >Mois</th>
-                            <th  >Etat</th>
                           </tr>
                         </thead>
                        
@@ -146,13 +144,10 @@
                             <td >{{p.pensionnaire.prenom}} </td>
                             <td >{{p.pensionnaire.nom}}</td>
                             <td >{{p.pensionnaire.telephone}}</td>
-                            <td >{{p.pensionnaire.montantPercu}}</td>
-                            <td >{{p.annee}}</td>
-                            <td >{{displayMonth(p.mois)}}</td>
-                            <td >
-                              <button *ngIf="p.etat == 0"  class="btn btn-fill btn-danger" >non payer</button>
-                              <button *ngIf="p.etat == 1"  class="btn btn-fill btn-success" >payer</button>
-                            </td>
+                            <td >{{currencyFormat(p.pensionnaire.montantPercu)}}</td>
+                            <td >{{displayAnneeMois(p.paiement.created_at,"annee")}}</td>
+                            <td >{{displayMonth(displayAnneeMois(p.paiement.created_at,"mois"))}}</td>
+                            
                           </tr>
                         </tbody>
                       </table>

@@ -131,7 +131,7 @@ export class AdminMakerService {
       console.log(params);
       
       let link=this.url+"/ipres/admin/getPaymentByInterval";
-      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
     } 
     
     

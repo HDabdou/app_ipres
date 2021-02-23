@@ -28,7 +28,7 @@
                     </thead>
                    
                     <tbody >
-                      <tr class="ligne" *ngFor="let p of listeReclamation" >
+                      <tr class="ligne" *ngFor="let p of listeReclamation | paginate: { itemsPerPage: 20, currentPage: p}" >
                           <td >{{p.operation.prenom}} </td>
                           <td >{{p.operation.nom}}</td>
                           <td >{{p.operation.telephone}}</td>
@@ -37,11 +37,13 @@
                             <b *ngIf="p.reclamation.etat == 0" style="color: red;">non valider</b>
                             <b *ngIf="p.reclamation.etat == 1" style="color: darkgreen;">valider</b>
                         </td>
-                          <td> <button (click)="open(updateReclamation);this.description= p.reclamation.description;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
+                          <td> <button *ngIf="p.reclamation.etat == 0" (click)="open(updateReclamation);this.description= p.reclamation.description;idR = p.reclamation.id;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
                           </td>
                       </tr>
                     </tbody>
                   </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
               </div>
             </div>
           </div>
@@ -88,7 +90,7 @@
                 </select>
               </div>
             </div>
-            <div class=" col-md-6 " >
+            <div class=" col-md-6 " *ngIf="etapUpdate >1" >
               <div class=" form-group">
                 <label style="font-size: 1rem;"> Operation </label>
                 <select
@@ -104,7 +106,7 @@
                 </select>
               </div>
             </div>
-            <div class=" col-md-8 ">
+            <div class=" col-md-8 " *ngIf="etapUpdate >1">
                 <div class=" form-group">
                   <label style="font-size: 1rem;"> Réclamation </label>
                   <textarea class="form-control"

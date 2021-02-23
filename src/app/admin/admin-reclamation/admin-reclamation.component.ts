@@ -17,8 +17,9 @@ export class AdminReclamationComponent implements OnInit {
   constructor(private toastr: ToastrService ,private modalService: NgbModal,private _adminService:AdminMakerService) { }
   //validation du traitement
   validerTraitement(){
-    
-    this._adminService.traiterReclamation({idReclamation:this.selected.reclamation.id,etat:1,idAdmin:2}).then(res=>{
+    let requet = []
+    requet.push({idReclamation:this.selected.reclamation.id,etat:1,idAdmin:2})
+    this._adminService.traiterReclamation({reclamation:requet}).then(res=>{
       console.log(res)
       this.selected.reclamation.etat = 1
       this.startloader("Réclamation validé")

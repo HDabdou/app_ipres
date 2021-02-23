@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { AdminMakerService } from 'src/app/services/admin-maker.service';
 import * as XLSX from 'xlsx';
 @Component({
@@ -24,31 +25,29 @@ export class ReclamationOperateurComponent implements OnInit {
   idclient
   listeReclamation = [];
   listeOperation = []
-  constructor(private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
 
+  constructor(private toastr: ToastrService,private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
+
+  etapUpdate = 1;
   selected
-  validerParamMontant(){
-    if(this.selected != undefined){
-      this.selected.montant = this.paramMontant;
-    }
-    this.paramMontant = undefined;
-  }
-  listeClient = [
-   
-  ]
+
+  listeClient = []
+  //Permet de valider la réclamation
   validerAddReclamation(){
     this._serviceOperateur.initReclamation({idInitiateur:4,code:this.idclient,description:this.description,idOperation:this.idoperation }).then(res=>{
       console.log(res)
+      if(res['statut'] = 1){
+        this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+          this.listeReclamation= res['data'];
+        })
+        this.startloader('Réclamation ajouté')
+        
+      }else{
+        this.errorMessageD("Error : Réclamation non ajouté")
+      }
     })
  }
 
-  reinitialisation(){
-    this.prenom = undefined;
-    this.nom = undefined;
-    this.tel = undefined;
-    this.montant = undefined;
-    this.date = undefined;
-  }
       private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
           return 'by pressing ESC';
@@ -68,40 +67,68 @@ export class ReclamationOperateurComponent implements OnInit {
   annee
   mois:any;
   idoperation;
-  addLigne(){
-    this.annee = new Date(this.date).toJSON().split('T')[0][0];
-    this.mois = new Date(this.date).toJSON().split('T')[0][1];
-    console.log({prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois})
-    //this.listeExcel.push({prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois});
-
-  }
+  //Pour obtenir la liste de ces clients
   getCLientByOperateur(){
     this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
       console.log(res)
       this.listeClient = res['data'];
     })
   }
+  //Pour obtenir la liste des opérations du client
   getOperationByClient(){
     console.log(this.idclient)
     this._serviceOperateur.getOperationByClient({code:this.idclient}).then(res =>{
       console.log(res)
       this.listeOperation = res['data'];
+      this.etapUpdate = 2;
     })
   }
+  //statut
   moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  //Pour l'affichage des mois en lettre
   displayMonth(arg){
     let i = parseInt(arg) -1
     return this.moisEnLettre[0]
   }
+  idR
+  //Pour mettre à jour une réclamation
   updateReclamation1(){
-    this._serviceOperateur.updateReclamationOp({id:4,description:this.description}).then(res=>{
+    this._serviceOperateur.updateReclamationOp({id:this.idR,description:this.description,idUser:4}).then(res=>{
       console.log(res)
+      if(res['statut'] = 1){
+        this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+          this.listeReclamation= res['data'];
+        })
+        this.description = undefined;
+        this.startloader('Réclamation mise à jour')
+      }else{
+        this.errorMessageD("Error : mise à jour echec")
+      }
     })
   }
   ngOnInit(): void {
+    //Pour la liste des réclamations de l'opérateur
     this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
       this.listeReclamation= res['data'];
     })
   }
+  startloader(message){   
+    this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+       disableTimeOut: true,
+       closeButton: true,
+       enableHtml: true,
+       toastClass: "alert alert-success alert-with-icon",
+       positionClass: 'toast-top-center'
+     });    
+}
+errorMessageD(message){   
+  this.toastr.info('<span class="tim-icons icon-simple-remove" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+     disableTimeOut: true,
+     closeButton: true,
+     enableHtml: true,
+     toastClass: "alert alert-danger alert-with-icon",
+     positionClass: 'toast-top-center'
+   });    
+}
 
 }
