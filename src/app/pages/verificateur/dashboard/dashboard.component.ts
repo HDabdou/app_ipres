@@ -4,6 +4,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {DashboardItem} from '../interfaces/interface.dashboardItem';
+import { DashboardService } from 'src/app/services/verificateur/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,39 +12,12 @@ import {DashboardItem} from '../interfaces/interface.dashboardItem';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponentVerif implements OnInit {
+  dateDebut:'';
+  dateFin='';
+
+  nbrPenssionnaire = 0;
+  soldeTotal = 0;
   datas : DashboardItem[]= [
-    {
-      prenom: 'Magor ',
-      nom: 'Sy',
-      date: '12-02-2020',
-      montant:530,
-      tel: 775562310
-    },
-    {
-      prenom: 'Adama ',
-      nom: 'Goudiaby',
-      date: '13-03-2020',
-      montant:530,
-      tel: 774562310
-
-    },
-    {
-      prenom: 'ABdule Hamide ',
-      nom: 'Dialo',
-      date: '15-04-2021',
-      montant:530,
-      tel: 776362310
-
-    },
-    {
-      prenom: 'Naby',
-      nom: 'Ndiaye',
-      date: '20-02-2020',
-      montant:530,
-      tel: 779462310
-
-    },
-
   ]
 
   motcle = null;
@@ -68,7 +42,7 @@ export class DashboardComponentVerif implements OnInit {
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router) {}
+  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _dashService:DashboardService) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -86,54 +60,95 @@ open(content) {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
   });
 }
-updateUser(selected){
-  this._serviceAdmin.updateUser({nom:selected.nom,prenom:selected.prenom,telephone:selected.telephone,adresse:selected.adresse,login:selected.login,password:sha1("1234"),nom_entreprise:"null",iduser:selected.iduser}).then(res=>{
-    console.log(res);
-    if(res['status'] == true){
-      this.modalService.dismissAll()
-      alert("Utilisateur mise à jour");
-      this.selected = null;
 
+
+parseDatas (dataRest):DashboardItem[]{
+  let arr:DashboardItem[]=[];
+  (dataRest.data).forEach(element => {
+    arr.push({
+      prenom:element.pensionnaire.prenom,
+      nom:element.pensionnaire.nom,
+      montant:element.paiement.montant,
+      date:element.paiement.updated_at,
+      tel:element.pensionnaire.telephone,
+    });
+
+  });
+  this.calculeDash(dataRest.data);
+  return arr;
+}
+
+calculeDash(data):any{
+    
+    (data).forEach(element => {
+      this.soldeTotal += element.paiement.montant;
+      this.nbrPenssionnaire += 1;
+    });
+
+}
+
+rechercherInterval(debut,fin){
+  this._dashService.getPaymentByInterval({debut:debut,fin:fin}).then(rep => {
+    console.log(rep)
+    this.dataBase= this.datas= this.parseDatas(rep);
+  });
+}
+
+getDateNow(){
+  let today = new Date();
+  let dd = this.getDay(today);
+
+  let mm = this.getMoth(today); 
+  let yyyy = this.getYear(today);
+
+  let day = dd+'/'+mm+'/'+yyyy;
+  console.log(day);
+  return day;
+}
+
+  getMoth(date){
+    let mm = ""; 
+    if(date.getMonth()<10) 
+    {
+        mm='0'+date.getMonth();
     }else{
-      this.modalService.dismissAll()
-      alert("Erreur mise à jour");
+      mm=''+date.getMonth();
     }
-  })
-}
-deleteUser(id){
-  console.log(id)
-  if(confirm("Voulez vous supprimé ce Livreur ?")){
-    this._serviceAdmin.deleteUser({iduser:id}).then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        alert('Livreur supprimé')
-        this.listLivreur = [];
-        this._serviceAdmin.getLivreur().then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.listLivreur = res['message']
-            this.open('content')
-          }
-        })
-      }else{
-        alert("Suppression erreur");
-      }
-    })
+
+    return mm;
   }
- 
-}
 
-getLivraisonByLivreur(id){
-  this.listLivraisonByLivreur= [];
-  this._serviceAdmin.getLivraisonLivreur({iduser:id}).then(res=>{
-    console.log(res);
-    if(res['status'] = true){
-      this.listLivraisonByLivreur = res['message'];
-     
+  getDay(date){
+    let dd = ""; 
+    if(date.getDay()<10) 
+    {
+        dd='0'+date.getDate();
+    } else{
+      dd=''+date.getMonth();
     }
-  })
-}
-  ngOnInit() {
 
+    return dd;
+  }
+
+  validerrechercherInterval (){
+    this.soldeTotal = 0;
+    this.nbrPenssionnaire = 0;
+    let dateDebut = this.dateDebut.split('-');
+    let dateFin = this.dateFin.split('-');
+
+    this.rechercherInterval(dateDebut[2]+'/'+dateDebut[1]+'/'+dateDebut[0],dateFin[2]+'/'+dateFin[1]+'/'+dateFin[0]);
+  }
+
+  getYear(date){
+    return date.getFullYear();
+  }
+
+  ngOnInit() {
+    let today = new Date();
+    
+    let debut = this.getDay(today)+'/' + this.getMoth(today)+'/'+(this.getYear(today)-1);
+    let fin = this.getDay(today)+'/' + this.getMoth(today)+'/'+(this.getYear(today)+1);
+
+    this.rechercherInterval(debut,fin);
   }
 }

@@ -14,7 +14,7 @@ import {ReclamationService} from '../../../services/verificateur/reclamation.ser
   styleUrls: ['./reclamation.component.scss']
 })
 export class ReclamationComponent implements OnInit {
-
+  descritionModifier = '';
   success = null;
 
   loader = null;
@@ -84,7 +84,11 @@ export class ReclamationComponent implements OnInit {
       itemRowCheckboxReclamation.forEach((element)=> {
         console.log(element);
         element.className='checked';
-        this.chechedsItems = this.datas;
+        (this.datas).forEach((element)=> {
+            if(element.etat ! =1){
+              (this.chechedsItems).push(element);
+            }
+        });
       });
         
     }else if (event.target.checked== false){
@@ -105,6 +109,8 @@ export class ReclamationComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+
 open(content) {
   this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
@@ -134,8 +140,11 @@ parseDatas (dataRest):ReclamationItem[]{
 
 
 validerLaReclammation (obj:ReclamationItem){
-  console.log({idAdmin:6,idReclamation:obj.idReclamation,etat:1});
-  this._rclService.setTraiterReclamation({idAdmin:6,idReclamation:obj.idReclamation,etat:1}).then(rep => {
+  let params = [];
+  (this.chechedsItems).forEach(element => {
+    params.push({idAdmin:6,idReclamation:element.idReclamation,etat:1})
+  });
+  this._rclService.setTraiterReclamation({reclamation:params}).then(rep => {
     if(rep.statut==1){
       this.loader = null;
       this.success = true;
@@ -146,26 +155,42 @@ validerLaReclammation (obj:ReclamationItem){
 
 modifierLaReclammation (obj:ReclamationItem){
   console.log({idReclamation:obj.idReclamation,description:obj.descrition});
-  this._rclService.setTraiterReclamation({idReclamation:obj.idReclamation,description:obj.descrition}).then(rep => {
-    if(rep.statut==1){
+  this._rclService.setTraiterReclamation({idUser:6,id:obj.idReclamation,description:this.descritionModifier}).then(rep => {
+    if(rep.status==1){
       this.loader = null;
       this.success = true;
+      this.getReclamation();
     }
   });
   this.loader = true;
 }
 
+
+
 validerLesReclamationSelectionnes (){
-  console.log(this.chechedsItems);
-  this.loader = true;
-} 
-
-
-
-ngOnInit() {
-  this._rclService.getAllReclamations({}).then((data: any) => {
-    console.log(data.data)
-    this.datas = this.dataBase = this.parseDatas(data.data);
+  let params = [];
+  (this.chechedsItems).forEach(element => {
+    params.push({idAdmin:6,idReclamation:element.idReclamation,etat:1})
   });
+  this._rclService.setTraiterReclamation({reclamation:params}).then(rep => {
+    if(rep.statut==1){
+      this.loader = null;
+      this.success = true;
+      this.getReclamation();
+    }
+  });
+  this.loader = true;
 }
+
+  getReclamation(){
+    this._rclService.getAllReclamations({}).then((data: any) => {
+      console.log(data.data)
+      this.datas = this.dataBase = this.parseDatas(data.data);
+    });
+  }
+
+
+  ngOnInit() {
+    this.getReclamation();
+  }
 }

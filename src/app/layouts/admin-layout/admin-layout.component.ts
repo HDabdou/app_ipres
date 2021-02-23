@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ["./admin-layout.component.scss"]
 })
 export class AdminLayoutComponent implements OnInit {
-  public sidebarColor: string = "primary";
+  public sidebarColor: string = "red";
   public profile = "";
   side = 'blue';
   constructor(private router:Router) {}
@@ -38,7 +38,7 @@ export class AdminLayoutComponent implements OnInit {
   }
   ngOnInit() {
     this.changeDashboardColor(this.content);
-    this.changeSidebarColor(this.side);
+    this.changeSidebarColor('red');
     /*this.profile = sessionStorage.getItem('profile');
     if(this.profile=='verificateur'){
       this.router.navigate(['/verificateur'])

@@ -1,17 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
-  configUrl = 'https://bae423df4c3f.ngrok.io/midleware_ipres/index.php';
+  private url = "https://7e7b433878cb.ngrok.io/midleware_ipres/index.php";
+  private header :HttpHeaders;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
-  getAllReclamations (){
-    console.log('service reclamation');
-    return this._http.post(this.configUrl+'/ipres/verificateur/getReclamation',{});
-  }
+   }
+
+
+  public getAllReclamations(param): Promise<any>{
+    let params="requestParam="+JSON.stringify(param);
+    console.log(params);
+    let link=this.url+ '/ipres/verificateur/getReclamation';
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+
+  public setTraiterReclamation(param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    let link=this.url+ '/ipres/verificateur/updateReclamationVerif';
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
 }

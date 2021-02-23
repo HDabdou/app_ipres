@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
-  private url = "https://7e7b433878cb.ngrok.io/midleware_ipres/index.php";
+export class MarkeplaceService {
+  private url = "https://a007cada0a60.ngrok.io/midleware_ipres/index.php";
   private header :HttpHeaders;
 
   constructor(private http: HttpClient) {
@@ -13,11 +13,12 @@ export class DashboardService {
    }
 
 
-  public getPaymentByInterval (param): Promise<any>{
+  public getProduits(param): Promise<any>{
     let params="param="+JSON.stringify(param);
     console.log(params);
-    let link=this.url+ '/ipres/verificateur/getPaymentByInterval';
+    let link=this.url+ '/ipres/client/getProduit';
     return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
   } 
+
 
 }

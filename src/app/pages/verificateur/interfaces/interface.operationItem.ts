@@ -5,5 +5,6 @@ export interface ReclamationItem {
     date:string;
     montant:number;
     tel:number;
+    etat:number;
     obj:any;
 }
