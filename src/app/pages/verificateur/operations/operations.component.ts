@@ -10,14 +10,16 @@ import {ReclamationItem} from '../interfaces/interface.operationItem';
   styleUrls: ['./operations.component.scss']
 })
 export class OperationsComponent implements OnInit {
-  datas : ReclamationItem[]= [
+  datas : ReclamationItem[]= [] // listes des opérations (affichée aprés filtre)
+
+  motcle = null; // mot clé cherchercher dans les liste des opérations pour le filtre du taleau 
+  dataBase:ReclamationItem[] = this.datas; // liste des opérations (sauvegarde de la liste sans filtre)
 
 
-  ]
-
-  motcle = null;
-  dataBase:ReclamationItem[] = this.datas;
-
+  /* recherche des opérations contenant le mot clé recherché;
+   * renvoie la liste conténant le mot clé
+   * ne prend aucun parametre
+   */
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -33,10 +35,9 @@ export class OperationsComponent implements OnInit {
     this.datas = filterTable;
   }
   
-  listLivreur:any = [];
-  closeResult: string;
-  selected:any = null;
-  listLivraisonByLivreur:any =[];
+  closeResult: string; // Résultat fermeture du modal
+  selected:any = null; // Opérations Séléctionnée
+
   constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router) {}
 
   private getDismissReason(reason: any): string {
@@ -48,6 +49,9 @@ export class OperationsComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+// Ouvrir Modal
+//En parametre l'identifient du modal
 open(content) {
   this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
@@ -55,53 +59,7 @@ open(content) {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
   });
 }
-updateUser(selected){
-  this._serviceAdmin.updateUser({nom:selected.nom,prenom:selected.prenom,telephone:selected.telephone,adresse:selected.adresse,login:selected.login,password:sha1("1234"),nom_entreprise:"null",iduser:selected.iduser}).then(res=>{
-    console.log(res);
-    if(res['status'] == true){
-      this.modalService.dismissAll()
-      alert("Utilisateur mise à jour");
-      this.selected = null;
 
-    }else{
-      this.modalService.dismissAll()
-      alert("Erreur mise à jour");
-    }
-  })
-}
-deleteUser(id){
-  console.log(id)
-  if(confirm("Voulez vous supprimé ce Livreur ?")){
-    this._serviceAdmin.deleteUser({iduser:id}).then(res=>{
-      console.log(res);
-      if(res['status'] == true){
-        alert('Livreur supprimé')
-        this.listLivreur = [];
-        this._serviceAdmin.getLivreur().then(res=>{
-          console.log(res);
-          if(res['status'] == true){
-            this.listLivreur = res['message']
-            this.open('content')
-          }
-        })
-      }else{
-        alert("Suppression erreur");
-      }
-    })
-  }
- 
-}
-
-getLivraisonByLivreur(id){
-  this.listLivraisonByLivreur= [];
-  this._serviceAdmin.getLivraisonLivreur({iduser:id}).then(res=>{
-    console.log(res);
-    if(res['status'] = true){
-      this.listLivraisonByLivreur = res['message'];
-     
-    }
-  })
-}
   ngOnInit() {
 
   }

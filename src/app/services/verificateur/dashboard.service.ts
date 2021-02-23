@@ -7,12 +7,13 @@ export class DashboardService {
   private url = "https://7e7b433878cb.ngrok.io/midleware_ipres/index.php";
   private header :HttpHeaders;
 
+  //Constructeur : initialisation
   constructor(private http: HttpClient) {
     this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
    }
 
-
+  // Requette Hppt de reccuperation de pensions par interval de date
   public getPaymentByInterval (param): Promise<any>{
     let params="param="+JSON.stringify(param);
     console.log(params);

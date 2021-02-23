@@ -12,17 +12,25 @@ import { DashboardService } from 'src/app/services/verificateur/dashboard.servic
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponentVerif implements OnInit {
-  dateDebut:'';
-  dateFin='';
+  dateDebut:''; // La date de début pour la recherche par interval
+  dateFin=''; // La date de fin pour la recherche par interval
 
-  nbrPenssionnaire = 0;
-  soldeTotal = 0;
-  datas : DashboardItem[]= [
-  ]
 
-  motcle = null;
-  dataBase:DashboardItem[] = this.datas;
+  nbrPenssionnaire = 0; //Nombre total de penssionnaires
+  soldeTotal = 0; //solde total 
 
+  datas : DashboardItem[]= [] // listes les pensions (affichée aprés filtre)
+
+
+
+  motcle = null; // mot clé cherchercher dans les liste des pensions pour le filtre du taleau 
+
+  dataBase:DashboardItem[] = this.datas; // liste des pensions (sauvegarde de la liste sans filtre)
+
+  /* recherche des pensions contenant le mot clé recherché;
+   * renvoie la liste conténant le mot clé
+   * ne prend aucun parametre
+   */
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -38,10 +46,13 @@ export class DashboardComponentVerif implements OnInit {
     this.datas = filterTable;
   }
   
-  listLivreur:any = [];
-  closeResult: string;
-  selected:any = null;
-  listLivraisonByLivreur:any =[];
+  closeResult: string; // resultat aprés  fermeture  du modal 
+  selected:any = null; // element choisi dans la liste de pensions
+
+  /* 
+  * constructeur de la class
+  * initialisation des differents services et attibuts de la classe
+  */
   constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _dashService:DashboardService) {}
 
   private getDismissReason(reason: any): string {
@@ -53,6 +64,11 @@ export class DashboardComponentVerif implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+  /* 
+   Ouvrir un modal
+   content => identifiant du modal
+  */
 open(content) {
   this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
@@ -61,6 +77,11 @@ open(content) {
   });
 }
 
+/* 
+   formater les données reçus apres requete htttp
+   dataRest =>  données reçus
+   arr =>  résultat du formatage (tableau des pensions)
+*/
 
 parseDatas (dataRest):DashboardItem[]{
   let arr:DashboardItem[]=[];
@@ -78,6 +99,10 @@ parseDatas (dataRest):DashboardItem[]{
   return arr;
 }
 
+
+/* 
+   calcul du solde total des pensions et du nombres de pensionnaires
+*/
 calculeDash(data):any{
     
     (data).forEach(element => {
@@ -87,6 +112,9 @@ calculeDash(data):any{
 
 }
 
+/* 
+   function de recuperation des pensions par interval de dates 
+*/
 rechercherInterval(debut,fin){
   this._dashService.getPaymentByInterval({debut:debut,fin:fin}).then(rep => {
     console.log(rep)
@@ -94,6 +122,7 @@ rechercherInterval(debut,fin){
   });
 }
 
+// La date actuél dans le format dd/mm/yyyy;
 getDateNow(){
   let today = new Date();
   let dd = this.getDay(today);
@@ -105,6 +134,10 @@ getDateNow(){
   console.log(day);
   return day;
 }
+  /* le mois de la reçu en parametre
+  *  reçoi une date en parametres
+  *  returne le mois 
+  */ 
 
   getMoth(date){
     let mm = ""; 
@@ -118,6 +151,10 @@ getDateNow(){
     return mm;
   }
 
+  /* le jour de la reçu en parametre
+  *  reçoi une date en parametres
+  *  returne le jour 
+  */ 
   getDay(date){
     let dd = ""; 
     if(date.getDay()<10) 
@@ -130,6 +167,15 @@ getDateNow(){
     return dd;
   }
 
+  /* le mois de la reçu en parametre
+  *  reçoi une date en parametres
+  *  returne le mois 
+  */ 
+
+  /* 
+  * function appelée pour valider l'interval des dates choisi
+  */
+
   validerrechercherInterval (){
     this.soldeTotal = 0;
     this.nbrPenssionnaire = 0;
@@ -139,15 +185,18 @@ getDateNow(){
     this.rechercherInterval(dateDebut[2]+'/'+dateDebut[1]+'/'+dateDebut[0],dateFin[2]+'/'+dateFin[1]+'/'+dateFin[0]);
   }
 
+  /* le Année de la reçu en parametre
+  *  reçoi une date en parametres
+  *  returne le Année 
+  */ 
   getYear(date){
     return date.getFullYear();
   }
 
   ngOnInit() {
     let today = new Date();
-    
-    let debut = this.getDay(today)+'/' + this.getMoth(today)+'/'+(this.getYear(today)-1);
-    let fin = this.getDay(today)+'/' + this.getMoth(today)+'/'+(this.getYear(today)+1);
+    let debut = '01/01/'+this.getYear(today);
+    let fin = '31/12/'+this.getYear(today);
 
     this.rechercherInterval(debut,fin);
   }

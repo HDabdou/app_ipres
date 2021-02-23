@@ -10,7 +10,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Nomdres De Penssionnaire(s)</h5>
-                  <span class="h2 font-weight-bold mb-0">{{this.nbrPenssionnaire}} (Penssionnaires)</span>
+                  <span class="h2 font-weight-bold mb-0">{{this.nbrPenssionnaire}} (pensionnaires)</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -21,7 +21,7 @@
 
               <p class="mt-3 mb-0 text-sm">
                 <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                <span class="text-nowrap">pensionnaire payées</span>
+                <span class="text-nowrap">pensionnaires payées</span>
               </p>
             </div>
           </div>
@@ -75,7 +75,6 @@
               <table class=" table tablesorter" id="">
                 <thead class=" text-primary">
                   <tr>
-                    <th><input class="form-check-input" type="checkbox"></th>
                     <th>Pensionnaire</th>
                     <th>Montant</th>
                     <th>Téléphone</th>
@@ -85,8 +84,7 @@
                 <tbody>
 
                   <tr *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
+                    <td><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
                     <td>{{l.montant}}</td>
                     <td>{{l.tel}}</td>
                     <td>{{l.date}}</td>

@@ -7,12 +7,13 @@ export class MarkeplaceService {
   private url = "https://a007cada0a60.ngrok.io/midleware_ipres/index.php";
   private header :HttpHeaders;
 
+  //Constructeur : initialisation des services
   constructor(private http: HttpClient) {
     this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
    }
 
-
+  // requete de reccuperation de l'ensemble des produits
   public getProduits(param): Promise<any>{
     let params="param="+JSON.stringify(param);
     console.log(params);
