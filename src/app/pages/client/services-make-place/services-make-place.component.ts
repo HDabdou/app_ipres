@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MarkeplaceService } from 'src/app/services/client/markeplace.service';
 
 import { ServiceItem } from '../interfaces/interface.service';
 @Component({
@@ -12,28 +13,8 @@ export class ServicesMakePlaceComponent implements OnInit {
   serviceTitre:string;
   serveForm:string;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal,private _markeplaceService:MarkeplaceService) { }
   datas : ServiceItem[]= [
-    {
-      nom: 'Service 1',
-      description:'description du service',
-      text:"Faire l'Opération"
-    },
-    {
-      nom: 'Service 2',
-      description:'description du service',
-      text:"Faire l'Opération"
-    },
-    {
-      nom: 'Service 3',
-      description:'description du service',
-      text:"Faire l'Opération"
-    },
-    {
-      nom: 'Service 4',
-      description:'description du service',
-      text:"Faire l'Opération"
-    },
     
   ]
 
@@ -48,6 +29,25 @@ export class ServicesMakePlaceComponent implements OnInit {
     }
   }
 
+  parseDatas (dataRest){
+    let arr=[];
+    (dataRest.produit).forEach(element => {
+      arr.push({
+        img:"https://www.w3schools.com/images/w3schools_green.jpg",
+        nom:element.nom,
+        prix:element.prix,
+        quantite:element.quantite,
+        updated_at:element.updated_at,
+        text:"Acheter",
+
+      });
+  
+    });
+    
+    return arr;
+  }
+  
+
   open(content,nom) {
     return false;
     // this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
@@ -61,7 +61,11 @@ export class ServicesMakePlaceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._markeplaceService.getProduits({}).then(res=>{
+      console.log(res);
+      this.datas =  this.datas = this.parseDatas(res);
 
+    })
   }
 
 }

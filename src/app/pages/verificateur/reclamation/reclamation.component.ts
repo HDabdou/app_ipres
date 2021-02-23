@@ -14,18 +14,23 @@ import {ReclamationService} from '../../../services/verificateur/reclamation.ser
   styleUrls: ['./reclamation.component.scss']
 })
 export class ReclamationComponent implements OnInit {
-
+  descritionModifier = '';
   success = null;
 
-  loader = null;
+  loader = null; // état du chargement des données
 
-  datas : ReclamationItem[]= [ ]
+  datas : ReclamationItem[]= [ ] // listes des réclamations (affichée aprés filtre)
 
-  chechedsItems = [];
+  chechedsItems = []; // Liste des réclamation choisies
 
-  motcle = null;
-  dataBase:ReclamationItem[] = this.datas;
+  motcle = null; // mot clé cherchercher dans les liste des réclamations pour le filtre du taleau 
+  dataBase:ReclamationItem[] = this.datas; // liste des réclamations (sauvegarde de la liste sans filtre)
 
+
+  /* recherche des réclamations contenant le mot clé recherché;
+   * renvoie la liste conténant le mot clé
+   * ne prend aucun parametre
+   */
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -43,11 +48,11 @@ export class ReclamationComponent implements OnInit {
   }
 
 
-  listLivreur:any = [];
-  closeResult: string;
-  selected:any = null;
-  listLivraisonByLivreur:any =[];
+  closeResult: string; // état du modal
+  selected:any = null; // la réclamation sélétionné
   collection = []
+  // constructeur de la classe
+  // initialise les service et les attributs de la classe
   constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {
     for (let i = 1; i <= 100; i++) {
       this.collection.push(`item ${i}`);
@@ -55,7 +60,11 @@ export class ReclamationComponent implements OnInit {
   }
 
   
-
+  /*
+  * Rechercher l'indice d'un objet dans un tableau d'objets
+  * prend en parametre le tableau (tab),l'objet (obj) et la clé réchercher (key)
+  * retourne l'indice
+  */
   indexObj(tab,obj,key){
     for (let index = 0; index < tab.length; index++) {
       if(tab[index][key]==obj[key]){
@@ -64,7 +73,12 @@ export class ReclamationComponent implements OnInit {
     }
   }
 
-  
+
+  /*
+  * séléctionner une ligne dans le tableau HTML (liste des demandes)
+  *  retourne la liste selectionnée
+  */
+
   cheickedItem(event,l){
     let  index = null;
     console.log(l,event.target.className);
@@ -78,13 +92,22 @@ export class ReclamationComponent implements OnInit {
     }
   }
 
+    /*
+    * séléctionner toutes  les lignes dans le tableau HTML (liste des demandes)
+    *  retourne la liste selectionnée
+    */
+
   cheickedAllItem(event){
     let itemRowCheckboxReclamation = document.querySelectorAll("#itemRowCheckboxReclamation");
     if(event.target.checked== true){
       itemRowCheckboxReclamation.forEach((element)=> {
         console.log(element);
         element.className='checked';
-        this.chechedsItems = this.datas;
+        (this.datas).forEach((element)=> {
+            if(element.etat ! =1){
+              (this.chechedsItems).push(element);
+            }
+        });
       });
         
     }else if (event.target.checked== false){
@@ -96,6 +119,7 @@ export class ReclamationComponent implements OnInit {
     }
   }
 
+  // fermeture du modal
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -105,6 +129,9 @@ export class ReclamationComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+// Ouvrir le modal
+// En parametre l'identifiant du modal ciblé
 open(content) {
   this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
@@ -115,7 +142,8 @@ open(content) {
 
 
 
-
+// Formater les données reçus du backend
+// retourne une liste de réclamation
 parseDatas (dataRest):ReclamationItem[]{
   let arr:ReclamationItem[]=[];
   dataRest.forEach(element => {
@@ -132,10 +160,15 @@ parseDatas (dataRest):ReclamationItem[]{
 }
 
 
+// Valider une réclamation traiter
+// En parametre la réclamation a valider
 
 validerLaReclammation (obj:ReclamationItem){
-  console.log({idAdmin:6,idReclamation:obj.idReclamation,etat:1});
-  this._rclService.setTraiterReclamation({idAdmin:6,idReclamation:obj.idReclamation,etat:1}).then(rep => {
+  let params = [];
+  (this.chechedsItems).forEach(element => {
+    params.push({idAdmin:6,idReclamation:element.idReclamation,etat:1})
+  });
+  this._rclService.setTraiterReclamation({reclamation:params}).then(rep => {
     if(rep.statut==1){
       this.loader = null;
       this.success = true;
@@ -144,28 +177,46 @@ validerLaReclammation (obj:ReclamationItem){
   this.loader = true;
 }
 
+// modifier la réclamation
 modifierLaReclammation (obj:ReclamationItem){
   console.log({idReclamation:obj.idReclamation,description:obj.descrition});
-  this._rclService.setTraiterReclamation({idReclamation:obj.idReclamation,description:obj.descrition}).then(rep => {
-    if(rep.statut==1){
+  this._rclService.setTraiterReclamation({idUser:6,id:obj.idReclamation,description:this.descritionModifier}).then(rep => {
+    if(rep.status==1){
       this.loader = null;
       this.success = true;
+      this.getReclamation();
     }
   });
   this.loader = true;
 }
 
+
+// Valider la liste des  réclamations séléctionnées
 validerLesReclamationSelectionnes (){
-  console.log(this.chechedsItems);
-  this.loader = true;
-} 
-
-
-
-ngOnInit() {
-  this._rclService.getAllReclamations({}).then((data: any) => {
-    console.log(data.data)
-    this.datas = this.dataBase = this.parseDatas(data.data);
+  let params = [];
+  (this.chechedsItems).forEach(element => {
+    params.push({idAdmin:6,idReclamation:element.idReclamation,etat:1})
   });
+  this._rclService.setTraiterReclamation({reclamation:params}).then(rep => {
+    if(rep.statut==1){
+      this.loader = null;
+      this.success = true;
+      this.getReclamation();
+    }
+  });
+  this.loader = true;
 }
+
+  // reccuperer l'ensemble des réclamations
+  getReclamation(){
+    this._rclService.getAllReclamations({}).then((data: any) => {
+      console.log(data.data)
+      this.datas = this.dataBase = this.parseDatas(data.data);
+    });
+  }
+
+
+  ngOnInit() {
+    this.getReclamation();
+  }
 }

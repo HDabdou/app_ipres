@@ -35,19 +35,19 @@ export class ServicesSentollComponent implements OnInit {
     },
     {
       nom: 'Recharge Bancaire',
-      description:'Faite vos paiement sans vous déplacez',
+      description:'Rechager votre compte Bancaire en tout sécurité',
       text:"Faire l'Opération"
 
     },
     {
       nom: 'Abonement Tv',
-      description:'Faite vos paiement sans vous déplacez',
+      description:'Abonnez-vous a vos bouquets',
       text:"Faire l'Opération"
 
     },
     {
       nom: 'Assurance',
-      description:'Faite vos paiement sans vous déplacez',
+      description:"Qui en a pas besoin ?",
       text:"Faire l'Opération"
 
     },

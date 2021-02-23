@@ -37,7 +37,7 @@
                 
                   <tr *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }" >
                     <td><input class="form-check-input" type="checkbox"></td>
-                    <td  (click)="getLivraisonByLivreur(l.iduser);open(content)"><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
+                    <td><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
                     <td>{{l.montant}}</td>
                     <td>{{l.tel}}</td>
                     <td>{{l.date}}</td>

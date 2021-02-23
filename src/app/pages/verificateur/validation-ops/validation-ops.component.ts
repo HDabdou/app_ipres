@@ -19,14 +19,17 @@ export class ValidationOpsComponent implements OnInit {
 
   ]
 
-  loader=null;
-  success = null;
+  loader=null; // état du chargement des données
+  success = null; //état de la requete de validation
+  chechedsItems = []; // tableau  des opérations sélectionnées 
 
-  chechedsItems = [];
-
-  motcle = null;
+  motcle = null; // mot clé rechercher 
   dataBase:ReclamationItem[] = this.datas;
 
+  /* recherche des opérations contenant le mot clé recherché;
+   * renvoie la liste conténant le mot clé
+   * ne prend aucun parametre
+   */
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -42,10 +45,9 @@ export class ValidationOpsComponent implements OnInit {
     this.datas = filterTable;
   }
   
-  listLivreur:any = [];
   closeResult: string;
   selected:any = null;
-  listLivraisonByLivreur:any =[];
+
   constructor(private modalService: NgbModal,private router:Router,private _oprService:OperationService) {}
 
   private getDismissReason(reason: any): string {
@@ -92,6 +94,10 @@ export class ValidationOpsComponent implements OnInit {
         });
       }
 
+    /*
+    * Valider une demande
+    * prend en parametres la demande
+    */
     validerLaDemande (obj){
       let listeOPerations = [];
       listeOPerations.push(obj.obj);
@@ -109,7 +115,11 @@ export class ValidationOpsComponent implements OnInit {
       this.loader = true;
     }
 
-   
+  /*
+  * Rechercher l'indice d'un objet dans un tableau d'objets
+  * prend en parametre le tableau (tab),l'objet (obj) et la clé réchercher (key)
+  * retourne l'indice
+  */
   indexObj(tab,obj,key){
     for (let index = 0; index < tab.length; index++) {
       if(tab[index][key]==obj[key]){
@@ -117,19 +127,29 @@ export class ValidationOpsComponent implements OnInit {
       }
     }
   }
-    cheickedItem(event,l){
-      let  index = null;
-      console.log(l,event.target.className);
-      if(event.target.className=='unchecked'){
-        event.target.className='checked';
-        this.chechedsItems.push(l);
-      }else{
-        event.target.className='unchecked';
-        index =  this.indexObj(this.chechedsItems,l,'id');
-        (this.chechedsItems).splice(index,1);
-      }
-    }
 
+  /*
+  * séléctionner une ligne dans le tableau HTML (liste des demandes)
+  *  retourne la liste selectionnée
+  */
+
+  cheickedItem(event,l){
+    let  index = null;
+    console.log(l,event.target.className);
+    if(event.target.className=='unchecked'){
+      event.target.className='checked';
+      this.chechedsItems.push(l);
+    }else{
+      event.target.className='unchecked';
+      index =  this.indexObj(this.chechedsItems,l,'id');
+      (this.chechedsItems).splice(index,1);
+    }
+  }
+
+    /*
+    * séléctionner toutes  les lignes dans le tableau HTML (liste des demandes)
+    *  retourne la liste selectionnée
+    */
     cheickedAllItem(event){
       let itemRowCheckboxReclamation = document.querySelectorAll("#itemRowCheckboxReclamation");
       if(event.target.checked== true){
@@ -150,6 +170,9 @@ export class ValidationOpsComponent implements OnInit {
   
 
 
+    /*
+    * Validé la liste  des  demandes
+    */
     validerLaDemandeSelectionnes (){
       console.log(this.chechedsItems);
       this.loader = true;

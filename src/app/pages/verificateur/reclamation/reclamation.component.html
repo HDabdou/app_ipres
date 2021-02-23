@@ -36,19 +36,19 @@
                 </thead>
                 <tbody >
                 
-                  <tr  *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td><span class='unchecked' (click)="cheickedItem($event,l)" id="itemRowCheckboxReclamation">o</span></td>
+                  <tr  *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }" >
+                    <td><span *ngIf='l.etat!=1' class='unchecked' (click)="cheickedItem($event,l)" id="itemRowCheckboxReclamation">o</span></td>
                     <td  ><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
                     <td>{{l.descrition}}</td>
                     <td>{{l.etat}}</td>
                     <td>{{l.date}}</td>
-                    <td><button class="btn btn-success" (click)="open(content1);selected = l;" style="margin-left:3px;padding: 10px;">Modifier</button> <button class="btn btn-danger"  (click)="selected = l;this.loader=false;open(contentValiderItem);" style="margin-left:3px;padding: 10px;"><i class=" tim-icons icon-check-2">Traiter </i></button> </td>
+                    <td><button class="btn btn-success" (click)="open(content1);selected = l;this.loader=false;" style="margin-left:3px;padding: 10px;">Modifier</button> <button class="btn btn-danger"  (click)="selected = l;this.loader=false;open(contentValiderItem);" style="margin-left:3px;padding: 10px;" [disabled]="l.etat==1"><i class=" tim-icons icon-check-2">Traiter </i></button> </td>
                   </tr>
                 </tbody>
               </table>
               <div class="list">
                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                <button style="float: right;" class=" btn btn-fill btn-danger" type="submit"  (click)="open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
+                <button [disabled]="this.chechedsItems.length==1" style="float: right;" class=" btn btn-fill btn-danger" type="submit"  (click)="this.loader=false;open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
               </div>
 
             </div>
@@ -78,7 +78,7 @@
         <div class="row">
           <div class="col-12" style="text-align: center;" *ngIf="this.loader==false">
             <h1 class=" card-title">Voulez-vous vraiment valider cette réclamation ?</h1>
-            <button class=" btn btn-fill btn-danger" type="submit" (click)="validerLaReclammation(this.selected)" (keyup.enter)="login()">Valider</button>
+            <button class=" btn btn-fill btn-danger" type="submit" (click)="this.chechedsItems.push(this.selected);validerLaReclammation(this.selected)" (keyup.enter)="login()">Valider</button>
           </div>
 
           <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
@@ -127,23 +127,24 @@
             <button  class=" btn btn-fill btn-default" (click)="this.loader=false; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Non</button>
             <button  class=" btn btn-fill btn-danger" type="submit" (click)="validerLesReclamationSelectionnes()" (keyup.enter)="login()">Oui</button>
           </div>
-          <div class="col-12 loader" *ngIf="this.loader==true" style="text-align: center;">
-            <div class="spinner-box">
-              <div class="blue-orbit leo">
-              </div>
-            
-              <div class="green-orbit leo">
+          <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+            <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+          </div>
+
+          <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+            <div class="dummy-positioning d-flex">
+  
+              <div class="success-icon">
+                <div class="success-icon__tip"></div>
+                <div class="success-icon__long"></div>
               </div>
               
-              <div class="red-orbit leo">
-              </div>
-              
-              <div class="white-orbit w1 leo">
-              </div><div class="white-orbit w2 leo">
-              </div><div class="white-orbit w3 leo">
-              </div>
-            </div>
-            <button  class=" btn btn-fill btn-default" (click)="this.loader=false; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Oui</button>
+            </div>    
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          </div>
+          <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+          
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
           </div>
         </div>
       </div>
@@ -201,7 +202,7 @@
             <h1 class=" card-title">Modification</h1>
           </div>
 
-          <div class=" form-group" style="width: 79% !important;padding-left: 20%;">
+          <div class=" form-group" style="width: 79% !important;padding-left: 20%;" *ngIf="this.loader==false">
             <label style="font-size: 1rem;">Description :</label>
             <textarea
               class=" form-control"
@@ -213,8 +214,27 @@
 
           </div>
           <br>
-          <div class="col-12" style="padding-left: 40%;">
-            <button  class=" btn btn-fill btn-default" (click)="this.loader=true;modifierLaReclammation (this.selected) " type="submit" (keyup.enter)="login()">Modifier</button>
+          <div class="col-12" style="padding-left: 40%;" *ngIf="this.loader==false">
+            <button  class=" btn btn-fill btn-default" (click)="this.loader=true;modifierLaReclammation(this.selected) " type="submit" (keyup.enter)="login()">Modifier</button>
+          </div>
+          <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+            <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+          </div>
+
+          <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+            <div class="dummy-positioning d-flex">
+  
+              <div class="success-icon">
+                <div class="success-icon__tip"></div>
+                <div class="success-icon__long"></div>
+              </div>
+              
+            </div>    
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          </div>
+          <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+          
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
           </div>
           
         </div>

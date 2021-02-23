@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class OperationService {
 
-  private url = "https://3e5f2e217a0a.ngrok.io/midleware_ipres/index.php";
+  private url = "https://7e7b433878cb.ngrok.io/midleware_ipres/index.php";
   private header :HttpHeaders;
 
   constructor(private http: HttpClient) {

@@ -6,8 +6,9 @@
           <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of datas">
             <div class="card text-center" style="width: 100%;">
               <div class="card-body">
-                <h2 class="card-title">{{l.nom}}</h2>
-                <p class="card-text">{{ l.description }}</p>
+                <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com">
+                <h2 class="card-title">{{l.prix}} cfa</h2>
+                <p class="card-text">{{ l.nom }}</p>
                 <a href="#0" (click)="open(content,l.nom);" class="btn btn-primary" >{{l.text}}</a>
               </div>
             </div>

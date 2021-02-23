@@ -4,6 +4,6 @@ export interface ReclamationItem {
      prenom:string,
      descrition:string;
      date:string
-     etat:string;
+     etat:number;
      idReclamation:number;
 }
