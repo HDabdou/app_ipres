@@ -11,7 +11,7 @@ export class AdminMakerService {
 
 
   //l'url de base
-  private url = "http://localhost:8088/midleware_ipres/index.php";
+  private url = "http://apitnt.bbstvnet.com/index.php";
   //Headers
   private header :HttpHeaders;
 

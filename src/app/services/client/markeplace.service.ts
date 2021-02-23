@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class MarkeplaceService {
-  private url = "https://a007cada0a60.ngrok.io/midleware_ipres/index.php";
+  private url = "http://apitnt.bbstvnet.com/index.php";
   private header :HttpHeaders;
 
   //Constructeur : initialisation des services
