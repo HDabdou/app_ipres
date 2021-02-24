@@ -151,7 +151,7 @@ parseDatas (dataRest):ReclamationItem[]{
       nom:element.operation.nom,
       prenom:element.operation.prenom,
       descrition:element.reclamation.description,
-      date:element.reclamation.updated_at,
+      date: new Date((element.reclamation.updated_at)).toLocaleDateString(),
       etat:element.reclamation.etat,
       idReclamation: element.reclamation.id,
     });
@@ -172,6 +172,7 @@ validerLaReclammation (obj:ReclamationItem){
     if(rep.statut==1){
       this.loader = null;
       this.success = true;
+      this.getReclamation();
     }
   });
   this.loader = true;

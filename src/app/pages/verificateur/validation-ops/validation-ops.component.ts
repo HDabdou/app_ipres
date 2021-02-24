@@ -77,7 +77,7 @@ export class ValidationOpsComponent implements OnInit {
         arr.push({
           prenom:element.prenom,
           nom:element.nom,
-          date:element.updated_at,
+          date:(((element.updated_at).split('.')[0]).split('T'))[0]+ ' '+(((element.updated_at).split('.')[0]).split('T'))[1],
           montant:element.montant,
           tel:element.telephone,
           obj:element
@@ -86,12 +86,15 @@ export class ValidationOpsComponent implements OnInit {
       return arr;
     }
 
+    getOperations(){
+      this._oprService.getOperations({}).then((data: any) => {
+        console.log(data)
+        this.datas = this.dataBase = this.parseDatas(data.op);
+      });
+    }
     
       ngOnInit() {
-        this._oprService.getOperations({}).then((data: any) => {
-          console.log(data)
-          this.datas = this.dataBase = this.parseDatas(data.op);
-        });
+        this.getOperations();
       }
 
     /*
@@ -110,6 +113,7 @@ export class ValidationOpsComponent implements OnInit {
         if(rep.status==1){
           this.loader = null;
           this.success = true;
+          this.getOperations();
         }
       });
       this.loader = true;
@@ -138,7 +142,7 @@ export class ValidationOpsComponent implements OnInit {
     console.log(l,event.target.className);
     if(event.target.className=='unchecked'){
       event.target.className='checked';
-      this.chechedsItems.push(l);
+      this.chechedsItems.push(l.obj);
     }else{
       event.target.className='unchecked';
       index =  this.indexObj(this.chechedsItems,l,'id');
@@ -173,8 +177,20 @@ export class ValidationOpsComponent implements OnInit {
     /*
     * Validé la liste  des  demandes
     */
-    validerLaDemandeSelectionnes (){
-      console.log(this.chechedsItems);
+   validerLesReclamationSelectionnes (){
+      let listeOPerations = this.chechedsItems;
+     
+      this.loader = true;
+
+      console.log(listeOPerations);
+      this._oprService.validerOperations({op:listeOPerations}).then(rep => {
+        console.log(rep);       
+        if(rep.status==1){
+          this.loader = null;
+          this.success = true;
+          this.getOperations();
+        }
+      });
       this.loader = true;
     }
 

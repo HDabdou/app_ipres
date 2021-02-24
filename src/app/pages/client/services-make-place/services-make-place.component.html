@@ -2,18 +2,103 @@
     <div class=" row">
       <div class="col-md-12">
         <div class="row">
-          
-          <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of datas">
+          <div class="col-12">
+            <div class=" form-group">
+              <input
+                class=" form-control"
+                placeholder="Mot Clé"
+                type="text"
+                [(ngModel)]="this.motcle"
+                [ngModelOptions]="{standalone: true}"
+                (keyup) = "searchAll()"
+              />
+              
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let l of this.datas">
             <div class="card text-center" style="width: 100%;">
               <div class="card-body">
-                <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com">
-                <h2 class="card-title">{{l.prix}} cfa</h2>
-                <p class="card-text">{{ l.nom }}</p>
-                <a href="#0" (click)="open(content,l.nom);" class="btn btn-primary" >{{l.text}}</a>
+                <img src="{{l.images[0]}}" alt="W3Schools.com">
+                <h2 class="card-title">{{l.prix}} FCFA</h2>
+                <p class="card-text">{{l.nom}}</p>
+                <a href="#0" (click)="this.loader=false;open(content,l);" class="btn btn-primary" >Acheter</a>
               </div>
             </div>
           </div>
         </div>
+        <ng-template #content let-modal >
+          <div class="modal-content" style="overflow: auto !important;min-width: 100% !important;margin-left: 0rem;overflow: auto !important;margin-top: -11rem !important;" >
+            <div class=" modal-header">
+        
+              <button
+                aria-label="Close"
+                class=" close"
+                data-dismiss="modal"
+                type="button"
+                (click)="modal.dismiss('Cross click')"
+              >
+                <i class=" tim-icons icon-simple-remove"> </i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12" style="text-align: center;">
+                  <h1 class=" card-title">Détails du Produit</h1>
+                </div>
+
+                <div *ngIf="this.loader==false" class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="card text-center" style="width: 100%;">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                          <img src="{{this.selected.images[0]}}" alt="W3Schools.com">
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                          <h2 class="card-title">{{this.selected.prix}} FCFA</h2>
+                          <p class="card-text">{{this.selected.nom}}</p>
+                          <input
+                            class=" form-control"
+                            placeholder="Quantité"
+                            type="number"
+                            [(ngModel)]="this.quantite"
+                            [ngModelOptions]="{standalone: true}"
+                            style="border: 1px solid;border-radius: 1rem;" />
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <a href="#0" (click)="validerAchat()" class="btn btn-primary" >Valider l'achat</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+                  <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+                </div>
+      
+                <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+                  <div class="dummy-positioning d-flex">
+        
+                    <div class="success-icon">
+                      <div class="success-icon__tip"></div>
+                      <div class="success-icon__long"></div>
+                    </div>
+                    
+                  </div>    
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+                </div>
+                <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+                
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+                </div>
+                
+              </div>        
+            </div>
+            
+          </div>
+          
+        
+        </ng-template>
       </div>
     </div>
   </div>

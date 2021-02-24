@@ -90,7 +90,7 @@ parseDatas (dataRest):DashboardItem[]{
       prenom:element.pensionnaire.prenom,
       nom:element.pensionnaire.nom,
       montant:element.paiement.montant,
-      date:element.paiement.updated_at,
+      date: (new Date(element.paiement.updated_at)).toLocaleDateString(),
       tel:element.pensionnaire.telephone,
     });
 
