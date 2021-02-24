@@ -118,6 +118,23 @@ export class AdminMakerService {
       let link=this.url+"/ipres/operateur/updateReclamationOp";
       return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
     } 
+    
+    // getPensionnaireByCode permet rechercher un pensionnaire pour la création
+    public getPensionnaireByCode(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link="http://localhost:8088/midleware_ipres/index.php/ipres/operateur/getPensionnaireByCode";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
+     // addPensionnaire permet d'importer une liste pensionniaires
+     public addPensionnaire(param): Promise<any>{
+      let params ="param="+JSON.stringify(param);
+      console.log(params);
+      
+      let link="http://localhost:8088/midleware_ipres/index.php/ipres/admin/addPensionnaire";
+      return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(JSON.stringify(res)); return res} ).catch(error => {console.log(error); return 'bad' });
+    } 
     public activerClient(param): Promise<any>{
       let params ="param="+JSON.stringify(param);
       console.log(params);

@@ -90,6 +90,15 @@
                 </select>
               </div>
             </div>
+            
+            <ngb-alert [type]="'danger'" *ngIf="etapUpdate == -1" [dismissible]="false">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+              <span>
+                le Client n'a pas d'opération de paiements !!!!
+              </span>
+            </ngb-alert>
             <div class=" col-md-6 " *ngIf="etapUpdate >1" >
               <div class=" form-group">
                 <label style="font-size: 1rem;"> Operation </label>
@@ -101,12 +110,12 @@
                     [(ngModel)]="this.idoperation"
                     [ngModelOptions]="{standalone: true}"
                 >
-                <option  value="">Choisissez un client</option>
+                <option  value="">Choisissez une opération</option>
                 <option *ngFor="let i of listeOperation" value="{{i.id}}">{{displayMonth(i.mois)}} {{i.annee}} {{i.montant}} Fcfa</option>
                 </select>
               </div>
             </div>
-            <div class=" col-md-8 " *ngIf="etapUpdate >1">
+            <div class=" col-md-8 " *ngIf="etapUpdate > 1 && idoperation != '' || idoperation != undefined">
                 <div class=" form-group">
                   <label style="font-size: 1rem;"> Réclamation </label>
                   <textarea class="form-control"
@@ -120,7 +129,7 @@
                  
                 </div>
               </div>
-            <div class=" col-md-12 ">
+            <div class=" col-md-12 " *ngIf="etapUpdate > 1 && idoperation != '' || idoperation != undefined">
               <div class=" form-group" style="text-align: center;">
                 <label style="font-size: 1rem;">  </label>
                 <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerAddReclamation();modal.dismiss('Cross click')" >Valider</button>

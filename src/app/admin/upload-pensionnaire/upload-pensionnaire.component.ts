@@ -4,13 +4,12 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AdminMakerService } from 'src/app/services/admin-maker.service';
 import * as XLSX from 'xlsx';
-
 @Component({
-  selector: 'app-upload-file',
-  templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.scss']
+  selector: 'app-upload-pensionnaire',
+  templateUrl: './upload-pensionnaire.component.html',
+  styleUrls: ['./upload-pensionnaire.component.scss']
 })
-export class UploadFileComponent implements OnInit {
+export class UploadPensionnaireComponent implements OnInit {
   etapCreation = 1;
   listUser = [];
   prenom
@@ -104,33 +103,30 @@ export class UploadFileComponent implements OnInit {
   //Ajout d'un nouvelle ligne 
   addLigne(){
     this.listeExcel = []
-    this.annee = new Date(this.date).toJSON().split('T')[0].split('-')[0];
-    this.mois = new Date(this.date).toJSON().split('T')[0].split('-')[1];
-    console.log("annee : "+this.annee.split('-')[0])
-    console.log("mois : "+this.mois)
+  
     //console.log({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:this.mois})
-    this.listeExcel.push({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant,annee:this.annee,mois:parseInt(this.mois)});
+    this.listeExcel.push({code:this.code,prenom:this.prenom,nom:this.nom,telephone:this.tel,montant:this.montant});
     this.startloader("ligne ajouter avec succés")
     console.log(this.listeExcel)
   }
   //Enregistrement du tableau importé via Excel dans la base
   saveUpload(){
-    this._adminService.saveUpload({ops:this.listeExcel}).then(res=>{
+    this._adminService.addPensionnaire({pens:this.listeExcel}).then(res=>{
       console.log(res.statut)
-      if(res.statut == 1){
+      if(res.status == 1){
+        if(res.alreadyexist.length == 0){
+          this.listeExcel = [];
+        }else{
+          this.errortloader('La liste restante existent déjà dans la base de données')
+          this.listeExcel = res.alreadyexist;
+        }
         this.startloader("liste enregistrer avec succées")
       }
       
     })
-    this.listeExcel = []
+    //this.listeExcel = []
   }
 
-  moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-  //Pour l'affichage des mois en lettre
-  displayMonth(arg){
-    let i = parseInt(arg)-1
-    return this.moisEnLettre[i]
-  }
 
   startloader(message){   
     this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
@@ -141,6 +137,16 @@ export class UploadFileComponent implements OnInit {
        positionClass: 'toast-top-center'
      });    
 }
+
+    errortloader(message){   
+      this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+        disableTimeOut: true,
+        closeButton: true,
+        enableHtml: true,
+        toastClass: "alert alert-danger alert-with-icon",
+        positionClass: 'toast-top-center'
+      });    
+    }
   ngOnInit(): void {
   }
 

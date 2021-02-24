@@ -10,7 +10,7 @@
             <div class=" card-header">
                 <div class="row">
                     <div class="col-6">
-                        <h4 class=" card-title">Liste des opérations importées</h4>
+                        <h4 class=" card-title">Liste des pensionnaires importées</h4>
                     </div>
                     <div class="col-6">
                         <button (click)="open(addLine);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une ligne</button>
@@ -27,11 +27,8 @@
                         <th  >Code</th>
                         <th  >Prénom</th>
                         <th  >Nom</th>
-                        <th  >Téléphone</th>
-        
+                        <th  >Téléphone</th>        
                         <th  >Montant</th>
-                        <th  >Année</th>
-                        <th  >Mois</th>
                         <th  >Action</th>
                       </tr>
                     </thead>
@@ -42,9 +39,7 @@
                         <td >{{p.prenom}} </td>
                         <td >{{p.nom}}</td>
                         <td >{{p.telephone}}</td>
-                        <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
-                        <td >{{p.annee}}</td>
-                        <td >{{displayMonth(p.mois)}}</td>
+                        <td >{{p.montant}}</td>
                         <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
                         </td>
                       </tr>
@@ -158,24 +153,11 @@
                     />
                   </div>
                 </div>
-                <div class=" col-md-6 ">
-                  <div class=" form-group">
-                    <label style="font-size: 1rem;"> Date </label>
-                    <input
-                    style="border: 2px solid black;"
-
-                      class=" form-control"
-                      placeholder="date"
-                      type="date"
-                      [(ngModel)]="this.date"
-                      [ngModelOptions]="{standalone: true}"
-                    />
-                  </div>
-                </div>
+               
                
               </div>
             <div class="col-md-12"  style="text-align: center;">
-              <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !montant || !date || !code" (click)="open(confirmerAdd);modal.dismiss('Cross click')" >Créer</button>
+              <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !montant  || !code" (click)="open(confirmerAdd);modal.dismiss('Cross click')" >Créer</button>
             </div>
            
          

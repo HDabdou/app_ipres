@@ -30,6 +30,7 @@ import { ValidationService } from './services/verificateur/validation.service';
 import { DashboardService } from './services/verificateur/dashboard.service';
 import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 import { LoaderComponent } from './layouts/loader/loader.component';
+import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-pensionnaire.component';
 
 
 @NgModule({

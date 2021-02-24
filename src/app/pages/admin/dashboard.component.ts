@@ -50,9 +50,8 @@ export class DashboardComponent implements OnInit {
   //Pour Fitrer sur toutes le clonne 
   motcle
   searchAll = () => {
+    
     let value = this.motcle;
-    console.log("PASS", { value });
-  let temp = this.paiements
     const filterTable = this.paiements.filter(o =>
       Object.keys(o).some(k =>
         String(o[k])

@@ -86,6 +86,7 @@ export class CreateUserComponent implements OnInit {
     this.errorMessage = 2;
     this._adminService.createUser({prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),accessLevel:3,infoSup:"",etat:1,idCreateur:2}).then(res =>{
       console.log(res)
+      this.listUser = res['data']
       this.startloader("")
     })
     

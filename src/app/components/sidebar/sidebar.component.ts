@@ -35,6 +35,7 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-align-left-2",
     class: ""
   },
+ 
 
  /* {
     path: "/user",
@@ -149,6 +150,14 @@ export const ROUTESADMIN: RouteInfo[] = [
     rtlTitle: "إخطارات",
     icon: "icon-paper",
     class: ""
+  },
+  {
+    path: "/uploadPensionnaire",
+    title: "Importer Pensionnaires",
+    rtlTitle: "خرائط",
+    icon: "icon-cloud-upload-94",
+    class: ""
+    //uploadPensionnaire
   },
 ]
 export const ROUTEOPERATEUR: RouteInfo[] = [

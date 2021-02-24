@@ -206,7 +206,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     }
     return "Dashboard";*/
-    return localStorage.getItem('profile');
+    return '';//localStorage.getItem('profile');
   }
 
   open(content) {

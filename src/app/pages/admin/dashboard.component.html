@@ -144,7 +144,7 @@
                             <td >{{p.pensionnaire.prenom}} </td>
                             <td >{{p.pensionnaire.nom}}</td>
                             <td >{{p.pensionnaire.telephone}}</td>
-                            <td >{{currencyFormat(p.pensionnaire.montantPercu)}}</td>
+                            <td >{{currencyFormat(p.paiement.montant)}}</td>
                             <td >{{displayAnneeMois(p.paiement.created_at,"annee")}}</td>
                             <td >{{displayMonth(displayAnneeMois(p.paiement.created_at,"mois"))}}</td>
                             

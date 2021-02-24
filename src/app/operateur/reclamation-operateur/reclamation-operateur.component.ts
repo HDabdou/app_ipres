@@ -25,7 +25,7 @@ export class ReclamationOperateurComponent implements OnInit {
   idclient
   listeReclamation = [];
   listeOperation = []
-
+  
   constructor(private toastr: ToastrService,private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
 
   etapUpdate = 1;
@@ -79,8 +79,16 @@ export class ReclamationOperateurComponent implements OnInit {
     console.log(this.idclient)
     this._serviceOperateur.getOperationByClient({code:this.idclient}).then(res =>{
       console.log(res)
-      this.listeOperation = res['data'];
-      this.etapUpdate = 2;
+      if(res.status == 1 ){
+        this.listeOperation = res['data'];
+        if(this.listeOperation.length == 0){
+          this.etapUpdate = -1;
+        }else{
+          this.etapUpdate = 2;
+        }
+        
+      }
+     
     })
   }
   //statut
