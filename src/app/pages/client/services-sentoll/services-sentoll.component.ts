@@ -12,14 +12,33 @@ import { ServiceItem } from '../interfaces/interface.service';
 export class ServicesSentollComponent implements OnInit {
   serviceTitre='Rerait';
   serveForm='transfert';
-  numeroDepot='';
-  montantDepot = 0;
-  walletDepot:''
+  numeroDepot= null;
+  montantDepot = null;
+  walletDepot = null;
   loader = false;
-
+  acte = null;
+  dateEffet = null;
+  duree = null; 
+  montant = null;
+  puissance = null;
+  nbrPlace = null;
+  imatriculation =null;
+  categVehicule=null;
+  valeurVenal=null;
+  assitanceJudiciaire=null;
+  avanceDeFont=null;
+  marque = null;
+  model = null;
+  nomPrenom = null
+  adresse = null;
+  ville = null;
+  activite = null;
+  telephone = null;
   success = null;
-
-
+  currier = null;
+  metier = null;
+  numCompte = null;
+  service = null;
   constructor(private modalService: NgbModal,private _servSentool:ServiceSentoolService) { }
   closeResult: string;
   prepaye = false;
