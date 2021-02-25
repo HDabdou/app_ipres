@@ -42,13 +42,15 @@
                     <td>{{l.descrition}}</td>
                     <td>{{l.etat}}</td>
                     <td>{{l.date}}</td>
-                    <td><button class="btn btn-success" (click)="open(content1);selected = l;this.loader=false;" style="margin-left:3px;padding: 10px;">Modifier</button> <button class="btn btn-danger"  (click)="selected = l;this.loader=false;open(contentValiderItem);" style="margin-left:3px;padding: 10px;" [disabled]="l.etat==1"><i class=" tim-icons icon-check-2">Traiter </i></button> </td>
+                    <td>
+                      <!-- <button class="btn btn-success" (click)="open(content1);selected = l;this.loader=false;" style="margin-left:3px;padding: 10px;">Modifier</button>  -->
+                      <button class="btn btn-danger"  (click)="selected = l;this.loader=false;open(contentValiderItem);" style="margin-left:3px;padding: 10px;" [disabled]="l.etat==1"><i class=" tim-icons icon-check-2">Traiter </i></button> </td>
                   </tr>
                 </tbody>
               </table>
               <div class="list">
                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                <button [disabled]="this.chechedsItems.length==1" style="float: right;" class=" btn btn-fill btn-danger" type="submit"  (click)="this.loader=false;open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
+                <button [disabled]="this.chechedsItems.length==0" style="float: right;" class=" btn btn-fill btn-danger" type="submit"  (click)="this.loader=false;open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
               </div>
 
             </div>
@@ -61,7 +63,7 @@
   </div>
 
   <ng-template #contentValiderItem let-modal >
-    <div class="modal-content" style="overflow: auto !important;min-width: 130% !important;margin-left: -10rem;overflow: auto !important;margin-top:-4rem !important;" >
+    <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -9rem !important;" >
       <div class=" modal-header">
   
         <button
@@ -107,7 +109,7 @@
   </ng-template>
 
   <ng-template #contentValiderItems let-modal >
-    <div class="modal-content" style="overflow: auto !important;min-width: 130% !important;margin-left: -10rem;overflow: auto !important;margin-top:-4rem !important;" >
+    <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -9rem !important;" >
       <div class=" modal-header" style="text-align: center;">
   
         <button
@@ -153,7 +155,7 @@
   </ng-template>
   
   <ng-template #content let-modal >
-    <div class="modal-content" style="overflow: auto !important;min-width: 130% !important;margin-left: -10rem;overflow: auto !important;margin-top:-4rem !important;" >
+    <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -9rem !important;" >
       <div class=" modal-header">
   
         <button
@@ -183,7 +185,7 @@
   </ng-template>
   
   <ng-template #content1 let-modal >
-    <div class="modal-content" style="overflow: auto !important;min-width: 130% !important;margin-left: -10rem;overflow: auto !important;margin-top:-4rem !important;" >
+    <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -9rem !important;" >
       <div class=" modal-header">
   
         <button

@@ -20,6 +20,7 @@ import { OperationsSentollComponent } from 'src/app/pages/client/operations-sent
 import { ReclamationComponent } from "src/app/pages/verificateur/reclamation/reclamation.component";
 import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
 import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/upload-pensionnaire.component";
+import { HistorMarketComponent } from 'src/app/pages/client/histor-market/histor-market.component';
 
 
 // import { RtlComponent } from "src/app/pages/pages/rtl/rtl.component";
@@ -47,6 +48,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "servicesSentool", component: ServicesSentollComponent },
   { path: "servicesMakePlace", component: ServicesMakePlaceComponent },
   { path: "operationsSentool", component: OperationsSentollComponent },
+  { path: "historMarket", component: HistorMarketComponent },
 
   // { path: "rtl", component: RtlComponent }
 ];

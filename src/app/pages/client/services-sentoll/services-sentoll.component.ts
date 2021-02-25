@@ -15,6 +15,8 @@ export class ServicesSentollComponent implements OnInit {
 
   constructor(private modalService: NgbModal) { }
   closeResult: string;
+  prepaye = false;
+  paiementFacture = true;
   datas : ServiceItem[]= [
     {
       nom: 'Retrait',
@@ -75,6 +77,17 @@ export class ServicesSentollComponent implements OnInit {
       this.serveForm = nom;
     return false;
   }
+
+  checkedRadioPrepaye(event){
+    this.prepaye = true;
+    this.paiementFacture = false;
+  }
+
+  checkedRadioPaiementFacture(event){
+    this.paiementFacture = true;
+    this.prepaye = false;
+  }
+
   ngOnInit() {
 
   }

@@ -43,7 +43,11 @@
                       [ngModelOptions]="{standalone: true}">
                       <option value="1">Orange Money</option>
                       <option value="2">Tigo Cash</option>
-                      <option value="3">autre</option>
+                      <option value="3">PosteCash</option>
+                      <option value="4">E-Money</option>
+                      <option value="5">MyWary</option>
+                      <option value="6">Free Money</option>
+                      <option value="7">Wizall Money</option>
                   </select>
                   </div>
                   <div class=" form-group">
@@ -96,7 +100,11 @@
                       [ngModelOptions]="{standalone: true}">
                       <option value="1">Orange Money</option>
                       <option value="2">Tigo Cash</option>
-                      <option value="3">autre</option>
+                      <option value="3">PosteCash</option>
+                      <option value="4">E-Money</option>
+                      <option value="5">MyWary</option>
+                      <option value="6">Free Money</option>
+                      <option value="7">Wizall Money</option>
                   </select>
                   </div>
                   <div class=" form-group">
@@ -151,18 +159,50 @@
                 </div>
 
                 <div *ngIf="this.serveForm=='Paiement Facture'" class="col-12" style="text-align: center;">
+                  <div class="row">
+                    <div class="col-6">
+                      <input (click)="checkedRadioPrepaye($event)" [(ngModal)]="prepaye" style="float: right;width: 100%;" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-check-label" for="exampleRadios1" style="float: left;">
+                        prépayé
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <input (click)="checkedRadioPaiementFacture($event)" [(ngModal)]="paiementFacture" style="float: right;width: 100%;" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-check-label" for="exampleRadios1" style="float: left;">
+                        paiement facture
+                      </label>
+                    </div>
+                  </div>
+
                   <div class=" form-group">
-                    <label style="font-size: 1rem;">Wallet :</label>
+                    <label style="font-size: 1rem;">Facture :</label>
                     <select
                       class=" form-control"
                       [(ngModel)]="this.service"
                       [ngModelOptions]="{standalone: true}">
-                      <option value="1">Orange Money</option>
-                      <option value="2">Tigo Cash</option>
-                      <option value="3">autre</option>
+                      <option value="1" *ngIf="this.prepaye==true">WOYOFAL</option>
+                      <option value="1" *ngIf="this.prepaye==true">Oolu Solar</option>
+                      <option value="2" *ngIf="this.paiementFacture==true">Senelec</option>
                   </select>
                   </div>
-                  <div class=" form-group">
+                  <div class=" form-group" *ngIf="this.prepaye==true">
+                    <label style="font-size: 1rem;">Numéro Conteur:</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Conteur"
+                      type="text"
+                      [(ngModel)]="this.conteur"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <div class=" form-group" *ngIf="this.paiementFacture==true">
                     <label style="font-size: 1rem;">Référence:</label>
                     <input
                       class=" form-control"
@@ -204,14 +244,26 @@
 
                 <div *ngIf="this.serveForm=='Recharge Bancaire'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
-                    <label style="font-size: 1rem;">Wallet :</label>
+                    <label style="font-size: 1rem;">Banque :</label>
                     <select
                       class=" form-control"
                       [(ngModel)]="this.service"
                       [ngModelOptions]="{standalone: true}">
-                      <option value="1">Orange Money</option>
-                      <option value="2">Tigo Cash</option>
-                      <option value="3">autre</option>
+                      <option value="1">Banque Africaine de Développement (BAD)</option>
+                      <option value="2">Banque de l'Habitat du Sénégal (BHS)</option>
+                      <option value="3">Banque Internationale pour le Commerce et l'Industrie au Sénégal (BICIS)</option>
+                      <option value="4">Banque des Institutions Mutualistes d'Afrique de l'Ouest (BIMAO)</option>
+                      <option value="5">Banque Islamique du Sénégal (BIS)</option>
+                      <option value="6">Bank Ouest Africaine de Développement (BOAD)</option>
+                      <option value="7">Banque Sénégalo-Tunisienne (BST)</option>
+                      <option value="7">Banque Régionale de Solidarité (BRS)</option>
+                      <option value="7">Banque Sahelo Saharienne pour l'Investissement et le Commerce (BSIC)</option>
+                      <option value="7">Caisse Nationale de Crédit Agricole du Sénégal (CNCAS)</option>
+                      <option value="7">Citibank Sénégal</option>
+                      <option value="7">Compagnie Bancaire de l'Afrique Occidentale (CBAO)</option>
+                      <option value="7">Crédit Lyonnais Sénégal (CLS)</option>
+                      <option value="7">Ecobank Senegal</option>
+                      <option value="7">Société Général de Banque au Sénégal (SGBS)</option>
                   </select>
                   </div>
                   <div class=" form-group">
@@ -257,18 +309,17 @@
 
                 <div *ngIf="this.serveForm=='Abonement Tv'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
-                    <label style="font-size: 1rem;">Wallet :</label>
+                    <label style="font-size: 1rem;">TV :</label>
                     <select
                       class=" form-control"
                       [(ngModel)]="this.service"
                       [ngModelOptions]="{standalone: true}">
-                      <option value="1">Orange Money</option>
-                      <option value="2">Tigo Cash</option>
-                      <option value="3">autre</option>
+                      <option value="1">TNT</option>
+                      <option value="2">CANAL</option>
                   </select>
                   </div>
                   <div class=" form-group">
-                    <label style="font-size: 1rem;">Numéro:</label>
+                    <label style="font-size: 1rem;">Numéro/code:</label>
                     <input
                       class=" form-control"
                       placeholder="Numéro"
@@ -285,7 +336,6 @@
                           [(ngModel)]="this.service"
                           [ngModelOptions]="{standalone: true}">
                           <option value="1">Maana</option>
-                          <option value="2">Bul Xol </option>
                     </select>
                  </div>
                   <div class=" form-group">

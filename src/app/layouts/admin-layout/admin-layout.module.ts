@@ -31,7 +31,9 @@ import { ClientOperateurComponent } from "src/app/operateur/client-operateur/cli
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
+
 import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/upload-pensionnaire.component";
+import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor-market.component";
 
 @NgModule({
   imports: [
@@ -64,7 +66,8 @@ import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/u
     ReclamationOperateurComponent,
       ClientOperateurComponent,
       AdminReclamationComponent,
-      UploadPensionnaireComponent
+      UploadPensionnaireComponent,
+      HistorMarketComponent,
       
     // RtlComponent
   ]

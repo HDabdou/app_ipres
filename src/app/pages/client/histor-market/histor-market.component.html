@@ -25,9 +25,9 @@
               <table class=" table tablesorter" id="">
                 <thead class=" text-primary">
                   <tr>
-                    <th>Opération</th>
-                    <th>Montant</th>
-                    <th>Téléphone</th>
+                    <th>Produit</th>
+                    <th>prix (Cfa)</th>
+                    <th>Quantité</th>
                     <th>Date Opération</th>
                     
                   </tr>
@@ -35,10 +35,10 @@
                 <tbody>
                 
                   <tr *ngFor="let l of datas | paginate: { itemsPerPage: 10, currentPage: p }" >
-                    <td><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.prenom}} {{l.nom}}</b></td>
-                    <td>{{l.montant}}</td>
-                    <td>{{l.tel}}</td>
-                    <td>{{l.date}}</td>
+                    <td><b style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{l.produit}}</b></td>
+                    <td>{{l.prix}}</td>
+                    <td>{{l.quantite}}</td>
+                    <td>{{l.updated_at}}</td>
                   </tr>
                 </tbody>
               </table>

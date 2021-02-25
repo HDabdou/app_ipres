@@ -6,14 +6,16 @@ import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.operationItem';
 import { HistoriqueService } from 'src/app/services/client/historique.service';
 
-@Component({
-  selector: 'app-operations-sentoll',
-  templateUrl: './operations-sentoll.component.html',
-  styleUrls: ['./operations-sentoll.component.scss']
-})
-export class OperationsSentollComponent implements OnInit {
 
-  datas : ReclamationItem[]= []
+
+@Component({
+  selector: 'app-histor-market',
+  templateUrl: './histor-market.component.html',
+  styleUrls: ['./histor-market.component.scss']
+})
+export class HistorMarketComponent implements OnInit {
+
+  datas= []
 
   motcle = null;
   dataBase:ReclamationItem[] = this.datas;
@@ -56,14 +58,30 @@ open(content) {
   });
 }
 
+// Formater les données reçus du backend
+// retourne une liste de réclamation
+parseDatas (dataRest){
+  let arr=[];
+  (dataRest.historique).forEach(element => {
+    arr.push({
+      produit:element.produit,
+      quantite:element.quantite,
+      prix:element.prix,
+      created_at: new Date((element.created_at)).toLocaleDateString(),
+      updated_at: new Date((element.updated_at)).toLocaleDateString(),
+      id:element.id,
+    });
+  });
+  return arr;
+}
 
 
   ngOnInit() {
     this._histService.getHistoriques({code:'1134'}).then(res=>{
       console.log(res);
+      this.datas = this.dataBase = this.parseDatas(res);
 
     })
     return false;
   }
-
 }

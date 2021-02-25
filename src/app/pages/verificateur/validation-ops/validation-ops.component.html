@@ -47,7 +47,7 @@
               </table>
               <div class="list">
                 <pagination-controls (pageChange)="p = $event"></pagination-controls>  
-                <button style="float: right;" class=" btn btn-fill btn-danger" type="submit" (click)="open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
+                <button [disabled]="this.chechedsItems.length==0" style="float: right;" class=" btn btn-fill btn-danger" type="submit" (click)="this.loader=false;open(contentValiderItems);" (keyup.enter)="login()">Valider</button>
               </div>
             </div>
           </div>
@@ -123,9 +123,24 @@
             <h1 class=" card-title">Voulez-vous vraiment valider cette liste d'opération ?</h1>
             <button  class=" btn btn-fill btn-danger" type="submit" (click)="validerLesReclamationSelectionnes()" (keyup.enter)="login()">Valider</button>
           </div>
-          <div class="col-12 loader" *ngIf="this.loader==true" style="text-align: center;">
-            <div class="loader" style="text-align: center;margin-left: 45%;"></div>
-            <button  class=" btn btn-fill btn-default" (click)="this.loader=false; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+            <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+          </div>
+
+          <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+            <div class="dummy-positioning d-flex">
+  
+              <div class="success-icon">
+                <div class="success-icon__tip"></div>
+                <div class="success-icon__long"></div>
+              </div>
+              
+            </div>    
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+          </div>
+          <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+          
+            <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
           </div>
         </div>
       </div>

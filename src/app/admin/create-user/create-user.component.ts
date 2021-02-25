@@ -24,7 +24,21 @@ export class CreateUserComponent implements OnInit {
   closeResult: string;
   updatePassword = ""
   selected
+  listeTodisplay = []
   constructor(private toastr: ToastrService,private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
+  motcle
+  searchAll = () => {
+    
+    let value = this.motcle;
+    const filterTable = this.listUser.filter(o =>
+      Object.keys(o).some(k =>
+        String(o[k])
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      )
+    );
+    this.listeTodisplay = filterTable;
+  }
   //pour la suppression d'un utilisateur
   delete(){
     if(this.selected != undefined){
@@ -133,6 +147,8 @@ export class CreateUserComponent implements OnInit {
     this._adminService.getAllUsers().then(res=>{
       console.log(res)
       this.listUser = res['data']
+      this.listeTodisplay = this.listUser
+
     })
   }
   startloader(message){   
