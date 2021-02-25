@@ -19,9 +19,8 @@ export class OperationsSentollComponent implements OnInit {
   motcle = null;
   dataBase:ReclamationItem[] = this.datas;
 
-  numeroDepot='';
-  montant = 200;
-  
+
+
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -40,7 +39,7 @@ export class OperationsSentollComponent implements OnInit {
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _histService:HistoriqueService,private _servSentool:ServiceSentoolService) {}
+  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _histService:HistoriqueService) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -60,12 +59,7 @@ open(content) {
 }
 
 
-depot(){
-  this._servSentool.depot({tel:this.numeroDepot,montant:this.montantDepot,idUser:6}).then(rep => {
-    console.log(rep)
-    this.dataBase= this.datas= this.parseDatas(rep);
-  });
-}
+
 
 
 

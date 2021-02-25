@@ -85,7 +85,7 @@ open(content) {
 
 parseDatas (dataRest):DashboardItem[]{
   let arr:DashboardItem[]=[];
-  (dataRest.data).forEach(element => {
+  ((dataRest.data).reverse()).forEach(element => {
     arr.push({
       prenom:element.pensionnaire.prenom,
       nom:element.pensionnaire.nom,
@@ -188,7 +188,9 @@ getDateNow(){
   /* le Année de la reçu en parametre
   *  reçoi une date en parametres
   *  returne le Année 
-  */ 
+  */
+
+
   getYear(date){
     return date.getFullYear();
   }
