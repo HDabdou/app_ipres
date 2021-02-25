@@ -96,35 +96,24 @@
                     <label style="font-size: 1rem;">Wallet :</label>
                     <select
                       class=" form-control"
-                      [(ngModel)]="this.service"
+                      [(ngModel)]="this.walletDepot"
                       [ngModelOptions]="{standalone: true}">
-                      <option value="1">Orange Money</option>
-                      <option value="2">Tigo Cash</option>
-                      <option value="3">PosteCash</option>
-                      <option value="4">E-Money</option>
-                      <option value="5">MyWary</option>
-                      <option value="6">Free Money</option>
-                      <option value="7">Wizall Money</option>
+                      <option value="orange money">Orange Money</option>
+                      <option value="tigo cash">Tigo Cash</option>
+                      <option value="posteCash">PosteCash</option>
+                      <option value="e-Money">E-Money</option>
+                      <option value="myWary">MyWary</option>
+                      <option value="free Money">Free Money</option>
+                      <option value="wizall Money">Wizall Money</option>
                   </select>
                   </div>
                   <div class=" form-group">
-                    <label style="font-size: 1rem;">Mon Telephone :</label>
+                    <label style="font-size: 1rem;">Telephone :</label>
                     <input
                       class=" form-control"
                       placeholder="Téléphone"
                       type="text"
-                      [(ngModel)]="this.montelephone"
-                      [ngModelOptions]="{standalone: true}"
-                     
-                    />
-                  </div>
-                  <div class=" form-group">
-                    <label style="font-size: 1rem;">Son Telephone :</label>
-                    <input
-                      class=" form-control"
-                      placeholder="Téléphone"
-                      type="text"
-                      [(ngModel)]="this.sontelephone"
+                      [(ngModel)]="this.numeroDepot"
                       [ngModelOptions]="{standalone: true}"
                      
                     />
@@ -135,7 +124,7 @@
                       class="form-control"
                       placeholder="Montant"
                       type="text"
-                      [(ngModel)]="this.montant"
+                      [(ngModel)]="this.montantDepot"
                       [ngModelOptions]="{standalone: true}"
                       
                     />
@@ -153,12 +142,13 @@
                     class="btn btn-danger"
                     type="button"
                     style="margin: 2rem;"
+                    (click)="this.loader=false; depot();"
                   >
                     Valider
                   </button>
                 </div>
 
-                <div *ngIf="this.serveForm=='Paiement Facture'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Paiement Facture'" class="col-12" style="text-align: center;">
                   <div class="row">
                     <div class="col-6">
                       <input (click)="checkedRadioPrepaye($event)" [(ngModal)]="prepaye" style="float: right;width: 100%;" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
@@ -242,7 +232,7 @@
                   </button>
                 </div>
 
-                <div *ngIf="this.serveForm=='Recharge Bancaire'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Recharge Bancaire'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
                     <label style="font-size: 1rem;">Banque :</label>
                     <select
@@ -307,7 +297,7 @@
                 </div>
 
 
-                <div *ngIf="this.serveForm=='Abonement Tv'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Abonement Tv'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
                     <label style="font-size: 1rem;">TV :</label>
                     <select
@@ -367,8 +357,28 @@
                   </button>
                 </div>
                 
-                <div *ngIf="this.serveForm=='Assurance'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Assurance'" class="col-12" style="text-align: center;">
 
+                </div>
+
+                <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
+                  <div class="loader" style="text-align: center;margin-left: 45%;"></div>      
+                </div>
+      
+                <div class="col-12" *ngIf="this.success==true" style="text-align: center;">
+                  <div class="dummy-positioning d-flex">
+        
+                    <div class="success-icon">
+                      <div class="success-icon__tip"></div>
+                      <div class="success-icon__long"></div>
+                    </div>
+                    
+                  </div>    
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+                </div>
+                <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
+                
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
                 </div>
                 
               </div>

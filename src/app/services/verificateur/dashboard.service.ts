@@ -10,11 +10,17 @@ export class DashboardService {
   //Constructeur : initialisation
   constructor(private http: HttpClient) {
     this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
-
-   }
+  }
 
   // Requette Hppt de reccuperation de pensions par interval de date
   public getPaymentByInterval (param): Promise<any>{
+    let params="param="+JSON.stringify(param);
+    console.log(params);
+    let link=this.url+ '/ipres/verificateur/getPaymentByInterval';
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res); return res} ).catch(error => {console.log(error); return 'bad' });
+  } 
+
+  public depot (param): Promise<any>{
     let params="param="+JSON.stringify(param);
     console.log(params);
     let link=this.url+ '/ipres/verificateur/getPaymentByInterval';

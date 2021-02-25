@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ServiceSentoolService } from 'src/app/services/client/service-sentool.service';
 
 import { ServiceItem } from '../interfaces/interface.service';
 
@@ -11,9 +12,15 @@ import { ServiceItem } from '../interfaces/interface.service';
 export class ServicesSentollComponent implements OnInit {
   serviceTitre='Rerait';
   serveForm='transfert';
+  numeroDepot='';
+  montantDepot = 0;
+  walletDepot:''
+  loader = false;
+
+  success = null;
 
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal,private _servSentool:ServiceSentoolService) { }
   closeResult: string;
   prepaye = false;
   paiementFacture = true;
@@ -86,6 +93,14 @@ export class ServicesSentollComponent implements OnInit {
   checkedRadioPaiementFacture(event){
     this.paiementFacture = true;
     this.prepaye = false;
+  }
+
+  depot(){
+    this._servSentool.depot({wallet: this.walletDepot , numero:this.numeroDepot,montant:this.montantDepot,idUser:6}).then(rep => {
+      console.log(rep)
+      this.loader = null;
+      this.success = true;
+    });
   }
 
   ngOnInit() {
