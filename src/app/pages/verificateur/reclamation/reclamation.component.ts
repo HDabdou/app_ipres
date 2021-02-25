@@ -37,9 +37,11 @@ export class ReclamationComponent implements OnInit {
   
     const filterTable = this.dataBase.filter(o =>
       Object.keys(o).some(k =>
-        String(o[k])
-          .toLowerCase()
-          .includes(value.toLowerCase())
+        
+          String(o[k])
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        
       )
     );
   
@@ -175,7 +177,6 @@ validerLaReclammation (obj:ReclamationItem){
       this.getReclamation();
     }
   });
-  this.loader = true;
 }
 
 // modifier la réclamation

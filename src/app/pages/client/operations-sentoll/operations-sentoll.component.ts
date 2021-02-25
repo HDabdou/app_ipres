@@ -5,6 +5,7 @@ import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.operationItem';
 import { HistoriqueService } from 'src/app/services/client/historique.service';
+import { ServiceSentoolService } from 'src/app/services/client/service-sentool.service';
 
 @Component({
   selector: 'app-operations-sentoll',
@@ -18,6 +19,8 @@ export class OperationsSentollComponent implements OnInit {
   motcle = null;
   dataBase:ReclamationItem[] = this.datas;
 
+
+
   searchAll = () => {
     let value = this.motcle;
     console.log("PASS", { value });
@@ -29,7 +32,6 @@ export class OperationsSentollComponent implements OnInit {
           .includes(value.toLowerCase())
       )
     );
-  
     this.datas = filterTable;
   }
   
@@ -58,12 +60,11 @@ open(content) {
 
 
 
-  ngOnInit() {
-    this._histService.getHistoriques({code:'1134'}).then(res=>{
-      console.log(res);
 
-    })
-    return false;
+
+
+  ngOnInit() {
+
   }
 
 }
