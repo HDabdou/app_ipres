@@ -35,6 +35,7 @@ import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-
 
 @NgModule({
   imports: [
+    
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,

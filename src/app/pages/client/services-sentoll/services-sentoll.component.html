@@ -8,7 +8,7 @@
               <div class="card-body">
                 <h2 class="card-title">{{l.nom}}</h2>
                 <p class="card-text">{{ l.description }}</p>
-                <a  href="#0"  (click)="this.loader = false;open(content,l.nom);" class="btn btn-primary">{{l.text}}</a>
+                <a  href="#0"  (click)="this.loader = false;this.success = null;open(content,l.nom);" class="btn btn-primary">{{l.text}}</a>
               </div>
             </div>
           </div>
