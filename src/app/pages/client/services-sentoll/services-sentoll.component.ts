@@ -24,9 +24,11 @@ export class ServicesSentollComponent implements OnInit {
   closeResult: string;
   prepaye = false;
   paiementFacture = true;
+  suivantVarAssurance="1";
+
   datas : ServiceItem[]= [
     {
-      nom: 'Retrait',
+      nom: 'Approvisionnement',
       description:'Rétirez votre argents en toute sécurité',
       text:"Faire l'Opération"
     },
@@ -53,7 +55,8 @@ export class ServicesSentollComponent implements OnInit {
       description:'Abonnez-vous a vos bouquets',
       text:"Faire l'Opération"
 
-    },
+    }
+    ,
     {
       nom: 'Assurance',
       description:"Qui en a pas besoin ?",
@@ -64,6 +67,7 @@ export class ServicesSentollComponent implements OnInit {
     
   ]
 
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -73,6 +77,12 @@ export class ServicesSentollComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+  /**
+   * @function : Ouvrir un modal
+   * @param content : identifiant du modal
+   * @param nom : nom du l'opération 
+  */
 
   open(content,nom) {
     this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
@@ -85,22 +95,54 @@ export class ServicesSentollComponent implements OnInit {
     return false;
   }
 
+  /**
+   * @function : selection une option prépayé (Radio)
+   * @param event : Objet
+  */
   checkedRadioPrepaye(event){
     this.prepaye = true;
     this.paiementFacture = false;
   }
 
+  /**
+   * @function : selection une option paiement Facture (Radio)
+   * @param event : Objet
+  */
   checkedRadioPaiementFacture(event){
     this.paiementFacture = true;
     this.prepaye = false;
   }
 
+  /**
+   * @function : daire un depot
+  */
   depot(){
-    this._servSentool.depot({wallet: this.walletDepot , numero:this.numeroDepot,montant:this.montantDepot,idUser:6}).then(rep => {
+    this._servSentool.depot({service: this.walletDepot,operation:'debot' , numero:this.numeroDepot,montant:this.montantDepot,code:'1134'}).then(rep => {
       console.log(rep)
-      this.loader = null;
-      this.success = true;
+      if(rep.statut==1){
+        this.loader = null;
+        this.success = true;
+      }else{
+        this.loader = false;
+        this.success = null;
+        alert("Une erruer s'est produit")
+      }
     });
+  }
+
+
+  /**
+   * @function : Passer au formulaire suivant (Assurance)
+  */
+  suivantAssurance (){
+    this.suivantVarAssurance = "2";
+  }
+
+  /**
+   * @function : Retour au formulaire suivant
+  */
+  retourAssurance (){
+    this.suivantVarAssurance = "1";
   }
 
   ngOnInit() {

@@ -8,16 +8,18 @@
               <div class="card-body">
                 <h2 class="card-title">{{l.nom}}</h2>
                 <p class="card-text">{{ l.description }}</p>
-                <a href="#0"  (click)="open(content,l.nom);"class="btn btn-primary">{{l.text}}</a>
+                <a  href="#0"  (click)="this.loader = false;open(content,l.nom);" class="btn btn-primary">{{l.text}}</a>
               </div>
             </div>
           </div>
         </div>
 
+      
+
           
         <ng-template #content let-modal>
-          <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -9rem !important;" >
-            <div class=" modal-header">
+          <div class="modal-content" style="overflow: auto !important; min-width: 100% !important; margin-left: 0rem; overflow: auto !important; margin-top: -12rem !important;" >
+            <div class=" modal-header" style="padding: 24px;padding-top: 0; margin-top: 6rem;">
         
               <button
                 aria-label="Close"
@@ -34,20 +36,20 @@
                 <div class="col-12">
                   <h1 class=" card-title"  style="text-align: center;">{{this.serviceTitre}}</h1>
                 </div>
-                <div *ngIf="this.serveForm=='Retrait'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Approvisionnement'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
                     <label style="font-size: 1rem;">Wallet :</label>
                     <select
                       class=" form-control"
                       [(ngModel)]="this.service"
                       [ngModelOptions]="{standalone: true}">
-                      <option value="1">Orange Money</option>
-                      <option value="2">Tigo Cash</option>
-                      <option value="3">PosteCash</option>
-                      <option value="4">E-Money</option>
-                      <option value="5">MyWary</option>
-                      <option value="6">Free Money</option>
-                      <option value="7">Wizall Money</option>
+                      <option value="orange money">Orange Money</option>
+                      <option value="tigo cash">Tigo Cash</option>
+                      <option value="posteCash">PosteCash</option>
+                      <option value="e-Money">E-Money</option>
+                      <option value="myWary">MyWary</option>
+                      <option value="free Money">Free Money</option>
+                      <option value="wizall Money">Wizall Money</option>
                   </select>
                   </div>
                   <div class=" form-group">
@@ -91,7 +93,7 @@
               </button>
 
                 </div>
-                <div *ngIf="this.serveForm=='Transfert'" class="col-12" style="text-align: center;">
+                <div *ngIf="this.loader==false && this.serveForm=='Transfert'" class="col-12" style="text-align: center;">
                   <div class=" form-group">
                     <label style="font-size: 1rem;">Wallet :</label>
                     <select
@@ -142,7 +144,7 @@
                     class="btn btn-danger"
                     type="button"
                     style="margin: 2rem;"
-                    (click)="this.loader=false; depot();"
+                    (click)="this.loader=true; depot();"
                   >
                     Valider
                   </button>
@@ -358,7 +360,340 @@
                 </div>
                 
                 <div *ngIf="this.loader==false && this.serveForm=='Assurance'" class="col-12" style="text-align: center;">
+                  <div class="row" *ngIf="this.suivantVarAssurance=='1'">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Acte </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.acte"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="orange money">affaire nouvelle</option>
+                            <option value="tigo cash">renouveler</option>
+                            <option value="posteCash">PosteCash</option>
+                        </select>
+                      </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Durée :</legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.dateEffet"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Durée </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.duree"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Puissance/Cylindre (Nombre de cheveaux) </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.puissance"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Nombre de place :</legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.nbrPlace"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Imatriculation </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.imatriculation"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
 
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Categorie de véhicule </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.acte"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="véhicule particulier">véhicule particulier</option>
+                            <option value="deux roue">deux roue</option>
+                            <option value="posteCash">camion</option>
+                          </select>
+                        </fieldset>
+                        
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                            <legend>Valeur Vénal </legend>
+                          <input
+                            class=" form-control"
+                            type="number"
+                            [(ngModel)]="this.valeurVenal"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Assistance judiciaire et recours </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.acte"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="0">0</option>
+                            <option value="500000">500 000</option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Avance de font pour récupérace </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.avanceDeFont"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="0">0</option>
+                            <option value="500000">500 000</option>
+                            <option value="1000000">1 000 000</option>
+                            <option value="2000000">2 000 000</option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Marque du Véhicule </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.marque"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value=""></option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Modéle du Véhicule </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.model"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value=""></option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      <button
+                      class="btn btn-danger"
+                      type="button"
+                      style="margin: 2rem;"
+                      (click)="suivantAssurance()">
+                        Suivant
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="this.suivantVarAssurance=='2'">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Nom et Prénom </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.nom"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                      </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Adresse :</legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.adresse"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Ville </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.ville"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Activité </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.activite"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="administration publique">Administration publique</option>
+                            <option value="administration privé">Administration privé</option>
+                            <option value="Proféssion libéral">Proféssion libéral</option>
+                            <option value="Nom identifié">Nom identifié</option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Téléphone </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.telephone"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Currier </legend>
+                          <input
+                            class=" form-control"
+                            type="text"
+                            [(ngModel)]="this.currier"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;"
+                          
+                          />
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                      <div class="form-group">
+                        <fieldset>
+                          <legend>Métier </legend>
+                          <select
+                            class=" form-control"
+                            [(ngModel)]="this.metier"
+                            [ngModelOptions]="{standalone: true}"
+                            style="width: 100%;">
+                            <option value="consultant">Consultant</option>
+                            <option value="directeur">Directeur</option>
+                            <option value="ingénieur">Avocal</option>
+                            <option value="Nom identifié">Ingénieur</option>
+                            <option value="fonctionnaire">Fonctionnaire</option>
+                            <option value="enployé du privé">Enployé du privé</option>
+                          </select>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      <button
+                      class="btn btn-default"
+                      type="button"
+                      style="margin: 2rem;"
+                      (click)="retourAssurance()">
+                        Retour
+                      </button>
+                      <button
+                      class="btn btn-danger"
+                      type="button"
+                      style="margin: 2rem;"
+                      >
+                        Valider
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="col-12" *ngIf="this.loader==true" style="text-align: center;">
@@ -374,11 +709,36 @@
                     </div>
                     
                   </div>    
-                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="button" (keyup.enter)="login()">Fermer</button>
                 </div>
                 <div class="col-12" *ngIf="this.success==false" style="text-align: center;">
-                
-                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="submit" (keyup.enter)="login()">Fermer</button>
+                  <div class="form-group">
+                    <label style="font-size: 1rem;">Wallet :</label>
+                    <select
+                      class=" form-control"
+                      [(ngModel)]="this.walletDepot"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="orange money">Orange Money</option>
+                      <option value="tigo cash">Tigo Cash</option>
+                      <option value="posteCash">PosteCash</option>
+                      <option value="e-Money">E-Money</option>
+                      <option value="myWary">MyWary</option>
+                      <option value="free Money">Free Money</option>
+                      <option value="wizall Money">Wizall Money</option>
+                  </select>
+                  </div>
+                  <div class="form-group">
+                    <label style="font-size: 1rem;">Telephone :</label>
+                    <input
+                      class=" form-control"
+                      placeholder="Téléphone"
+                      type="text"
+                      [(ngModel)]="this.numeroDepot"
+                      [ngModelOptions]="{standalone: true}"
+                     
+                    />
+                  </div>
+                  <button  class=" btn btn-fill btn-default" (click)="this.success=null; modal.dismiss('Cross click')" type="button" (keyup.enter)="login()">Fermer</button>
                 </div>
                 
               </div>
