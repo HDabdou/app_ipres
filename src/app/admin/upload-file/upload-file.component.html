@@ -6,7 +6,7 @@
             <label style="margin-left:1rem;font-size: 18px;">{{fileName}}</label>
             <input id="file" class="input-file" type="file"  (change)="fileChange($event)" placeholder="Uploader Image" accept=".xlsx,.xls">
         </div>
-        <div class=" card" >
+        <div class=" card" *ngIf="this.listeNotExiste.length == 0 || this.listeDoublon.length == 0" >
             <div class=" card-header">
                 <div class="row">
                     <div class="col-6">
@@ -32,7 +32,6 @@
                         <th  >Montant</th>
                         <th  >Année</th>
                         <th  >Mois</th>
-                        <th  >Action</th>
                       </tr>
                     </thead>
                    
@@ -45,8 +44,6 @@
                         <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
                         <td >{{p.annee}}</td>
                         <td >{{displayMonth(p.mois)}}</td>
-                        <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -55,6 +52,96 @@
               </div>
             </div>
           </div>
+          
+        <div class=" card" *ngIf="listeNotExiste.length > 0">
+          <div class=" card-header">
+              <div class="row">
+                  <div class="col-6">
+                      <h4 class=" card-title" style="color: red;">Liste des opérations dont le pensionnaire n'existe pas</h4>
+                  </div>
+                  
+              </div>
+
+          </div>
+          <div class=" card-body">
+            <div class=" table-responsive" style="overflow: auto;">
+              <table class=" table tablesorter"  id="" >
+                  <thead class=" text-primary" >
+                    <tr >
+                      <th  >Code</th>
+                      <th  >Prénom</th>
+                      <th  >Nom</th>
+                      <th  >Téléphone</th>
+      
+                      <th  >Montant</th>
+                      <th  >Année</th>
+                      <th  >Mois</th>
+                    </tr>
+                  </thead>
+                 
+                  <tbody >
+                    <tr class="ligne" *ngFor="let p of listeNotExiste | paginate: { itemsPerPage: 20, currentPage: p}" >
+                      <td >{{p.code}} </td>
+                      <td >{{p.prenom}} </td>
+                      <td >{{p.nom}}</td>
+                      <td >{{p.telephone}}</td>
+                      <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
+                      <td >{{p.annee}}</td>
+                      <td >{{displayMonth(p.mois)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+            </div>
+          </div>
+        </div>
+        
+      <div class=" card" *ngIf="this.listeDoublon.length >0">
+          <div class=" card-header">
+              <div class="row">
+                  <div class="col-6">
+                      <h4 class=" card-title" style="color: red;">Ces ont déjà reçu leurs pensions du mois </h4>
+                  </div>
+              </div>
+
+          </div>
+          <div class=" card-body" >
+            <div class=" table-responsive" style="overflow: auto;">
+              <table class=" table tablesorter"  id="" >
+                  <thead class=" text-primary" >
+                    <tr >
+                      <th  >Code</th>
+                      <th  >Prénom</th>
+                      <th  >Nom</th>
+                      <th  >Téléphone</th>
+      
+                      <th  >Montant</th>
+                      <th  >Année</th>
+                      <th  >Mois</th>
+                      <th  >Action</th>
+                    </tr>
+                  </thead>
+                 
+                  <tbody >
+                    <tr class="ligne" *ngFor="let p of listeDoublon | paginate: { itemsPerPage: 10, currentPage: p}" >
+                      <td >{{p.code}} </td>
+                      <td >{{p.prenom}} </td>
+                      <td >{{p.nom}}</td>
+                      <td >{{p.telephone}}</td>
+                      <td ><b (click)="open(parametrageMontant);selected= p;" style="padding: 5px;cursor: pointer;background: cadetblue;border-radius: 10px;color: white;">{{p.montant}}</b></td>
+                      <td >{{p.annee}}</td>
+                      <td >{{displayMonth(p.mois)}}</td>
+                      <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+            </div>
+          </div>
+        </div>
        
       </div>
 </div>

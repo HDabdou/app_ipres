@@ -103,7 +103,7 @@ export class UploadFileComponent implements OnInit {
   mois:any;
   //Ajout d'un nouvelle ligne 
   addLigne(){
-    this.listeExcel = []
+    //this.listeExcel = []
     this.annee = new Date(this.date).toJSON().split('T')[0].split('-')[0];
     this.mois = new Date(this.date).toJSON().split('T')[0].split('-')[1];
     console.log("annee : "+this.annee.split('-')[0])
@@ -113,16 +113,32 @@ export class UploadFileComponent implements OnInit {
     this.startloader("ligne ajouter avec succés")
     console.log(this.listeExcel)
   }
+  listeNotExiste = []
+  listeDoublon = []
   //Enregistrement du tableau importé via Excel dans la base
   saveUpload(){
+    this.listeDoublon = []
+    this.listeNotExiste = []
     this._adminService.saveUpload({ops:this.listeExcel}).then(res=>{
       console.log(res.statut)
+      this.listeExcel = []
       if(res.statut == 1){
         this.startloader("liste enregistrer avec succées")
+        if(res.unknowpens.length == 0){
+          this.listeNotExiste = []
+        }else{
+          this.errorloader("Erreur : La liste a ")
+          this.listeNotExiste = res.unknowpens;
+        }
+        if(res.doublon.length == 0){
+          this.listeDoublon = []
+        }else{
+          this.listeDoublon = res.doublon
+        }
       }
       
     })
-    this.listeExcel = []
+    
   }
 
   moisEnLettre = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
@@ -140,6 +156,16 @@ export class UploadFileComponent implements OnInit {
        toastClass: "alert alert-success alert-with-icon",
        positionClass: 'toast-top-center'
      });    
+}
+
+errorloader(message){   
+  this.toastr.info('<span class="tim-icons icon-check-2" [data-notify]="icon"></span>  <b>IPRES</b> - '+message, '', {
+     disableTimeOut: true,
+     closeButton: true,
+     enableHtml: true,
+     toastClass: "alert alert-danger alert-with-icon",
+     positionClass: 'toast-top-center'
+   });    
 }
   ngOnInit(): void {
   }
