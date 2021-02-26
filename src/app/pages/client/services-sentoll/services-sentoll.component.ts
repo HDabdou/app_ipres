@@ -70,7 +70,7 @@ export class ServicesSentollComponent implements OnInit {
 
     },
     {
-      nom: 'Abonement Tv',
+      nom: 'Abonnement Tv',
       description:'Abonnez-vous a vos bouquets',
       text:"Faire l'Opération"
 

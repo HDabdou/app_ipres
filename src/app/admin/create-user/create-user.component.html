@@ -15,6 +15,20 @@
                 </div>
                  
               </div>
+              <div class="col-6" style="text-align: left;">
+                <div >
+                  <label style="font-size: 1rem;"> Recherche </label>
+
+                  <input
+                      class=" form-control"
+                      placeholder="Filter"
+                      type="text"
+                      [(ngModel)]="this.motcle"
+                      [ngModelOptions]="{standalone: true}"
+                      (keyup)="searchAll()"
+                    />
+                </div>
+              </div>
 
           </div>
           <div class=" card-body">
@@ -34,7 +48,7 @@
                 </thead>
                
                 <tbody >
-                  <tr class="ligne" *ngFor="let p of listUser | paginate: { itemsPerPage: 10, currentPage: p }" >
+                  <tr class="ligne" *ngFor="let p of listeTodisplay | paginate: { itemsPerPage: 10, currentPage: p }" >
                     <td >
                       <p *ngIf="p.accessLevel == 2">Vérificateur</p> 
                       <p *ngIf="p.accessLevel == 3">Opérateur</p> 

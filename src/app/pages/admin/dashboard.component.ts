@@ -50,9 +50,8 @@ export class DashboardComponent implements OnInit {
   //Pour Fitrer sur toutes le clonne 
   motcle
   searchAll = () => {
+    
     let value = this.motcle;
-    console.log("PASS", { value });
-  let temp = this.paiements
     const filterTable = this.paiements.filter(o =>
       Object.keys(o).some(k =>
         String(o[k])
@@ -129,13 +128,13 @@ recherche(){
   let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
 
   this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
-     this.paiements = res['data'];
+     this.paiements = res['data'].reverse();
      this.nombrePaiements = res['data'].length;
     
     this.listeTodisplay = this.paiements
     
     for(let i of this.paiements){
-      this.montantPaiement = this.montantPaiement + parseInt(i.pensionnaire.montantPercu)
+      this.montantPaiement = this.montantPaiement + parseInt(i.paiement.montant)
     }
     this.startloader("Recherche terminé")
   })
@@ -154,13 +153,13 @@ currencyFormat(somme) : String{
     let df = this.dateFin.split('-')[2]+"/"+this.dateFin.split('-')[1]+"/"+this.dateFin.split('-')[0]
 
     this._adminService.getPaymentByInterval({debut:dd,fin:df}).then(res=>{
-      this.paiements = res['data'];
+      this.paiements = res['data'].reverse();
       this.nombrePaiements = res['data'].length;
       
       this.listeTodisplay = this.paiements
       
       for(let i of this.paiements){
-        this.montantPaiement = this.montantPaiement + parseInt(i.pensionnaire.montantPercu)
+        this.montantPaiement = this.montantPaiement + parseInt(i.paiement.montant)
       }
     })
 

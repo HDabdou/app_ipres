@@ -25,6 +25,7 @@ export class ClientOperateurComponent implements OnInit {
   closeResult: string;
   selected
   updatePassword
+  codePensionnaire
   constructor(private toastr: ToastrService,private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
  
  
@@ -51,7 +52,24 @@ export class ClientOperateurComponent implements OnInit {
       console.log(res)
     })*/
   }
- 
+  //Recherche pensionnaire pour la creation;
+  recherchePensionnaire(){
+    //this.errorMessage = 1
+   
+      this._serviceOperateur.getPensionnaireByCode({code:this.codePensionnaire}).then(res=>{
+        console.log(res)
+        if(res.status == 1){
+          this.tel = res.pensionnaire.telephone;
+          this.prenom = res.pensionnaire.prenom;
+          this.nom = res.pensionnaire.nom;
+          this.login = this.codePensionnaire;
+          this.errorMessage = 1
+        }else{
+          this.errorMessage = 2
+        }
+      })
+    
+  }
   reinitialisation(){
     this.prenom = undefined;
     this.nom = undefined;

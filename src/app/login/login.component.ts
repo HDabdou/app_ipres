@@ -4,6 +4,7 @@ import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import * as sha1 from 'js-sha1';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   confirmPassword;
   idUserForChange:any;
   collection = [];
-  constructor(private modalService: NgbModal,private router:Router,private _adminService:AdminService,private toastr: ToastrService) {
+  constructor(private modalService: NgbModal,private router:Router,private _loginService:LoginService,private toastr: ToastrService) {
 
   }
   private getDismissReason(reason: any): string {
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-  motDePasseOublie(){
+  /*motDePasseOublie(){
     
     this._adminService.motDePassOublie({telephone:this.telephone}).then(res=>{
       console.log(res);
@@ -69,7 +70,7 @@ export class LoginComponent implements OnInit {
       alert("le nouveau et la confirmation sont différantes")
     }
     
-  }
+  }*/
 open(content) {
   this.modalService.open(content, {windowClass: 'modal-search'}).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
@@ -106,7 +107,8 @@ open(content) {
     sessionStorage.clear()
   }
   errorMessage:number = 0;
-  login(){
+  login1(){
+ 
     if(this.username == "a" && this.password == "1"){
       sessionStorage.setItem('profile','admin');
       this.router.navigate(['/admin'])

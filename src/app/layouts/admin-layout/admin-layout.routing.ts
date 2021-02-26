@@ -19,6 +19,7 @@ import { ServicesMakePlaceComponent } from 'src/app/pages/client/services-make-p
 import { OperationsSentollComponent } from 'src/app/pages/client/operations-sentoll/operations-sentoll.component';
 import { ReclamationComponent } from "src/app/pages/verificateur/reclamation/reclamation.component";
 import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
+import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/upload-pensionnaire.component";
 import { HistorMarketComponent } from 'src/app/pages/client/histor-market/histor-market.component';
 
 
@@ -33,7 +34,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "reclamationAdmin", component: AdminReclamationComponent },
   { path: "clientOperateur", component: ClientOperateurComponent },
   { path: "reclamationOperateur", component: ReclamationOperateurComponent },
-
+  { path: "uploadPensionnaire", component: UploadPensionnaireComponent},
   { path:"operations",component:OperationsComponent},
   { path: "verificateur", component: IconsComponent },
   { path: "operateur", component: MapComponent },
