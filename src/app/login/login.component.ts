@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import * as sha1 from 'js-sha1';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';

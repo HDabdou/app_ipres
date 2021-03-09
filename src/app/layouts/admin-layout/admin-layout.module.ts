@@ -5,13 +5,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
 import { AdminLayoutRoutes } from "./admin-layout.routing";
-import { DashboardComponent } from "../../pages/admin/dashboard.component";
 import { IconsComponent } from "../../pages/verificateur/icons.component";
-import { MapComponent } from "../../pages/operateur/map.component";
 import { NotificationsComponent } from "../../pages/client/notifications.component";
-import { UserComponent } from "../../pages/user/user.component";
-import { TablesComponent } from "../../pages/tables/tables.component";
-import { TypographyComponent } from "../../pages/typography/typography.component";
 import { ReclamationComponent } from "../../pages/verificateur/reclamation/reclamation.component";
 import { OperationsComponent } from "../../pages/verificateur/operations/operations.component";
 import { DashboardComponentVerif} from "../../pages/verificateur/dashboard/dashboard.component";
@@ -23,17 +18,19 @@ import { OperationsSentollComponent } from 'src/app/pages/client/operations-sent
 
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { DashboardVerifComponent } from "src/app/pages/verificateur/dashboard-verif/dashboard-verif.component";
-import { CreateUserComponent } from "src/app/admin/create-user/create-user.component";
-import { UploadFileComponent } from "src/app/admin/upload-file/upload-file.component";
-import { ReclamationOperateurComponent } from "src/app/operateur/reclamation-operateur/reclamation-operateur.component";
-import { ClientOperateurComponent } from "src/app/operateur/client-operateur/client-operateur.component";
+import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor-market.component";
+
+import { CreateUserComponent } from "src/app/pages/admin/create-user/create-user.component";
+import { UploadFileComponent } from "src/app/pages/admin/upload-file/upload-file.component";
+import { ReclamationOperateurComponent } from "src/app/pages/operateur/reclamation-operateur/reclamation-operateur.component";
+import { ClientOperateurComponent } from "src/app/pages/operateur/client-operateur/client-operateur.component";
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin-reclamation.component";
+import { AdminReclamationComponent } from "src/app/pages/admin/admin-reclamation/admin-reclamation.component";
 
-import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/upload-pensionnaire.component";
-import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor-market.component";
+import { UploadPensionnaireComponent } from "src/app/pages/admin/upload-pensionnaire/upload-pensionnaire.component";
+import { DashbordAdminComponent } from "src/app/pages/admin/dashbord-admin/dashbord-admin.component";
+import { DashboardVerifComponent } from "src/app/pages/verificateur/dashboard-verif/dashboard-verif.component";
 
 @NgModule({
   imports: [
@@ -46,13 +43,8 @@ import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor
 
   ],
   declarations: [
-    DashboardComponent,
-    UserComponent,
-    TablesComponent,
     IconsComponent,
-    TypographyComponent,
     NotificationsComponent,
-    MapComponent,
     ReclamationComponent,
     OperationsComponent,
     DashboardComponentVerif,
@@ -68,6 +60,7 @@ import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor
       AdminReclamationComponent,
       UploadPensionnaireComponent,
       HistorMarketComponent,
+      DashbordAdminComponent
       
     // RtlComponent
   ]

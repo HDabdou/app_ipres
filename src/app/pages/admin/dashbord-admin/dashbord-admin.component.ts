@@ -1,19 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import Chart from 'chart.js';
-import { AdminService } from 'src/app/services/admin.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import { AdminMakerService } from "src/app/services/admin-maker.service";
 import { ToastrService } from "ngx-toastr";
-
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "dashboard.component.html",
-  styleUrls: ['./dashboard.component.scss']
-
+  selector: 'app-dashbord-admin',
+  templateUrl: './dashbord-admin.component.html',
+  styleUrls: ['./dashbord-admin.component.scss']
 })
-export class DashboardComponent implements OnInit {
+
+export class DashbordAdminComponent implements OnInit {
   public canvas : any;
   public ctx;
   public datasets: any;
@@ -183,6 +181,7 @@ currencyFormat(somme) : String{
        positionClass: 'toast-top-center'
      });    
 }
+
 
 
 }

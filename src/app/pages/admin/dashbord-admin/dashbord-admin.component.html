@@ -1,0 +1,184 @@
+
+<div class=" content">
+    <div class=" row">
+      <div class=" col-12">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <i >Nombre paiements</i>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title">{{nombrePaiements}}
+                        <small>personnes</small>
+                    </h3>
+                </div>
+             
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="card card-stats">
+              <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                      <i >Solde des paiements</i>
+                  </div>
+                  <p class="card-category"></p>
+                  <h3 class="card-title">{{currencyFormat(montantPaiement)}}
+                      <small>Fcfa</small>
+                  </h3>
+              </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class=" row">
+  
+        <div class=" col-md-12">
+  
+          <div class=" card card-plain">
+            <div class=" card-header">
+              <ngb-alert [type]="'success'" *ngIf="errorMessage == 1" [dismissible]="false">
+                <span>
+                   Veuillez patientez ...
+                </span>
+              </ngb-alert> 
+              <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                  <i class="tim-icons icon-simple-remove"></i>
+                </button>
+                <span>
+                  Création  effectueé avec succés !!!!
+                </span>
+              </ngb-alert>
+            
+            </div>
+            <div class=" card-body" style="padding: 0;">
+  
+              <div class=" table-responsive" >
+               
+                  <div class=" card" >
+                    <div class=" card-header">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class=" card-title">Tableau de bord des paiements</h4>
+                            </div>
+                           
+                            <div class="col-12" >
+                              <div class="row">
+                                <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+              
+                                  <div class=" col-md-5 ">
+                                    <div class=" form-group row">
+                                      <div class="col-2">
+                                        <label style="font-size: 1rem;"> de </label>
+                                      </div>
+                                      <div class="col-10">
+                                        <input
+                                            class=" form-control"
+                                            placeholder="prenom"
+                                            type="date"
+                                            [(ngModel)]="this.dateDebut"
+                                            [ngModelOptions]="{standalone: true}"
+                                          />
+                                      </div>
+                                     
+                                    </div>
+                                  </div>
+                                  <div class=" col-md-5 ">
+                                    <div class=" form-group row">
+                                      <div class="col-2">
+                                        <label style="font-size: 1rem;"> à </label>
+                                      </div>
+                                      <div class="col-10">
+                                        <input
+                                            class=" form-control"
+                                            placeholder="prenom"
+                                            type="date"
+                                            [(ngModel)]="this.dateFin"
+                                            [ngModelOptions]="{standalone: true}"
+                                          />
+                                      </div>
+                                     
+                                    </div>
+                                  </div>
+                                  <div class="form-group col-md-2">
+                                    <button (click)="recherche();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-zoom-split"> </i> Recherche</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+        
+                    </div>
+                    <div class=" card-body">
+                      <div class=" table-responsive" style="overflow: auto;">
+                        <table class=" table tablesorter" id="">
+                          <thead class=" text-primary" >
+                            <tr >
+                              <th >Date d'ajout</th>
+                              <th  >Prénom</th>
+                              <th  >Nom</th>
+                              <th  >Téléphone</th>
+          
+                              <th  >Montant (FCFA)</th>
+                              <th  >Année</th>
+                              <th  >Mois</th>
+                            </tr>
+                          </thead>
+                         
+                          <tbody >
+                            <tr class="ligne" *ngFor="let p of listeTodisplay | paginate: { itemsPerPage: 10, currentPage: p }" >
+                              <td  >{{displayDate(p.paiement.created_at)}}</td>
+                              <td >{{p.pensionnaire.prenom}} </td>
+                              <td >{{p.pensionnaire.nom}}</td>
+                              <td >{{p.pensionnaire.telephone}}</td>
+                              <td >{{currencyFormat(p.paiement.montant)}}</td>
+                              <td >{{displayAnneeMois(p.paiement.created_at,"annee")}}</td>
+                              <td >{{displayMonth(displayAnneeMois(p.paiement.created_at,"mois"))}}</td>
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </div>
+                    </div>
+                  </div>
+               
+               
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  
+    </div>
+  </div>
+  
+  <ng-template #content1 let-modal>
+    <div class=" modal-header">
+      <h3> Voulez-vous accepter la course ? </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="open(content);modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="retourEtAnnuler();modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  
+  

@@ -3,7 +3,6 @@ import { ROUTES } from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Session } from 'protractor';
 
@@ -27,7 +26,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   confirmPassword
   errorMessage:number = 0;
   constructor(
-    private _serviceAdnom:AdminService,
+    //private _serviceAdnom:AdminService,
     location: Location,
     private element: ElementRef,
     private router: Router,
@@ -37,7 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.sidebarVisible = false;
   }
   changePassword(){
-   this.errorMessage = 1
+   /*this.errorMessage = 1
     let id =JSON.parse(localStorage.getItem('currentuser'))[0].iduser
     console.log(this.newPassword+" == "+this.confirmPassword)
     if(this.newPassword == this.confirmPassword){
@@ -59,7 +58,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }else{
       this.errorMessage = 4
       alert("le nouveau password et la confirmation sont différente");
-    }
+    }*/
   }
   
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)

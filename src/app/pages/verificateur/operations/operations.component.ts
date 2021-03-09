@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.operationItem';
@@ -38,7 +37,7 @@ export class OperationsComponent implements OnInit {
   closeResult: string; // Résultat fermeture du modal
   selected:any = null; // Opérations Séléctionnée
 
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router) {}
+  constructor(private modalService: NgbModal,private router:Router) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

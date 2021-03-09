@@ -31,6 +31,7 @@ import { DashboardService } from './services/verificateur/dashboard.service';
 import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 import { LoaderComponent } from './layouts/loader/loader.component';
 import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-pensionnaire.component';
+import { DashbordAdminComponent } from './admin/dashbord-admin/dashbord-admin.component';
 
 
 @NgModule({
