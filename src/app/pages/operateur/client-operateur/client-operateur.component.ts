@@ -26,22 +26,26 @@ export class ClientOperateurComponent implements OnInit {
   selected
   updatePassword
   codePensionnaire
+  loading:boolean = false
   constructor(private toastr: ToastrService,private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
  
  
  //Création de client
   inscriptonClient(){
-   let  requet = {prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),infoSup:"",accessLevel:4,etat:0,idCreateur:4 }
+    this.loading = true;
+   let  requet = {prenom:this.prenom,nom:this.nom,telephone:this.tel,identifiant:this.login,password:sha1(this.password),infoSup:"",accessLevel:4,etat:0,idCreateur:JSON.parse(sessionStorage.getItem('currentUser')).id }
     //this.listUser.push()
     this._serviceOperateur.createUser(requet).then(res =>{
       console.log(res)
       if(res.status = 1){
-        this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
+        this._serviceOperateur.getUserByOperateur({idCreateur:JSON.parse(sessionStorage.getItem('currentUser')).id}).then(res=>{
           console.log(res)
           this.listUser = res['data'];
+          this.loading = false;
         })
         this.startloader("Client créer")
       }else{
+        this.loading = false;
         this.errorMessageD("Erreur création echec")
       }
     })
@@ -55,7 +59,7 @@ export class ClientOperateurComponent implements OnInit {
   //Recherche pensionnaire pour la creation;
   recherchePensionnaire(){
     //this.errorMessage = 1
-   
+    
       this._serviceOperateur.getPensionnaireByCode({code:this.codePensionnaire}).then(res=>{
         console.log(res)
         if(res.status == 1){
@@ -96,11 +100,13 @@ export class ClientOperateurComponent implements OnInit {
   }
     //Update user
     update(){
-      
+      this.loading = true;
         this._serviceOperateur.updateUser({prenom:this.selected.prenom,nom:this.selected.nom,telephone:this.selected.telephone,identifiant:this.selected.identifiant,password:""}).then(res=>{
           if(res.status == 1){
+            this.loading = false;
             this.startloader('Client mise à jour')
           }else{
+            this.loading = false;
             this.errorMessageD("Erreur mise à jour echec")
           }
   
@@ -110,9 +116,12 @@ export class ClientOperateurComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
+    this.loading = true;
+    console.log(JSON.parse(sessionStorage.getItem('currentUser')).id)
+    this._serviceOperateur.getUserByOperateur({idCreateur:JSON.parse(sessionStorage.getItem('currentUser')).id}).then(res=>{
       console.log(res)
       this.listUser = res['data'];
+      this.loading = false;
     })
   }
 startloader(message){   

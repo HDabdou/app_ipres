@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class LoginService {
-  private url = "http://localhost:8088/midleware_ipres/index.php";
+  private url = "http://apitnt.bbstvnet.com/index.php";
   private header :HttpHeaders;
 
   constructor(private http: HttpClient) {

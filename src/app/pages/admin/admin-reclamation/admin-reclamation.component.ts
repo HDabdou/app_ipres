@@ -13,16 +13,19 @@ export class AdminReclamationComponent implements OnInit {
   closeResult
   selected;
   listeReclamation = []
- 
+  loading:boolean = false;
   constructor(private toastr: ToastrService ,private modalService: NgbModal,private _adminService:AdminMakerService) { }
   //validation du traitement
   validerTraitement(){
+    this.loading = true;
     let requet = []
-    requet.push({idReclamation:this.selected.reclamation.id,etat:1,idAdmin:2})
+    requet.push({idReclamation:this.selected.reclamation.id,etat:1,idAdmin:JSON.parse(sessionStorage.getItem("currentUser")).id})
     this._adminService.traiterReclamation({reclamation:requet}).then(res=>{
       console.log(res)
       this.selected.reclamation.etat = 1
+      this.loading = false;
       this.startloader("Réclamation validé")
+
     })
   }
   //ferme le modal
@@ -44,10 +47,12 @@ open(content) {
   });
 }
   ngOnInit(): void {
+    this.loading = true;
     //Recupération de la liste des Réclamation 
     this._adminService.getReclamation().then(res=>{
       console.log(res)
       this.listeReclamation = res['data']
+      this.loading = false;
     })
   }
   startloader(message){   

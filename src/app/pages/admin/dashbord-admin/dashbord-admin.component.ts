@@ -44,6 +44,8 @@ export class DashbordAdminComponent implements OnInit {
   paiements = []
   listUser = [];
   listeTodisplay = []
+  loading:boolean = false;
+
   constructor(private toastr: ToastrService,private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
   //Pour Fitrer sur toutes le clonne 
   motcle
@@ -119,6 +121,7 @@ displayMonth(arg){
 }
 //recherche pour le dashboed des paiements par intervalle de date
 recherche(){
+  this.loading = true;
   this.nombrePaiements = 0;
     this.montantPaiement = 0;
   //inversion ou pour formatage pour le besoins du backend
@@ -134,6 +137,7 @@ recherche(){
     for(let i of this.paiements){
       this.montantPaiement = this.montantPaiement + parseInt(i.paiement.montant)
     }
+    this.loading = false;
     this.startloader("Recherche terminé")
   })
 }
@@ -141,6 +145,7 @@ currencyFormat(somme) : String{
   return Number(somme).toLocaleString() ;
 }
   ngOnInit() {
+    this.loading = true;
     let dd1 = new Date();
     let d = dd1.setDate(-30);
     this.dateDebut = new Date(dd1).toJSON().split("T")[0]
@@ -159,6 +164,7 @@ currencyFormat(somme) : String{
       for(let i of this.paiements){
         this.montantPaiement = this.montantPaiement + parseInt(i.paiement.montant)
       }
+      this.loading = false;
     })
 
 

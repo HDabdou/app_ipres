@@ -106,9 +106,41 @@ open(content) {
     sessionStorage.clear()
   }
   errorMessage:number = 0;
+  loading:boolean = false;
   login1(){
- 
-    if(this.username == "a" && this.password == "1"){
+    this.loading = true;
+    this._loginService.login({identifiant:this.username,password:sha1(this.password)}).then(res=>{
+      console.log(res)
+      if(res.status == 1){
+        this.loading = false;
+
+        if(res.user[0].accessLevel == 1){
+          alert("admin")
+          sessionStorage.setItem('profile','admin');
+          sessionStorage.setItem('currentUser',JSON.stringify(res.user[0]));
+          this.router.navigate(['/admin'])
+        }else if(res.user[0].accessLevel == 3){
+          sessionStorage.setItem('profile','operateur');
+          sessionStorage.setItem('currentUser',JSON.stringify(res.user[0]));
+          this.router.navigate(['/clientOperateur'])
+        }else if(res.user[0].accessLevel == 2){
+          sessionStorage.setItem('profile','verificateur');
+          sessionStorage.setItem('currentUser',JSON.stringify(res.user[0]));
+          this.router.navigate(['/verificateur'])
+          
+        }else if(res.user[0].accessLevel == 4){
+          sessionStorage.setItem('profile','client');
+          sessionStorage.setItem('currentUser',JSON.stringify(res.user[0]));
+          this.router.navigate(['/operationsSentool']) 
+      
+        }else{
+          this.loading = false;
+
+          this.startloader('Login ou password incorrect !!')
+        }
+      }
+    })
+    /*if(this.username == "a" && this.password == "1"){
       sessionStorage.setItem('profile','admin');
       this.router.navigate(['/admin'])
     }else if(this.username == "o" && this.password == "1"){
@@ -124,7 +156,7 @@ open(content) {
   
     }else{
       this.startloader('Login ou password incorrect !!')
-    }
+    }*/
       
    // this.router.navigate(['/admin'])
 }

@@ -1,3 +1,4 @@
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,7 +26,7 @@ export class ReclamationOperateurComponent implements OnInit {
   idclient
   listeReclamation = [];
   listeOperation = []
-  
+  loading:boolean = false;
   constructor(private toastr: ToastrService,private modalService: NgbModal,private router:Router,private _serviceOperateur:AdminMakerService) {}
 
   etapUpdate = 1;
@@ -34,15 +35,18 @@ export class ReclamationOperateurComponent implements OnInit {
   listeClient = []
   //Permet de valider la réclamation
   validerAddReclamation(){
-    this._serviceOperateur.initReclamation({idInitiateur:4,code:this.idclient,description:this.description,idOperation:this.idoperation }).then(res=>{
+    this.loading = true;
+    this._serviceOperateur.initReclamation({idInitiateur:JSON.parse(sessionStorage.getItem('currebtUser')).id,code:this.idclient,description:this.description,idOperation:this.idoperation }).then(res=>{
       console.log(res)
       if(res['statut'] = 1){
-        this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+        this._serviceOperateur.getReclamationByOperateur({idInitiateur:JSON.parse(sessionStorage.getItem('currebtUser')).id}).then(res=>{
           this.listeReclamation= res['data'];
+          this.loading = false;
         })
         this.startloader('Réclamation ajouté')
         
       }else{
+        this.loading = false;
         this.errorMessageD("Error : Réclamation non ajouté")
       }
     })
@@ -69,13 +73,16 @@ export class ReclamationOperateurComponent implements OnInit {
   idoperation;
   //Pour obtenir la liste de ces clients
   getCLientByOperateur(){
-    this._serviceOperateur.getUserByOperateur({idCreateur:4}).then(res=>{
+    this.loading = true;
+    this._serviceOperateur.getUserByOperateur({idCreateur:JSON.parse(sessionStorage.getItem('currebtUser')).id}).then(res=>{
       console.log(res)
       this.listeClient = res['data'];
+      this.loading = false;
     })
   }
   //Pour obtenir la liste des opérations du client
   getOperationByClient(){
+    this.loading = true;
     console.log(this.idclient)
     this._serviceOperateur.getOperationByClient({code:this.idclient}).then(res =>{
       console.log(res)
@@ -83,10 +90,14 @@ export class ReclamationOperateurComponent implements OnInit {
         this.listeOperation = res['data'];
         if(this.listeOperation.length == 0){
           this.etapUpdate = -1;
+          this.loading = false;
         }else{
+          this.loading = false;
           this.etapUpdate = 2;
         }
         
+      }else{
+        this.loading = false;
       }
      
     })
@@ -101,23 +112,29 @@ export class ReclamationOperateurComponent implements OnInit {
   idR
   //Pour mettre à jour une réclamation
   updateReclamation1(){
-    this._serviceOperateur.updateReclamationOp({id:this.idR,description:this.description,idUser:4}).then(res=>{
+    this.loading = true;
+    this._serviceOperateur.updateReclamationOp({id:this.idR,description:this.description,idUser:JSON.parse(sessionStorage.getItem('currebtUser')).id}).then(res=>{
       console.log(res)
       if(res['statut'] = 1){
-        this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+        this._serviceOperateur.getReclamationByOperateur({idInitiateur:JSON.parse(sessionStorage.getItem('currebtUser')).id}).then(res=>{
           this.listeReclamation= res['data'];
+          this.loading = false;
         })
         this.description = undefined;
         this.startloader('Réclamation mise à jour')
       }else{
+        this.loading = false;
         this.errorMessageD("Error : mise à jour echec")
       }
     })
   }
   ngOnInit(): void {
+    this.loading = true;
+    console.log(JSON.parse(sessionStorage.getItem('currebtUser')).id)
     //Pour la liste des réclamations de l'opérateur
-    this._serviceOperateur.getReclamationByOperateur({idInitiateur:4}).then(res=>{
+    this._serviceOperateur.getReclamationByOperateur({idInitiateur:JSON.parse(sessionStorage.getItem('currebtUser')).id}).then(res=>{
       this.listeReclamation= res['data'];
+      this.loading = false;
     })
   }
   startloader(message){   

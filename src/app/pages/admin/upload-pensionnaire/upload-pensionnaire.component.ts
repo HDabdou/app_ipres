@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { truncate } from 'fs';
 import { ToastrService } from 'ngx-toastr';
 import { AdminMakerService } from 'src/app/services/admin-maker.service';
 import * as XLSX from 'xlsx';
@@ -20,17 +21,22 @@ export class UploadPensionnaireComponent implements OnInit {
   typeUtilasateur
   errorMessage = 0;
   closeResult: string;
-  paramMontant
-  code
+  paramMontant;
+  code;
+  loading:boolean = false;
   constructor(private toastr: ToastrService,private _adminService:AdminMakerService,private modalService: NgbModal,private router:Router) {}
 
   selected
   //Paramètrage des montant pour changé le montant 
   validerParamMontant(){
+    this.loading = true;
     if(this.selected != undefined){
       this.selected.montant = this.paramMontant;
+      this.loading = false;
       this.startloader("Montant paramètrer avec succés")
 
+    }else{
+     this.loading = false;
     }
     this.paramMontant = undefined;
   }
@@ -42,6 +48,7 @@ export class UploadPensionnaireComponent implements OnInit {
   data
   listeRecrutement
   fileChange(event) {
+    this.loading = true;
     this.file= event.target.files[0];
     console.log(this.file);
     
@@ -62,6 +69,7 @@ export class UploadPensionnaireComponent implements OnInit {
      // for(let i = 0; i < this.listeExcel.length ;++i){
        // this.listeRecrutement.push(this.listeExcel[i])
       //}
+      this.loading = false;
       this.startloader("Tableau importer avec succés");
 
     } 
@@ -78,7 +86,11 @@ export class UploadPensionnaireComponent implements OnInit {
   }
   //Pour supprimer un ligne
   removeLine(){
+    this.loading = true;
+
     this.listeExcel.splice(this.selected,1)
+    this.loading = false;
+
     this.startloader("ligne supprimer avec succées")
 
   }
@@ -111,9 +123,11 @@ export class UploadPensionnaireComponent implements OnInit {
   }
   //Enregistrement du tableau importé via Excel dans la base
   saveUpload(){
+    this.loading = true;
     this._adminService.addPensionnaire({pens:this.listeExcel}).then(res=>{
       console.log(res.statut)
       if(res.status == 1){
+        this.loading = false;
         if(res.alreadyexist.length == 0){
           this.listeExcel = [];
         }else{
@@ -121,6 +135,8 @@ export class UploadPensionnaireComponent implements OnInit {
           this.listeExcel = res.alreadyexist;
         }
         this.startloader("liste enregistrer avec succées")
+      }else{
+        this.loading = false;
       }
       
     })
