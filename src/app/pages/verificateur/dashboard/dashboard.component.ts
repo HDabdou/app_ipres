@@ -117,6 +117,61 @@ calculeDash(data):any{
     console.log(this.nbrPenssionnaire)
 }
 
+GoptimusBarCharts = [
+  {
+    name:"semaine 1",
+    percentage: 20
+  },
+  {
+    name:"semaine 2",
+    percentage: 10
+  },
+  {
+    name:"semaine 3",
+    percentage: 30
+  },
+  {
+    name:"semaine 4",
+    percentage: 40
+  },
+]
+
+
+barChartsDatas(datas){
+  let month:number = ((new Date()).getMonth()) + 1;
+  let mm:number;
+  let dd:number;
+  let totalMontant = 0;
+  let totalNbr = 0;
+
+  this.dataBase.forEach(element => {
+    mm = ((new Date(element.date)).getMonth());
+    dd = ((new Date(element.date)).getDay());
+    if(mm==month){
+      if(dd<=7){
+        (this.GoptimusBarCharts[0]).percentage += element.montant;
+      }else if(dd>7 && dd <=14){
+        (this.GoptimusBarCharts[1]).percentage += element.montant;
+      }
+      else if(dd>14 && dd <=23){
+        (this.GoptimusBarCharts[2]).percentage += element.montant;
+      }
+      else if(dd>23 && dd <=31){
+        (this.GoptimusBarCharts[3]).percentage += element.montant;
+      }
+    }
+
+    totalMontant += element.montant;
+
+  });
+
+
+
+  console.log(this.GoptimusBarCharts)
+}
+
+
+
 /* 
    function de recuperation des pensions par interval de dates 
 */
@@ -124,7 +179,7 @@ rechercherInterval(debut,fin){
   this._dashService.getPaymentByInterval({debut:debut,fin:fin}).then(rep => {
     console.log(rep)
     this.dataBase= this.datas= this.parseDatas(rep);
-    this.calculeDash(this.dataBase);
+    this.barChartsDatas(this.dataBase);
   });
 }
 

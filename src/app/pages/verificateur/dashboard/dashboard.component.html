@@ -3,53 +3,24 @@
     <div class="col-md-12">
       <div class="row">
         
-        <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          
           <div class="card card-stats">
             <!-- Card body -->
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Nomdres De Penssionnaire(s)</h5>
-                  <span class="h2 font-weight-bold mb-0">{{this.nbrPenssionnaire}} (pensionnaires)</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                    <i class="ni ni-active-40"></i>
-                  </div>
-                </div>
-              </div>
 
-              <p class="mt-3 mb-0 text-sm">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 100%</span>
-                <span class="text-nowrap">pensionnaires payées</span>
-              </p>
+              <dl>
+                <dt>
+                  Évolution
+                </dt>
+                <div style="min-height: 100%;" *ngFor="let item of GoptimusBarCharts">
+                  <dd class="percentage percentage-{{item.percentage}}"><span class="text">{{item.name}}</span></dd>
+                </div>
+              </dl>
             </div>
           </div>
         </div>
 
-
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <!-- Card body -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Montant Total</h5>
-                  <span class="h2 font-weight-bold mb-0">{{this.soldeTotal}} Fcfa</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                    <i class="ni ni-active-40"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-sm">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 100%</span>
-              
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class=" col-md-12">
