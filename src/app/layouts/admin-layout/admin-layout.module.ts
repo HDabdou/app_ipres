@@ -35,6 +35,7 @@ import { AdminReclamationComponent } from "src/app/admin/admin-reclamation/admin
 import { UploadPensionnaireComponent } from "src/app/admin/upload-pensionnaire/upload-pensionnaire.component";
 import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor-market.component";
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -42,7 +43,7 @@ import { HistorMarketComponent } from "src/app/pages/client/histor-market/histor
     FormsModule,
     HttpClientModule,
     NgbModule,
-    NgxPaginationModule
+    NgxPaginationModule,
 
   ],
   declarations: [

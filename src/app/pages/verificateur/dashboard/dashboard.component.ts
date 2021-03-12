@@ -16,8 +16,8 @@ export class DashboardComponentVerif implements OnInit {
   dateFin=''; // La date de fin pour la recherche par interval
 
 
-  nbrPenssionnaire = 0; //Nombre total de penssionnaires
-  soldeTotal = 0; //solde total 
+  public nbrPenssionnaire = 0; //Nombre total de penssionnaires
+  public soldeTotal = 0; //solde total 
 
   datas : DashboardItem[]= [] // listes les pensions (affichée aprés filtre)
 
@@ -93,9 +93,8 @@ parseDatas (dataRest):DashboardItem[]{
       date: (new Date(element.paiement.updated_at)).toLocaleDateString(),
       tel:element.pensionnaire.telephone,
     });
-
+    
   });
-  this.calculeDash(dataRest.data);
   return arr;
 }
 
@@ -104,12 +103,18 @@ parseDatas (dataRest):DashboardItem[]{
    calcul du solde total des pensions et du nombres de pensionnaires
 */
 calculeDash(data):any{
-    
+  console.log(data)
+    let solde  = 0;
+    let nbr = 0;
     (data).forEach(element => {
-      this.soldeTotal += element.paiement.montant;
-      this.nbrPenssionnaire += 1;
+      solde += element.montant;
+      nbr += 1;
     });
-
+    
+    this.soldeTotal = solde;
+    this.nbrPenssionnaire = data.lenth;
+    console.log(this.soldeTotal)
+    console.log(this.nbrPenssionnaire)
 }
 
 /* 
@@ -119,6 +124,7 @@ rechercherInterval(debut,fin){
   this._dashService.getPaymentByInterval({debut:debut,fin:fin}).then(rep => {
     console.log(rep)
     this.dataBase= this.datas= this.parseDatas(rep);
+    this.calculeDash(this.dataBase);
   });
 }
 
@@ -177,8 +183,6 @@ getDateNow(){
   */
 
   validerrechercherInterval (){
-    this.soldeTotal = 0;
-    this.nbrPenssionnaire = 0;
     let dateDebut = this.dateDebut.split('-');
     let dateFin = this.dateFin.split('-');
 
@@ -201,5 +205,7 @@ getDateNow(){
     let fin = '31/12/'+this.getYear(today);
 
     this.rechercherInterval(debut,fin);
+
+  
   }
 }

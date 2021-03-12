@@ -32,7 +32,6 @@ import { AdminReclamationComponent } from './admin/admin-reclamation/admin-recla
 import { LoaderComponent } from './layouts/loader/loader.component';
 import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-pensionnaire.component';
 
-
 @NgModule({
   imports: [
     
@@ -43,7 +42,8 @@ import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+
   ],
 
   declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, LoaderComponent],

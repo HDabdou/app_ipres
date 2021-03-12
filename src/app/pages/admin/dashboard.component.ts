@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import Chart from 'chart.js';
 import { AdminService } from 'src/app/services/admin.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as sha1 from 'js-sha1';
