@@ -1,0 +1,328 @@
+<div class=" content">
+    <div class="row" >
+        <div style="text-align: center;width: 100%;">
+
+            <label for="file" class="label-file" style="background-color: #ff5932;color: #263148 !important; font-size: 25px;border-radius: 10px;"><i class=" tim-icons icon-cloud-upload-94"> </i> Soumettre une liste </label>
+            <label style="margin-left:1rem;font-size: 18px;">{{fileName}}</label>
+            <input id="file" class="input-file" type="file"  (change)="fileChange($event)" placeholder="Uploader Image" accept=".xlsx,.xls">
+        </div>
+        <div class=" card" >
+            <div class=" card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class=" card-title">Liste des pensionnaires importées</h4>
+                    </div>
+                    <div class="col-6">
+                        <button (click)="open(addLine);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une ligne</button>
+                        <button (click)="open(confirmer);"   class="btn btn-fill btn-success" >  Valider la liste </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class=" card-body">
+              <div class=" table-responsive" style="overflow: auto;">
+                <table class=" table tablesorter"  id="" >
+                    <thead class=" text-primary" >
+                      <tr >
+                        <th  >Code</th>
+                        <th  >Prénom</th>
+                        <th  >Nom</th>
+                        <th  >Téléphone</th>        
+                        <th  >Montant</th>
+                        <th  >Action</th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody >
+                      <tr class="ligne" *ngFor="let p of listeExcel | paginate: { itemsPerPage: 20, currentPage: p}" >
+                        <td >{{p.code}} </td>
+                        <td >{{p.prenom}} </td>
+                        <td >{{p.nom}}</td>
+                        <td >{{p.telephone}}</td>
+                        <td >{{p.montant}}</td>
+                        <td> <button (click)="open(confirmerDelete);selected= p;"   class="btn btn-fill btn-danger" > <i class=" tim-icons icon-simple-remove"> </i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+              </div>
+            </div>
+          </div>
+       
+      </div>
+</div>
+
+
+<ng-template #addLine let-modal>
+    <div class=" modal-header">
+      <h3> Ajout  </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        
+        <form  style="min-width: 100%;" >
+
+          
+            <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+            
+              <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Prénom </label>
+                  <input
+                  style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="prenom"
+                    type="text"
+                    [(ngModel)]="this.prenom"
+                    [ngModelOptions]="{standalone: true}"
+                  />
+                </div>
+              </div>
+              <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Nom </label>
+                  <input
+                    style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="Nom"
+                    type="text"
+                    [(ngModel)]="this.nom"
+                    [ngModelOptions]="{standalone: true}"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            
+            <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+              <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Téléphone </label>
+                  <input
+                  style="border: 2px solid black;"
+
+                    class=" form-control"
+                    placeholder="Téléphone"
+                    type="text"
+                    [(ngModel)]="this.tel"
+                    [ngModelOptions]="{standalone: true}"
+                  />
+                </div>
+              </div>
+              <div class=" col-md-6 ">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Montant </label>
+                  <input
+                  style="border: 2px solid black;"
+
+                    class=" form-control"
+                    placeholder="Montant"
+                    type="text"
+                    [(ngModel)]="this.montant"
+                    [ngModelOptions]="{standalone: true}"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                <div class=" col-md-6 ">
+                  <div class=" form-group">
+                    <label style="font-size: 1rem;"> Code </label>
+                    <input
+                    style="border: 2px solid black;"
+
+                      class=" form-control"
+                      placeholder="Code "
+                      type="text"
+                      [(ngModel)]="this.code"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+               
+               
+              </div>
+            <div class="col-md-12"  style="text-align: center;">
+              <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !montant  || !code" (click)="open(confirmerAdd);modal.dismiss('Cross click')" >Créer</button>
+            </div>
+           
+         
+          </form>
+     
+    </div>
+  
+  </ng-template>
+  <ng-template #confirmer let-modal>
+    <div class=" modal-header">
+      <h3> confirmation </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous confirmer la liste ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="saveUpload();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #confirmerDelete let-modal>
+    <div class=" modal-header">
+      <h3> confirmer la supression </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous supprimer la ligne de la liste ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="removeLine();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #parametrage let-modal>
+    <div class=" modal-header">
+      <h3> confirmer le paramétrage </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous valider le paramétrage de la montant ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerParamMontant();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #confirmerAdd let-modal>
+    <div class=" modal-header">
+      <h3> confirmer l'ajout </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <h1> Voulez-vous l'ajouté dans la liste ? </h1>
+      <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+        <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="addLigne();modal.dismiss('Cross click')" >OUI</button>
+        <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click')">NON</button>
+      </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #parametrageMontant let-modal>
+    <div class=" modal-header">
+      <h3> paramétrage des montants </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;"> Montant </label>
+                <input
+                style="border: 2px solid black;"
+
+                  class=" form-control"
+                  placeholder="Entrer le montant"
+                  type="number"
+                  [(ngModel)]="this.paramMontant"
+                  [ngModelOptions]="{standalone: true}"
+                />
+              </div>
+            </div>
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;">  </label>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="open(parametrage);modal.dismiss('Cross click')" >Valider</button>
+
+              </div>
+            </div>
+          </div>
+    </div>
+  
+  </ng-template>
+  
+<div *ngIf="loading">
+  <div style="position: absolute ; left: 15%; top:25%; min-width: 100rem ; min-height: 40rem ;text-align: -webkit-center; padding-top: 10%; z-index:1000; background-color: white; opacity: 0.4;">
+  <div class="loader">
+      <div class="ball-pulse">
+      <div></div>
+      <div></div>
+      <div></div>
+      </div>
+  </div>  
+  </div>
+</div>

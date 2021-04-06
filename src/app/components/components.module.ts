@@ -8,7 +8,6 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
 import { FormsModule } from '@angular/forms';
-import { SidebarAdminComponent } from "./sidebarAdmin/sidebarAdmin.component";
 
 
 @NgModule({

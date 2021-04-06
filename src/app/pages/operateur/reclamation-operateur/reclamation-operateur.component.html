@@ -1,0 +1,198 @@
+<div class=" content">
+    <div class="row" >
+       
+        <div class=" card" >
+            <div class=" card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class=" card-title">Liste des réclamations </h4>
+                    </div>
+                    <div class="col-6">
+                        <button (click)="getCLientByOperateur();open(addNewReclamation);reinitialisation();"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-simple-add"> </i> Ajouter une réclamation</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class=" card-body">
+              <div class=" table-responsive" style="overflow: auto;">
+                <table class=" table tablesorter"  id="" >
+                    <thead class=" text-primary" >
+                      <tr >
+                          <th  >Prénom</th>
+                          <th  >Nom</th>
+                          <th  >Telephone</th>
+                          <th  >Description</th>
+                          <th  >Etat</th>
+                          <th  >Action</th>
+                      </tr>
+                    </thead>
+                   
+                    <tbody >
+                      <tr class="ligne" *ngFor="let p of listeReclamation | paginate: { itemsPerPage: 20, currentPage: p}" >
+                          <td >{{p.operation.prenom}} </td>
+                          <td >{{p.operation.nom}}</td>
+                          <td >{{p.operation.telephone}}</td>
+                          <td >{{p.reclamation.description}}</td>
+                          <td >
+                            <b *ngIf="p.reclamation.etat == 0" style="color: red;">non valider</b>
+                            <b *ngIf="p.reclamation.etat == 1" style="color: darkgreen;">valider</b>
+                        </td>
+                          <td> <button *ngIf="p.reclamation.etat == 0" (click)="open(updateReclamation);this.description= p.reclamation.description;idR = p.reclamation.id;"   class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i>Modifier</button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+              </div>
+            </div>
+          </div>
+       
+      </div>
+</div>
+
+ 
+ 
+  <ng-template #addNewReclamation let-modal>
+    <div class=" modal-header">
+      <h3> Ajout Réclamation </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+            <div class=" col-md-6 ">
+              <div class=" form-group">
+                <label style="font-size: 1rem;"> Client </label>
+                <select
+                    style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="prenom"
+                    type="text"
+                    [(ngModel)]="this.idclient"
+                    (change)="getOperationByClient()"
+                    [ngModelOptions]="{standalone: true}"
+                >
+                <option  value="">Choisissez un client</option>
+
+                <option *ngFor="let i of listeClient" value="{{i.identifiant}}">{{i.prenom}} {{i.nom}} {{i.telephone}}</option>
+                </select>
+              </div>
+            </div>
+            
+            <ngb-alert [type]="'danger'" *ngIf="etapUpdate == -1" [dismissible]="false">
+              <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+              <span>
+                le Client n'a pas d'opération de paiements !!!!
+              </span>
+            </ngb-alert>
+            <div class=" col-md-6 " *ngIf="etapUpdate >1" >
+              <div class=" form-group">
+                <label style="font-size: 1rem;"> Operation </label>
+                <select
+                    style="border: 2px solid black;"
+                    class=" form-control"
+                    placeholder="prenom"
+                    type="text"
+                    [(ngModel)]="this.idoperation"
+                    [ngModelOptions]="{standalone: true}"
+                >
+                <option  value="">Choisissez une opération</option>
+                <option *ngFor="let i of listeOperation" value="{{i.id}}">{{displayMonth(i.mois)}} {{i.annee}} {{i.montant}} Fcfa</option>
+                </select>
+              </div>
+            </div>
+            <div class=" col-md-8 " *ngIf="etapUpdate > 1 && idoperation != '' || idoperation != undefined">
+                <div class=" form-group">
+                  <label style="font-size: 1rem;"> Réclamation </label>
+                  <textarea class="form-control"
+                  style="border: 2px solid black;"
+                   id="exampleFormControlTextarea1"
+                   placeholder="Description de la réclamation"
+
+                   [(ngModel)]="this.description"
+                   [ngModelOptions]="{standalone: true}"
+                    ></textarea>
+                 
+                </div>
+              </div>
+            <div class=" col-md-12 " *ngIf="etapUpdate > 1 && idoperation != '' || idoperation != undefined">
+              <div class=" form-group" style="text-align: center;">
+                <label style="font-size: 1rem;">  </label>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="validerAddReclamation();modal.dismiss('Cross click')" >Valider</button>
+
+              </div>
+            </div>
+          </div>
+    </div>
+  
+  </ng-template>
+  <ng-template #updateReclamation let-modal>
+    <div class=" modal-header">
+      <h3> Modifier Réclamation </h3>
+  
+      <button
+        aria-label="Close"
+        class=" close"
+        data-dismiss="modal"
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <i class=" tim-icons icon-simple-remove"> </i>
+      </button>
+      <div class="row">
+        
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+          
+            <div class=" col-md-10 ">
+                <div class=" form-group" >
+                  <label style="font-size: 1rem;"> Réclamation </label>
+                  <textarea class="form-control"
+                  style="border: 2px solid black;"
+                   id="exampleFormControlTextarea1"
+                   placeholder="Description de la réclamation"
+
+                   [(ngModel)]="this.description"
+                   [ngModelOptions]="{standalone: true}"
+                    ></textarea>
+                 
+                </div>
+              </div>
+            <div class=" col-md-12 ">
+              <div class=" form-group" style="text-align: center;">
+                <label style="font-size: 1rem;">  </label>
+                <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="updateReclamation1();modal.dismiss('Cross click')" >Valider</button>
+
+              </div>
+            </div>
+          </div>
+    </div>
+  
+  </ng-template>
+  <div *ngIf="loading">
+    <div style="position: absolute ; left: 15%; top:25%; min-width: 100rem ; min-height: 40rem ;text-align: -webkit-center; padding-top: 10%; z-index:1000; background-color: white; opacity: 0.4;">
+    <div class="loader">
+        <div class="ball-pulse">
+        <div></div>
+        <div></div>
+        <div></div>
+        </div>
+    </div>  
+    </div>
+  </div>

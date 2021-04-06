@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {DashboardItem} from '../interfaces/interface.dashboardItem';
@@ -14,6 +13,7 @@ import { DashboardService } from 'src/app/services/verificateur/dashboard.servic
 export class DashboardComponentVerif implements OnInit {
   dateDebut:''; // La date de début pour la recherche par interval
   dateFin=''; // La date de fin pour la recherche par interval
+  
 
 
   public nbrPenssionnaire = 0; //Nombre total de penssionnaires
@@ -53,7 +53,7 @@ export class DashboardComponentVerif implements OnInit {
   * constructeur de la class
   * initialisation des differents services et attibuts de la classe
   */
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _dashService:DashboardService) {}
+  constructor(private modalService: NgbModal,private router:Router,private _dashService:DashboardService) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

@@ -1,0 +1,319 @@
+<div class=" content">
+    <div class="row" >
+        <div style="text-align: center;width: 100%;">
+          <button (click)="etapCreation = 1"  class="btn btn-fill btn-primary" >Liste Utilisateur</button>
+          <button (click)="etapCreation = 2;this.errorMessage = 0"  class="btn btn-fill btn-info" >Création Utilisateur</button>
+        </div>
+        <div class=" card" >
+          <div class=" card-header">
+              <div class="row">
+                <div class="col-6" *ngIf="etapCreation == 1">
+                    <h4 class=" card-title">Liste des clients </h4>
+                </div>
+                <div class="col-6" *ngIf="etapCreation == 0">
+                    <h4 class=" card-title">Création d'un clients </h4>
+                </div>
+                 
+              </div>
+
+          </div>
+          <div class=" card-body">
+            <div class=" table-responsive" style="overflow: auto;">
+              <div *ngIf="etapCreation == 1">
+                <table class=" table tablesorter"  id="">
+                  <thead class=" text-primary" >
+                    <tr >
+                      <th  >Type</th>
+                      <th  >Prénom</th>
+                      <th  >Nom</th>
+                      <th  >Téléphone</th>
+                      <th  >Identifiant</th>
+                      <th  >Etat</th>
+                      <th  >Action</th>
+                     
+                    </tr>
+                  </thead>
+                 
+                  <tbody *ngIf="this.listUser.length != 0">
+                    <tr class="ligne" *ngFor="let p of listUser | paginate: { itemsPerPage: 20, currentPage: p}" >
+                      <td >
+                        <p *ngIf="p.accessLevel == 2">Vérificateur</p> 
+                        <p *ngIf="p.accessLevel == 3">Opérateur</p> 
+                        <p *ngIf="p.accessLevel == 4">Client</p> 
+                      </td>
+                      <td >{{p.prenom}} </td>
+                      <td >{{p.nom}}</td>
+                      <td >{{p.telephone}}</td>
+                      <td >{{p.identifiant}}</td>
+                      <td > 
+                          <b *ngIf="p.etat == 0" style="color: red;">Non validé</b> 
+                          <b *ngIf="p.etat == 1" style="color: darkgreen;">Validé</b> 
+                      </td>
+                      <td >
+                        <button  (click)="open(updateUser);selected = p"  class="btn btn-fill btn-warning" > <i class=" tim-icons icon-pencil"> </i> modifier</button>
+                      </td>
+                     
+                    </tr>
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  
+              </div>
+              
+              <form  style="min-width: 100%;" *ngIf="etapCreation == 2">
+
+                <div class=" row" *ngIf="this.errorMessage != 1"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  <div class=" col-md-8 " >
+                    <div class=" form-group">
+                      <label style="font-size: 1rem;"> Code Pensionnaire </label>
+                      <input
+                        class=" form-control"
+                        placeholder="Code pensionnaire"
+                        type="text"
+                        [(ngModel)]="this.codePensionnaire"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class=" col-md-4 " >
+                    <div class=" form-group">
+                      <button type="submit" style="margin-top : 1.5rem;" class=" btn btn-fill btn-success" [disabled]="!codePensionnaire"   (click)="recherchePensionnaire();" >Valider</button>
+                    </div>
+                  </div>
+                </div>
+                
+                  <ngb-alert [type]="'danger'" *ngIf="errorMessage == 2" [dismissible]="false">
+                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage = 0">
+                      <i class="tim-icons icon-simple-remove"></i>
+                    </button>
+                    <span>
+                      Pensionnaire introuvable  !!!!
+                    </span>
+                  </ngb-alert>
+                <div *ngIf="errorMessage == 1">
+                  <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                 
+                    <div class=" col-md-6 " >
+                      <div class=" form-group">
+                        <label style="font-size: 1rem;"> Téléphone </label>
+                        <input
+                          class=" form-control"
+                          placeholder="telephone"
+                          type="text"
+                          [(ngModel)]="this.tel"
+                          [ngModelOptions]="{standalone: true}"
+                        />
+                      </div>
+                    </div>
+                   
+                  </div>
+                  <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                  
+                    <div class=" col-md-6 ">
+                      <div class=" form-group">
+                        <label style="font-size: 1rem;"> Prénom </label>
+                        <input
+                          class=" form-control"
+                          placeholder="prenom"
+                          type="text"
+                          [(ngModel)]="this.prenom"
+                          [ngModelOptions]="{standalone: true}"
+                        />
+                      </div>
+                    </div>
+                    <div class=" col-md-6 ">
+                      <div class=" form-group">
+                        <label style="font-size: 1rem;"> Nom </label>
+                        <input
+                          class=" form-control"
+                          placeholder="Nom"
+                          type="text"
+                          [(ngModel)]="this.nom"
+                          [ngModelOptions]="{standalone: true}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+                    <div class=" col-md-6 ">
+                      <div class=" form-group">
+                        <label style="font-size: 1rem;"> Identifiant </label>
+                        <input
+                          class=" form-control"
+                          placeholder="Login"
+                          type="text"
+                          [(ngModel)]="this.login"
+                          [ngModelOptions]="{standalone: true}"
+                        />
+                      </div>
+                    </div>
+                    <div class=" col-md-6 ">
+                      <div class=" form-group">
+                        <label style="font-size: 1rem;"> Password </label>
+                        <input
+                          class=" form-control"
+                          placeholder="Mot de passe"
+                          type="password"
+                          [(ngModel)]="this.password"
+                          [ngModelOptions]="{standalone: true}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                 
+                  <div class="col-md-12"  style="text-align: center;">
+                    <button type="submit" class=" btn btn-fill btn-success" [disabled]="!prenom || !nom || !tel ||  !login || !password "   (click)="inscriptonClient();" >Créer</button>
+                  </div>
+                </div>
+
+             
+              </form>
+            </div>
+          </div>
+        </div>
+
+      
+      </div>
+</div>
+
+<ng-template #confirmerUpdate let-modal>
+  <div class=" modal-header">
+    <h3> confirmer la modification </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body" style="text-align: center;">
+      <h1> Voulez-vous modifier l'utilisateur ? </h1>
+    <div  class="form-group" style="margin-left: 3rem; text-align: center;">
+      <button  class=" btn btn-fill btn-success" style="margin-top: 3rem;" (click)="update();modal.dismiss('Cross click')" >OUI</button>
+      <button  class=" btn btn-fill btn-danger" style="margin-top: 3rem;"  (click)="modal.dismiss('Cross click');open(updateUser)">NON</button>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #updateUser let-modal>
+  <div class=" modal-header">
+    <h3> MODIFICATION  </h3>
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="modal-body">
+    <form  style="min-width: 100%;" >
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+        <div class=" col-md-6 " >
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Téléphone </label>
+            <input
+              style="border:2px solid black;"
+              class=" form-control"
+              placeholder="telephone"
+              type="text"
+              [(ngModel)]="this.selected.telephone"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Identifiant </label>
+            <input
+            style="border:2px solid black;"
+              class=" form-control"
+              placeholder="Login"
+              type="text"
+              [(ngModel)]="this.selected.identifiant"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+      </div>
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+      
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Prénom </label>
+            <input
+            style="border:2px solid black;"
+              class=" form-control"
+              placeholder="prenom"
+              type="text"
+              [(ngModel)]="this.selected.prenom"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+        <div class=" col-md-6 ">
+          <div class=" form-group">
+            <label style="font-size: 1rem;"> Nom </label>
+            <input
+               style="border:2px solid black;"
+              class=" form-control"
+              placeholder="Nom"
+              type="text"
+              [(ngModel)]="this.selected.nom"
+              [ngModelOptions]="{standalone: true}"
+            />
+          </div>
+        </div>
+      </div>
+      <div class=" row"  style="margin-left: 2rem;margin-right: 2rem;margin-top: 0rem;margin-bottom: 0rem;">
+
+      <div class=" col-md-6 ">
+        <div class=" form-group">
+          <label style="font-size: 1rem;"> Password </label>
+          <input
+             style="border:2px solid black;"
+            class=" form-control"
+            placeholder="Mot de passe"
+            type="password"
+            [(ngModel)]="this.updatePassword"
+            [ngModelOptions]="{standalone: true}"
+          />
+        </div>
+      </div>
+      </div>
+      
+      
+      
+      <div class="col-md-12"  style="text-align: center;">
+        <button type="submit" class=" btn btn-fill btn-success" (click)="open(confirmerUpdate);modal.dismiss('Cross click')" >Valider</button>
+      </div>
+     
+   
+    </form>
+  </div>
+
+</ng-template><div *ngIf="loading">
+  <div style="position: absolute ; left: 15%; top:25%; min-width: 100rem ; min-height: 40rem ;text-align: -webkit-center; padding-top: 10%; z-index:1000; background-color: white; opacity: 0.4;">
+  <div class="loader">
+      <div class="ball-pulse">
+      <div></div>
+      <div></div>
+      <div></div>
+      </div>
+  </div>  
+  </div>
+</div>

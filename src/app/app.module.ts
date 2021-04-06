@@ -15,11 +15,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 import { LoginComponent } from './login/login.component';
 
-import { CreateUserComponent } from "./admin/create-user/create-user.component";
-import { UploadFileComponent } from "./admin/upload-file/upload-file.component";
-import { ReclamationOperateurComponent } from './operateur/reclamation-operateur/reclamation-operateur.component';
-import { ClientOperateurComponent } from './operateur/client-operateur/client-operateur.component';
-
 import { ReclamationComponent } from './pages/verificateur/reclamation/reclamation.component';
 import { OperationsComponent } from './pages/verificateur/operations/operations.component';
 import { DashboardComponentVerif } from './pages/verificateur/dashboard/dashboard.component';
@@ -28,9 +23,7 @@ import {ReclamationService} from './services/verificateur/reclamation.service';
 import { OperationService } from './services/verificateur/operation.service';
 import { ValidationService } from './services/verificateur/validation.service';
 import { DashboardService } from './services/verificateur/dashboard.service';
-import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 import { LoaderComponent } from './layouts/loader/loader.component';
-import { UploadPensionnaireComponent } from './admin/upload-pensionnaire/upload-pensionnaire.component';
 
 @NgModule({
   imports: [

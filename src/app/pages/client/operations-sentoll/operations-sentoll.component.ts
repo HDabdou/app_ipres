@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.operationItem';
@@ -39,7 +38,7 @@ export class OperationsSentollComponent implements OnInit {
   closeResult: string;
   selected:any = null;
   listLivraisonByLivreur:any =[];
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _histService:HistoriqueService) {}
+  constructor(private modalService: NgbModal,private router:Router,private _histService:HistoriqueService) {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

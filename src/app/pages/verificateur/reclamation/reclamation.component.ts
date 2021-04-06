@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdminService } from 'src/app/services/admin.service';
 import * as sha1 from 'js-sha1';
 import { Router } from '@angular/router';
 import {ReclamationItem} from '../interfaces/interface.reclamation';
@@ -55,7 +54,7 @@ export class ReclamationComponent implements OnInit {
   collection = []
   // constructeur de la classe
   // initialise les service et les attributs de la classe
-  constructor(private _serviceAdmin:AdminService,private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {
+  constructor(private modalService: NgbModal,private router:Router,private _rclService:ReclamationService) {
     for (let i = 1; i <= 100; i++) {
       this.collection.push(`item ${i}`);
     }
