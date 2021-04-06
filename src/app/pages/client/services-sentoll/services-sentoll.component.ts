@@ -136,7 +136,7 @@ export class ServicesSentollComponent implements OnInit {
    * @function : daire un depot
   */
   depot(){
-    this._servSentool.depot({service: this.walletDepot,operation:'debot' , numero:this.numeroDepot,montant:this.montantDepot,code:'1134'}).then(rep => {
+    this._servSentool.depot({service: this.walletDepot,operation:'depot' , numero:this.numeroDepot,montant:this.montantDepot,code:'1134'}).then(rep => {
       console.log(rep)
       if(rep.statut==1){
         this.loader = null;
